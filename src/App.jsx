@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import {BrowserRouter as Router, Routes, Route, useLocation, Navigate} from 'react-router-dom';
 import Canonical from '@/components/seo/Canonical.jsx';
-// import GoogleAnalytics from '@/components/seo/GoogleAnalytics.jsx';
+import GoogleAnalytics from '@/components/seo/GoogleAnalytics.jsx';
 
 import Header from '@/components/layout/header.jsx';
 import Footer from '@/components/layout/footer.jsx';
@@ -46,7 +46,7 @@ const AppLayout = () => {
     <FooterContext.Provider value={{ isFooterHidden, toggleFooter }}>
       <div className="app">
         <Canonical url={`${import.meta.env.VITE_SITE_URL}${location.pathname}`} />
-        {/*<GoogleAnalytics id={import.meta.env.VITE_GOOGLE_ANALYTICS_ID} />*/}
+        <GoogleAnalytics id={import.meta.env.VITE_GOOGLE_ANALYTICS_ID} />
 
         {!isNotFound && <Header />}
         <main className="main">
