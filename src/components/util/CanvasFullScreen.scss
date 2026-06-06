@@ -1,0 +1,24 @@
+.canvas-full-screen {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-size: 2.5rem;
+  margin-left: 0.5rem;
+  transition: text-shadow .3s ease-in-out;
+
+  .fa.fa-expand {color: mediumvioletred;}
+
+  &:hover {text-shadow: 2px 2px 4px black;}
+}
+
+@media(max-width: 1020px) {
+  .canvas-full-screen {
+    font-size: 2.3rem;
+    margin-left: 0.4rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .canvas-full-screen {display: none;}
+}

@@ -1,0 +1,101 @@
+{
+  "language": {
+    "en": "Inglés",
+    "uk": "Ukraniano",
+    "es": "Español"
+  },
+  "header": {
+    "headerImage": "¡Menú principal! \uD83D\uDE0D",
+    "headerAbout": "Ir a la página Sobre"
+  },
+  "footer": {
+    "develop": "Desarrollado por ",
+    "zorger": "Zorger",
+    "point": ".",
+    "rights": "Todos los derechos reservados",
+    "linkCV": "Mi currículum (resumen breve)",
+    "portfolio": "¡Enlace a mi portafolio! \uD83D\uDE09",
+    "footerLogo": "¡Aquí tengo una pequeña broma! \uD83D\uDE09",
+    "socialSharing": {
+      "shareOnFacebook": "Compartir en Facebook",
+      "tweetOnExTwitter": "Compartir en X (antes Twitter)",
+      "shareOnLinkedIn": "Compartir en LinkedIn",
+      "shareLink": "Compartir esta página",
+      "tweetText": "¡Echa un vistazo a esta increíble página! \uD83D\uDE09\uD83D\uDC4D"
+    }
+  },
+  "home": {
+    "title": "¡Bienvenido!",
+    "main": "Principal",
+    "projects": "Proyectos",
+    "name": "Shaders",
+    "disc": "Esta es la página principal del proyecto"
+  },
+  "project1": {
+    "name": "Vertex Playground",
+    "disc": "Un entorno interactivo para trabajar con geometría, que permite deformar vértices y diseñar estructuras de objetos en tiempo real"
+  },
+  "project2": {
+    "name": "Fragment Lab",
+    "disc": "Un entorno experimental para trabajar con píxeles, colores, ruido, texturas y efectos de postprocesado"
+  },
+  "project3": {
+    "name": "Uniform Control",
+    "disc": "Un panel de control de parámetros de shaders en tiempo real con deslizadores interactivos y valores dinámicos"
+  },
+  "project4": {
+    "name": "Noise Field",
+    "disc": "Un entorno generativo para explorar ruido procedimental y patrones de movimiento basados en algoritmos Perlin y Simplex"
+  },
+  "project5": {
+    "name": "Shader Viewer",
+    "disc": "Un modo de renderizado final con una vista limpia sin elementos de interfaz, diseñado para mostrar el resultado"
+  },
+  "about": {
+    "title": "Shaders",
+    "more01": "Más información...",
+    "more02": "⚡ Shaders es un entorno interactivo para explorar Vertex y Fragment Shaders en tiempo real, donde el código se transforma inmediatamente en resultados visuales. \uD83C\uDFA8",
+    "more03": "\uD83E\uDDE0 El proyecto combina módulos para trabajar con geometría, píxeles, ruido y parámetros de escena, permitiendo un control flexible de la lógica visual y el comportamiento gráfico. \uD83D\uDD27",
+    "more04": "\uD83D\uDE80 Construido sobre WebGPU y TSL, se convierte en una herramienta para prototipado, experimentación y creación de soluciones visuales que pueden aplicarse en productos web modernos e interfaces comerciales. \uD83C\uDF10",
+    "more05": "¡Bienvenido! \uD83E\uDD29\uD83D\uDE0E",
+    "technologies": "Las tecnologías utilizadas",
+    "name-prg": "Nombre",
+    "version": "Versión",
+    "name": "Sobre",
+    "disc": "Información detallada sobre Shaders"
+  },
+  "page404": {
+    "name": "Página No Encontrada",
+    "disc": "Página 404 - página no encontrada",
+    "info404": "Página no encontrada, volver a la página principal",
+    "btn404": "Volver a la página PRINCIPAL"
+  },
+  "save": {
+    "title": "Guardar",
+    "saveData": "Abra el menú de guardar datos en el disco",
+    "closeSaveData": "Cerrar el menú de guardar datos en el disco",
+    "saveJPG": "Guardar como archivo .jpg",
+    "savePNG": "Guardar como archivo .png",
+    "savePDF": "Guardar como archivo .pdf",
+    "startVideo": "Iniciar grabación de vídeo",
+    "stopVideo": "Detener la grabación de vídeo",
+    "created": "Creado con Shaders"
+  },
+  "extra": {
+    "loading": "Cargando...",
+    "detail": "Para más detalles ver aquí ⇢",
+    "back": "Volver a la página principal",
+    "tableView": "Vista de tabla",
+    "listView": "Vista de lista",
+    "openSearch": "Mostrar ventana de BÚSQUEDA",
+    "closeSearch": "Cerrar la ventana de BÚSQUEDA",
+    "ascOrder": "Ordenar por orden ascendente",
+    "desOrder": "Ordenar por orden descendente",
+    "closeFooter": "Ocultar pie de página",
+    "openFooter": "Mostrar pie de página",
+    "fullScreenView": "Lienzo en pantalla completa",
+    "toggleFullScreen": "Documento en pantalla completa",
+    "closeFullScreen": "Cerrar el modo de documento de pantalla completa",
+    "canvasFullScreen": "Lienzo en pantalla completa"
+  }
+}

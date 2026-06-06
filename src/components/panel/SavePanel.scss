@@ -1,0 +1,198 @@
+@use "sass:color";
+
+.save-buttons {
+  position: relative;
+
+  // Главная кнопка
+  .main-save-button {
+    display: flex;
+    position: relative;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: max-content;
+    background: dodgerblue;
+    color: white;
+    padding: 0.5rem 1rem;
+    height: 3rem;
+    font-size: 1.6rem;
+    text-shadow: 2px 2px 4px black;
+    border: 1px solid transparent;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.9);
+    transition: background 0.2s ease-in-out, box-shadow 0.2s ease-in-out, text-shadow 0.2s ease-in-out, border 0.2s ease-in-out, color 0.2s ease-in-out, transform 0.2s ease-in-out;
+    cursor: pointer;
+    z-index: 12;
+    gap: 0.3rem;
+
+    &:hover {
+      background: linear-gradient(to bottom, rgb(255, 255, 255), rgb(152, 152, 255));
+      color: darkblue;
+      box-shadow: none;
+      text-shadow: none;
+      border: 1px solid darkslateblue;
+    }
+    &.open {
+      color: white;
+      background-color: seagreen;
+      border: 1px solid darkgreen;
+
+      .main-save-icon {color: orangered;}
+
+      &:hover {
+        background: linear-gradient(to bottom, rgb(255, 255, 255), rgb(152, 152, 255));
+        color: darkblue;
+        box-shadow: none;
+        text-shadow: none;
+        border: 1px solid darkslateblue;
+      }
+    }
+
+    .main-save-icon {display: inline;}
+    .main-save-text {display: inline;}
+  }
+
+  // Подменю с кнопками
+  .save-submenu {
+    display: flex;
+    flex-direction: row; /* Меню горизонтальное */
+    position: absolute;
+    right: 100%; /* Меню появляется слева от кнопки */
+    top: 50%; // Центр по вертикали
+    transform: translateY(-50%) translateX(1rem); // Центрирование + исходное смещение
+    opacity: 0;
+    transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease;
+    visibility: hidden;
+    pointer-events: none; // Нельзя кликать, пока меню скрыто
+
+    &.open {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto; // Включаем клики, когда меню открыто
+      transform: translateY(-50%) translateX(0); // Центрирование + финальная позиция
+    }
+
+    button {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: black;
+      margin-right: 0.8rem; /* Расстояние между кнопками */
+      background-color: lightgoldenrodyellow;
+      height: 3rem;
+      width: 3rem;
+      border: 2px solid transparent;
+      border-radius: 5px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.9);
+      transition: color 0.2s ease-in-out, background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out, border 0.2s ease-in-out, transform 0.2s ease-in-out;
+      cursor: pointer;
+
+      &:hover {
+        background: #ffffff;
+        color: darkgreen;
+        border: 2px solid darkgreen;
+        box-shadow: none;
+        text-shadow: none;
+      }
+
+      .fas {
+        font-size: 1.5rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    }
+
+    @keyframes recording-blink {
+      0%, 100% {
+        color: red;
+        border-color: red;
+        box-shadow: 0 0 6px rgba(255, 0, 0, 0.8);
+      }
+      50% {
+        color: darkred;
+        border-color: darkred;
+        box-shadow: 0 0 2px rgba(255, 0, 0, 0.3);
+      }
+    }
+
+    .film-start:hover {color: blue;border-color: blue;}
+    .film-stop.recording {
+      color: red;
+      border-color: red;
+      background-color: #ffffff;
+      box-shadow: none;
+      animation: recording-blink 1.2s ease-in-out infinite;
+    }
+
+    // Анимация появления кнопок с задержкой
+    button:nth-child(1) {transition-delay: 0.05s;}
+    button:nth-child(2) {transition-delay: 0.1s;}
+    button:nth-child(3) {transition-delay: 0.15s;}
+    button:nth-child(4) {transition-delay: 0.20s;}
+  }
+}
+
+@media(max-width: 1020px) {
+  .save-buttons {
+
+    .main-save-button {
+      padding: 0.4rem 0.8rem;
+      height: 2.6rem;
+      font-size: 1.4rem;
+      border-radius: 5px;
+      gap: 0.2rem;
+
+      .main-save-icon {display: inline;}
+      .main-save-text {display: inline;}
+    }
+
+    .save-submenu {
+      transform: translateY(-50%) translateX(0.7rem);
+      button {
+        margin-right: 0.8rem; /* Расстояние между кнопками */
+        height: 2.6rem;
+        width: 2.6rem;
+        font-size: 1.4rem;
+        border-radius: 5px;
+
+        .fas {font-size: 1.4rem;}
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .save-buttons {
+
+    .main-save-button {
+      height: 2.6rem;
+      width: 2.6rem;
+      font-size: 1.4rem;
+      border-radius: 5px;
+      //box-shadow: none;
+
+      .main-save-icon {display: inline;}
+      .main-save-text {display: none;}
+    }
+
+    .save-submenu {
+      transform: translateY(-50%) translateX(0.5rem);
+      button {
+        margin-right: 0.5rem; /* Расстояние между кнопками */
+        height: 2.6rem;
+        width: 2.6rem;
+        font-size: 1.4rem;
+        border-radius: 5px;
+        border: 1px solid slategrey;
+        //box-shadow: none;
+
+        &:hover {box-shadow: none; border: 1px solid darkgreen;}
+
+        .fas {font-size: 1.2rem;}
+      }
+      .film-start {display: none;}
+      .film-stop {display: none;}
+    }
+  }
+}

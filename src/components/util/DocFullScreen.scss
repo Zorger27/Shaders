@@ -1,0 +1,28 @@
+.doc-fullScreen-btn {
+  margin-right: 0.5rem;
+  .fa.fa-expand-arrows-alt {
+    transition: color .3s ease-in-out, text-shadow .3s ease-in-out;
+    color: deepskyblue;text-shadow: 2px 2px 4px black;
+    &:hover {color: royalblue;text-shadow: -2px 2px 4px black;}
+  }
+
+  .fa.fa-compress-arrows-alt {
+    transition: color .3s ease-in-out, text-shadow .3s ease-in-out;
+    color: darkgoldenrod;text-shadow: 2px 2px 4px black;
+    &:hover {color: royalblue;text-shadow: -2px 2px 4px black;}
+  }
+}
+
+@media(max-width: 1020px) {
+  .doc-fullScreen-btn {
+    margin-right: 0.4rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .doc-fullScreen-btn {
+    margin-right: 0;
+    .fa.fa-expand-arrows-alt {display: none;}
+    .fa.fa-compress-arrows-alt {display: none;}
+  }
+}

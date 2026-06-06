@@ -1,0 +1,83 @@
+footer {
+  height: auto;
+  display: flex;
+  padding: 0;
+  position: relative;
+  flex: 0 0 auto;
+  justify-content: center;
+  align-items: center;
+  background-image:
+    radial-gradient(at 0% 100%, hsla(28,100%, 74%,1) 0px, transparent 50%),
+    radial-gradient(at 80% 0%, hsla(189,100%,56%,1) 0px, transparent 50%),
+    radial-gradient(at 50% 50%, hsla(355,100%, 93%, 1) 0px, transparent 50%),
+    radial-gradient(at 79% 100%, hsla(242, 100%, 70%, 1) 0px, transparent 50%),
+    radial-gradient(at 0% 0%, hsla(343,100%, 76%, 1) 0px, transparent 50%);
+  box-shadow: 0 -2px 4px grey;
+
+  .footer-logo {
+    margin: 0.3rem;
+    display: flex;
+    img {
+      max-width: 100%;
+      width: 3.8rem;
+      height: 3.8rem;
+      max-height:100%;
+      cursor: pointer;
+      margin: auto 0.2rem auto 0;
+    }
+  }
+
+  .footer-content {
+    display: flex;
+    flex-direction: row; /* По умолчанию горизонтально */
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap; /* Позволяет переноситься целому блоку */
+  }
+
+  .author {
+    font-size: 1.5rem;
+    font-style: italic;
+    letter-spacing: 1px;
+    color: saddlebrown;
+
+    a {text-decoration: none; color: darkmagenta;}
+    a:hover {text-decoration: underline; color: darkblue;}
+  }
+
+  .copyright {
+    font-size: 1.5rem;
+    font-style: italic;
+    letter-spacing: 1px;
+    color: saddlebrown;
+    padding-left: 0.3rem;
+  }
+}
+
+@media (max-width: 1020px) {
+  footer {
+    .author {font-size: 1.1rem;}
+    .copyright {font-size: 1.1rem;}
+  }
+}
+
+@media (max-width: 768px) {
+  footer {
+    //justify-content: space-between;
+    .footer-content {
+      flex-direction: column; /* На мобильных вертикально */
+      align-items: center;
+      .author {letter-spacing: normal;font-size: 0.9rem;}
+      .copyright {
+        letter-spacing: normal;
+        padding-left: 0;
+        margin-top: 0.3rem;
+        font-size: 0.65rem;
+      }
+      .is-prog-year-equal {
+        font-size: 0.83rem; /* Изменяем стиль при равных годах */
+        margin-top: 0.2rem;
+      }
+    }
+  }
+}

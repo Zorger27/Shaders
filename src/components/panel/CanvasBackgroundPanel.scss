@@ -1,0 +1,162 @@
+@use "sass:color";
+
+.canvas-background-buttons {
+  position: relative;
+
+  // Главная кнопка
+  .main-canvas-background-button {
+    display: flex;
+    position: relative;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: max-content;
+    background: mediumvioletred;
+    color: white;
+    padding: 0.5rem 1rem;
+    height: 3rem;
+    font-size: 1.6rem;
+    text-shadow: 2px 2px 4px black;
+    border: 1px solid transparent;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.9);
+    transition: background 0.2s ease-in-out, box-shadow 0.2s ease-in-out, text-shadow 0.2s ease-in-out, border 0.2s ease-in-out, color 0.2s ease-in-out, transform 0.2s ease-in-out;
+    cursor: pointer;
+    z-index: 12;
+    gap: 0.3rem;
+
+    &:hover {
+      background: linear-gradient(to bottom, rgb(255, 255, 255), rgb(152, 152, 255));
+      color: darkblue;
+      box-shadow: none;
+      text-shadow: none;
+      border: 1px solid darkslateblue;
+    }
+    &.open {
+      color: white;
+      background-color: seagreen;
+      border: 1px solid darkgreen;
+
+      .main-cube-style-icon {color: orangered;}
+
+      &:hover {
+        background: linear-gradient(to bottom, rgb(255, 255, 255), rgb(152, 152, 255));
+        color: darkblue;
+        box-shadow: none;
+        text-shadow: none;
+        border: 1px solid darkslateblue;
+      }
+    }
+
+    .main-canvas-background-icon {display: inline;}
+    .main-canvas-background-text {display: inline;}
+  }
+
+  // Подменю с кнопками
+  .canvas-background-submenu {
+    display: flex;
+    flex-direction: row; /* Меню горизонтальное */
+    position: absolute;
+    right: 100%; /* Меню появляется слева от кнопки */
+    top: 50%; // Центр по вертикали
+    transform: translateY(-50%) translateX(1rem); // Центрирование + исходное смещение
+    opacity: 0;
+    transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease;
+    //transition: opacity 0.3s ease-out, transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), visibility 0.3s ease-out;
+    visibility: hidden;
+    pointer-events: none; // Нельзя кликать, пока меню скрыто
+
+    &.open {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto; // Включаем клики, когда меню открыто
+      transform: translateY(-50%) translateX(0); // Центрирование + финальная позиция
+    }
+
+    img {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-right: 0.8rem; /* Расстояние между кнопками */
+      height: 3rem;
+      width: 3rem;
+      object-fit: cover; /* Сохраняет пропорции изображения и заполняет контейнер */
+      //border: 2px solid transparent;
+      outline: 2px solid transparent;
+      outline-offset: -2px; // чтобы выглядело как border
+      border-radius: 5px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.9);
+      transition: color 0.2s ease-in-out, background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out, border 0.2s ease-in-out, transform 0.2s ease-in-out;
+      cursor: pointer;
+
+      &:hover {
+        outline-color: darkorange;
+        box-shadow: none;
+        text-shadow: none;
+      }
+
+    }
+
+    @keyframes recording-blink {
+      0%, 100% {
+        color: red;
+        outline-color: red;
+        box-shadow: 0 0 6px rgba(255, 0, 0, 0.8);
+      }
+      50% {
+        color: darkred;
+        outline-color: darkred;
+        box-shadow: 0 0 2px rgba(255, 0, 0, 0.3);
+      }
+    }
+
+    // Активная кнопка стиля
+    img.active {
+      outline-color: red;
+      animation: recording-blink 1.2s ease-in-out infinite;
+    }
+
+    // Анимация появления кнопок с задержкой
+    button:nth-child(1) {transition-delay: 0.05s;}
+    button:nth-child(2) {transition-delay: 0.1s;}
+    button:nth-child(3) {transition-delay: 0.15s;}
+    button:nth-child(4) {transition-delay: 0.20s;}
+  }
+
+}
+
+@media(max-width: 1020px) {
+  .canvas-background-buttons {
+
+    .main-canvas-background-button {
+      padding: 0.4rem 0.8rem;
+      height: 2.6rem;
+      font-size: 1.4rem;
+      border-radius: 5px;
+      gap: 0.2rem;
+
+      .main-canvas-background-icon {display: inline;}
+      .main-canvas-background-text {display: inline;}
+    }
+
+    .canvas-background-submenu {
+      transform: translateY(-50%) translateX(0.7rem);
+      button {
+        margin-right: 0.8rem; /* Расстояние между кнопками */
+        height: 2.6rem;
+        width: 2.6rem;
+        font-size: 1.4rem;
+        border-radius: 5px;
+
+        .fas {font-size: 1.4rem;}
+      }
+    }
+
+  }
+}
+
+@media (max-width: 768px) {
+  .canvas-background-buttons {
+    display: none;
+  }
+}

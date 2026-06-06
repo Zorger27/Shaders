@@ -1,0 +1,101 @@
+{
+  "language": {
+    "en": "English",
+    "uk": "Ukrainian",
+    "es": "Spanish"
+  },
+  "header": {
+    "headerImage": "Main menu! \uD83D\uDE0D",
+    "headerAbout": "Go to About page"
+  },
+  "footer": {
+    "develop": "Developed by ",
+    "zorger": "Zorger",
+    "point": ".",
+    "rights": "All rights reserved",
+    "linkCV": "Brief Curriculum Vitae",
+    "portfolio": "Link to My Portfolio! \uD83D\uDE09",
+    "footerLogo": "Here I have a little joke! \uD83D\uDE09",
+    "socialSharing": {
+      "shareOnFacebook": "Share on Facebook",
+      "tweetOnExTwitter": "Share on X (ex-Twitter)",
+      "shareOnLinkedIn": "Share on LinkedIn",
+      "shareLink": "Share this Page",
+      "tweetText": "Check out this awesome page! \uD83D\uDE09\uD83D\uDC4D"
+    }
+  },
+  "home": {
+    "title": "Welcome!",
+    "main": "Main",
+    "projects": "Projects",
+    "name": "Shaders",
+    "disc": "This is the Project's Main Page"
+  },
+  "project1": {
+    "name": "Vertex Playground",
+    "disc": "An interactive environment for working with geometry, allowing real-time vertex deformation and object structure design"
+  },
+  "project2": {
+    "name": "Fragment Lab",
+    "disc": "An experimental environment for working with pixels, colors, noise, textures, and post-processing effects"
+  },
+  "project3": {
+    "name": "Uniform Control",
+    "disc": "A real-time shader parameter control panel with interactive sliders and dynamic values"
+  },
+  "project4": {
+    "name": "Noise Field",
+    "disc": "A generative environment for exploring procedural noise and motion patterns based on Perlin and Simplex algorithms"
+  },
+  "project5": {
+    "name": "Shader Viewer",
+    "disc": "A final rendering mode with a clean output view, free of UI elements, designed to showcase the result"
+  },
+  "about": {
+    "title": "Shaders",
+    "more01": "More information...",
+    "more02": "⚡ Shaders is an interactive environment for exploring Vertex and Fragment Shaders in real time, where code is instantly transformed into visual output. \uD83C\uDFA8",
+    "more03": "\uD83E\uDDE0 The project combines modules for working with geometry, pixels, noise, and scene parameters, allowing flexible control over visual logic and graphical behavior. \uD83D\uDD27",
+    "more04": "\uD83D\uDE80 Built on WebGPU and TSL, it serves as a tool for prototyping, experimentation, and creating visual solutions that can be applied in modern web products and commercial interfaces. \uD83C\uDF10",
+    "more05": "Welcome! \uD83E\uDD29\uD83D\uDE0E",
+    "technologies": "The used technologies",
+    "name-prg": "Name",
+    "version": "Version",
+    "name": "About",
+    "disc": "Detailed information about Shaders"
+  },
+  "page404": {
+    "name": "Page Not Found",
+    "disc": "Page 404 - page not found",
+    "info404": "Page not found, back to main page",
+    "btn404": "Back to MAIN page"
+  },
+  "save": {
+    "title": "Save",
+    "saveData": "Open the save data menu to the disk",
+    "closeSaveData": "Close the save data menu to the disk",
+    "saveJPG": "Save as .jpg file",
+    "savePNG": "Save as .png file",
+    "savePDF": "Save as .pdf file",
+    "startVideo": "Start video recording",
+    "stopVideo": "Stop video recording",
+    "created": "Created with Shaders"
+  },
+  "extra": {
+    "loading": "Loading...",
+    "detail": "For more details see here ⇢",
+    "back": "Return to the main page",
+    "tableView": "Table view",
+    "listView": "List view",
+    "openSearch": "Show SEARCH window",
+    "closeSearch": "Close SEARCH window",
+    "ascOrder": "Sort by ascending",
+    "desOrder": "Sort by descending",
+    "closeFooter": "Hide footer",
+    "openFooter": "Show footer",
+    "fullScreenView": "Canvas Full Screen",
+    "toggleFullScreen": "Document Full Screen",
+    "closeFullScreen": "Close full-screen document mode",
+    "canvasFullScreen": "Canvas Full Screen"
+  }
+}

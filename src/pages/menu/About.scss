@@ -1,0 +1,194 @@
+.about {
+  flex: 1 0 auto;
+  text-align: center;
+  background-image: url("@/assets/background/background01.webp");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+
+  .container {
+    h1 {
+      display: inline-block;
+      justify-content: center;
+      align-items: center;
+      //flex-wrap: wrap;
+      font-size: 2.5rem;
+      margin: 0.7rem auto;
+      color: mediumvioletred;
+
+      .toggle-footer-btn {margin: 0 0 0 0.5rem;}
+    }
+
+    .about-content {
+      .about-description {
+        .more {
+          display: inline-flex;
+          color: lightseagreen;
+          cursor: pointer;
+          border-bottom: 1px solid transparent;
+          margin: 0.5rem;
+          font-size: 2.4rem;
+
+          &:hover, &:focus {border-bottom: 1px solid lightseagreen;}
+        }
+
+        .more-text {
+          cursor: pointer;
+          margin-top: 0.7rem;
+
+          h3 {color: deeppink; margin: 0.5rem}
+          p {margin: 0 1rem;}
+        }
+      }
+
+      .about-tech {
+        margin-bottom: 0.6rem;
+        .card-info {
+          display: inline-flex;
+          padding: 0.6rem 0.7rem;
+          max-width: 30rem;
+          transition: border-color .2s ease-in-out, background-color .2s, box-shadow .2s;
+          a {
+            text-decoration: none;
+            color: inherit;
+            background: inherit;
+          }
+          a:hover {
+            background-image: url("@/assets/background/background02.webp");
+            background-position: center;
+            background-size: cover;
+            background-repeat: no-repeat;
+            border-color: rebeccapurple;
+            box-shadow: 3px 3px 4px mediumpurple;
+          }
+          h3 {
+            margin-bottom: 0;
+            margin-top: 0;
+            color: #af0661;
+          }
+          .card-link {
+            font-size: 1.2rem;
+            border: 1px solid rgba(112, 111, 111, 0.6);
+            border-radius: 5px;
+            padding: 1rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.7);
+            transition: border-color .2s ease-in-out, background-color .2s, box-shadow .2s;
+          }
+        }
+        .table {
+          .tech-title {text-decoration: none}
+          display: inline-flex;
+          font-size: 1.8rem;
+          //font-weight: bold;
+          color: black;
+          border: 1px solid rgba(0, 0, 0, 0.3);
+          padding: 1rem;
+          margin: 1rem auto;
+          border-radius: 5px;
+          background: inherit;
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.7);
+          tr, td, th {border: 1px solid #ddd;padding: 0.5rem;word-wrap: normal}
+          .nomer {max-width: 70px;}
+          .name {
+            text-align: left;
+            color: deepskyblue;
+            width: 400px;
+            a {color: inherit;text-decoration: none;}
+            a:hover {color: #2e768d;}
+          }
+          .version {text-align: right;color: deeppink;width: 150px;}
+        }
+        .tech-title{
+          color: darkgoldenrod;
+          text-decoration: underline;
+          font-size: 2.5rem;
+          margin: 0.5rem 0 0;
+        }
+      }
+    }
+  }
+}
+
+@media(max-width: 1020px) {
+  .about {
+    .container {
+      h1 {
+        font-size: 2.2rem;
+        margin: 0.5rem auto;
+      }
+
+      .about-content {
+        .about-description {
+          .more {margin: 0.5rem; font-size: 2rem;}
+          .more-text {
+            margin-top: 0.6rem;
+
+            h3 {margin: 0.5rem}
+            p {margin: 0 1rem;}
+          }
+        }
+
+        .about-tech {
+          margin-bottom: 0.5rem;
+          .tech-title{
+            font-size: 2rem;
+            margin: 0.5rem 0 0.3rem;
+          }
+          .card-info {
+            padding: 0.5rem 0.6rem;
+            .card-link {padding: 0.8rem;font-size: 1rem;}
+          }
+          .table {
+            font-size: 1.6rem;
+            padding: 0.8rem;
+            margin: 0.5rem auto 0.8rem;
+            tr, td, th {padding: 0.4rem;}
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .about {
+    .container {
+      h1 {
+        font-size: 1.8rem;
+        margin: 0.6rem 0.2rem;
+      }
+
+      .about-content {
+        .about-description {
+          .more {margin: 0.3rem 0 0.5rem; font-size: 1.7rem;}
+          .more-text {
+            margin-top: 0.5rem;
+
+            h3 {margin: 0.2rem}
+            p {margin: 0 0.5rem 0.2rem;}
+          }
+        }
+
+        .about-tech {
+          margin-bottom: 0.4rem;
+          .tech-title{
+            font-size: 1.7rem;
+            margin: 0.5rem 0 0.3rem;
+          }
+          .card-info {
+            padding: 0.4rem 0.5rem;
+            .card-link {font-size: 0.8rem;padding: 0.6rem;}
+          }
+          .table {
+            font-size: 1.4rem;
+            padding: 0;
+            margin: 0.5rem 0.5rem 0.8rem;
+            border: none;
+            border-radius: unset;
+            tr, td, th {padding: 0.3rem;}
+          }
+        }
+      }
+    }
+  }
+}

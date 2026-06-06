@@ -1,0 +1,179 @@
+.home {
+  flex: 1 0 auto;
+  background-image: url("@/assets/background/background03.webp");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+
+  .container {
+    h1 {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      font-size: 2.5rem;
+      margin: 0.7rem auto;
+      color: #2c3e50;
+    }
+
+    .projects-grid {
+      display: inline-flex;
+      flex-wrap: wrap;
+      gap: 1.7rem;
+      margin: 1.5rem;
+      justify-content: center;
+      align-items: center;
+
+      .inner {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin: 0;
+
+        .project-card-link {
+          max-width: 29rem;
+          text-decoration: none;
+          color: inherit;
+          display: block;
+          height: auto;
+          width: 100%;
+
+          .project-card {
+            background-image: url("@/assets/background/background04.webp");
+            background-position: center;
+            background-size: cover;
+            background-repeat: no-repeat;
+            border: 1px solid rgba(0, 0, 0, 0.5);
+            border-radius: 4px;
+            padding: 1rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.7);
+            transition: box-shadow 0.3s ease-in-out, border 0.3s ease-in-out, background 0.3s ease-in-out, color 0.3s ease-in-out;
+            cursor: pointer;
+            display: flex;
+            gap: 1rem;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+
+            .project-img {
+              width: 8rem;
+              height: 8rem;
+              aspect-ratio: 1 / 1;       // заставляем контейнер быть квадратом
+              flex-shrink: 0;            // запрещаем сжиматься из-за текста (СУПЕР ВАЖНАЯ штука!)
+              border: 1px solid rgba(0, 0, 0, 0.5);
+              border-radius: 12px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              overflow: hidden;
+
+              img {
+                max-width: 100%;
+                max-height: 100%;
+                object-fit: contain;
+              }
+            }
+
+            .project-text {
+              h3 {
+                color: seagreen;
+                margin-bottom: 0.6rem;
+                font-size: 1.8rem;
+                text-align: left;
+              }
+              p {margin: 0; color: darkslategrey; text-align: left;}
+            }
+          }
+
+          .project-card:hover {
+            background-image:
+              radial-gradient(at 0% 100%, hsla(28,100%, 74%,1) 0px, transparent 50%),
+              radial-gradient(at 80% 0%, hsla(189,100%,56%,1) 0px, transparent 50%),
+              radial-gradient(at 50% 50%, hsla(355,100%, 93%, 1) 0px, transparent 50%),
+              radial-gradient(at 79% 100%, hsla(242, 100%, 70%, 1) 0px, transparent 50%),
+              radial-gradient(at 0% 0%, hsla(343,100%, 76%, 1) 0px, transparent 50%);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(0, 0, 0, 0.3);
+            .project-text h3 {color: darkblue;}
+            .project-text p {color: black;}
+          }
+        }
+      }
+    }
+  }
+}
+
+@media(max-width: 1020px) {
+  .home {
+    .container {
+      h1 {font-size: 2.3rem;margin: 0.6rem auto;}
+
+      .projects-grid {
+        gap: 1.2rem;
+        margin: 1rem 1.2rem 1.5rem;
+
+        .inner {
+          .project-card-link {
+            max-width: 21rem;
+            .project-card {
+              padding: 0.8rem;
+              gap: 0.8rem;
+
+              .project-img {
+                width: 7rem;
+                height: 7rem;
+                border-radius: 10px;
+              }
+
+              .project-text {
+                h3 {
+                  margin-bottom: 0.2rem;
+                  font-size: 1.5rem;
+                }
+                p {font-size: 0.95rem;}
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .home {
+    .container {
+      h1 {font-size: 2rem;margin: 0.3rem auto;}
+
+      .projects-grid {
+        gap: 1.1rem;
+        margin: 0.7rem 0.7rem 1rem;
+
+        .inner {
+          .project-card-link {
+            max-width: 23rem;
+            .project-card {
+              padding: 0.7rem;
+              gap: 0.7rem;
+
+              .project-img {
+                width: 6rem;
+                height: 6rem;
+                border-radius: 9px;
+              }
+
+              .project-text {
+                h3 {
+                  margin-bottom: 0.4rem;
+                  font-size: 1.4rem;
+                }
+                p {font-size: 0.9rem;}
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

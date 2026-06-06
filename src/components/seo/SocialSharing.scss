@@ -1,0 +1,48 @@
+.social-sharing {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-rows: auto;
+  grid-auto-flow: column;
+  grid-template-areas: "facebook twitter linkedin link";
+  font-size: 2rem;
+  margin-left: 0.5rem;
+
+  .fa-facebook { grid-area: facebook; }
+  .fa-x-twitter { grid-area: twitter; }
+  .fa-linkedin { grid-area: linkedin; }
+  .fa-link { grid-area: link; }
+
+  i {
+    padding: 0 0.5rem;
+    cursor: pointer;
+    color: darkblue;
+    text-shadow: 2px 2px 4px white;
+  }
+
+  i:hover { color: mediumvioletred; }
+  i:active { color: darkgoldenrod; }
+}
+
+@media (max-width: 1020px) {
+  .social-sharing {
+    i {
+      font-size: 1.7rem;
+      padding: 0 0.4rem;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .social-sharing {
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 0.3rem;
+    grid-template-areas:
+      "facebook twitter"
+      "linkedin link";
+
+    i {
+      font-size: 1.7rem;
+      padding: 0 0.3rem;
+    }
+  }
+}

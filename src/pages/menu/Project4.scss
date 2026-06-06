@@ -1,0 +1,38 @@
+.project4 {
+  flex: 1 0 auto;
+  background: linear-gradient(to bottom, rgb(253, 241, 255), rgb(228, 237, 253)) no-repeat center;
+
+  .container {
+    h1 {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      font-size: 2.5rem;
+      margin: 0.7rem auto;
+      color: black;
+    }
+  }
+}
+
+@media(max-width: 1020px) {
+  .project4 {
+    .container {
+      h1 {
+        font-size: 2.3rem;
+        margin: 0.6rem auto;
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .project4 {
+    .container {
+      h1 {
+        font-size: 2rem;
+        margin: 0.5rem auto;
+      }
+    }
+  }
+}
