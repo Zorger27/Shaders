@@ -14,7 +14,6 @@ import * as THREE from "three";
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
 import background04 from "@/assets/CanvasFullScreen/cube3-21.webp";
-import background01 from "@/assets/CanvasFullScreen/cube3-20.webp";
 
 extend({ OrbitControls }); // Регистрируем OrbitControls в R3F
 
@@ -54,7 +53,7 @@ export const Project4 = () => {
         gl={async (props) => {
           const renderer = new WebGPURenderer({canvas: props.canvas, antialias: true, alpha: true,});
           await renderer.init();
-          // console.log('WebGPU INIT:', renderer);
+          // console.log('WebGPU INIT:', renderer); // Убеждаемся, что реально используется WebGPU
           return renderer;
         }}
       >
@@ -114,19 +113,6 @@ export const Project4 = () => {
         </lineSegments>
       </group>
     );
-  };
-
-  // Убеждаемся, что реально используется WebGPU
-  const DebugRenderer = () => {
-    const { gl } = useThree();
-
-    useEffect(() => {
-      // console.log(gl);
-      console.log('Renderer:', gl.constructor.name);
-      console.log('WebGPU:', gl.isWebGPURenderer);
-    }, [gl]);
-
-    return null;
   };
 
   // responsive inline-стили
@@ -192,7 +178,6 @@ export const Project4 = () => {
         <div ref={canvasContainerRef}>
 
           <WebGPUCanvas style={canvasStyle}>
-            <DebugRenderer />
             <perspectiveCamera makeDefault position={[0, 0, 2.5]} />
             <ambientLight intensity={0.6} />
 
