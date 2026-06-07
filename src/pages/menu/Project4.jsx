@@ -8,11 +8,13 @@ import MetaTags from "@/components/seo/MetaTags.jsx";
 import CanvasFullScreen from "@/components/util/CanvasFullScreen.jsx";
 import { useResponsiveStyle } from "@/hooks/useResponsiveStyle";
 import {Canvas, extend, useFrame, useThree, useLoader} from '@react-three/fiber';
+import { WebGPURenderer } from 'three/webgpu';
 import { TextureLoader } from 'three';
 import * as THREE from "three";
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
 import background04 from "@/assets/CanvasFullScreen/cube3-21.webp";
+import background01 from "@/assets/CanvasFullScreen/cube3-20.webp";
 
 extend({ OrbitControls }); // Регистрируем OrbitControls в R3F
 
@@ -41,6 +43,23 @@ export const Project4 = () => {
         autoRotate={true}
         autoRotateSpeed={5}
       />
+    );
+  };
+
+  // Компонент рендера
+  const WebGPUCanvas = ({ children, style }) => {
+    return (
+      <Canvas
+        style={style}
+        gl={async (props) => {
+          const renderer = new WebGPURenderer({canvas: props.canvas, antialias: true, alpha: true,});
+          await renderer.init();
+          // console.log('WebGPU INIT:', renderer);
+          return renderer;
+        }}
+      >
+        {children}
+      </Canvas>
     );
   };
 
@@ -95,6 +114,19 @@ export const Project4 = () => {
         </lineSegments>
       </group>
     );
+  };
+
+  // Убеждаемся, что реально используется WebGPU
+  const DebugRenderer = () => {
+    const { gl } = useThree();
+
+    useEffect(() => {
+      // console.log(gl);
+      console.log('Renderer:', gl.constructor.name);
+      console.log('WebGPU:', gl.isWebGPURenderer);
+    }, [gl]);
+
+    return null;
   };
 
   // responsive inline-стили
@@ -158,7 +190,9 @@ export const Project4 = () => {
         <hr className="custom-line" />
 
         <div ref={canvasContainerRef}>
-          <Canvas style={canvasStyle} gl={{antialias: true, toneMapping: THREE.NoToneMapping}}>
+
+          <WebGPUCanvas style={canvasStyle}>
+            <DebugRenderer />
             <perspectiveCamera makeDefault position={[0, 0, 2.5]} />
             <ambientLight intensity={0.6} />
 
@@ -167,7 +201,8 @@ export const Project4 = () => {
 
             <Box />
             <CameraControls />
-          </Canvas>
+          </WebGPUCanvas>
+
         </div>
 
       </div>
