@@ -116,6 +116,19 @@ export const Project1 = () => {
     );
   };
 
+  // Убеждаемся, что реально используется WebGPU
+  const DebugRenderer = () => {
+    const { gl } = useThree();
+
+    useEffect(() => {
+      // console.log(gl);
+      console.log('Renderer:', gl.constructor.name);
+      console.log('WebGPU:', gl.isWebGPURenderer);
+    }, [gl]);
+
+    return null;
+  };
+
   // responsive inline-стили
   const canvasStyle = useResponsiveStyle({
     default: {
@@ -179,6 +192,7 @@ export const Project1 = () => {
         <div ref={canvasContainerRef}>
 
           <WebGPUCanvas style={canvasStyle}>
+            <DebugRenderer />
             <perspectiveCamera makeDefault position={[0, 0, 2.5]} />
             <ambientLight intensity={0.6} />
 
