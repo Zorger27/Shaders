@@ -8,6 +8,9 @@ import MetaTags from "@/components/seo/MetaTags.jsx";
 import CanvasFullScreen from "@/components/util/CanvasFullScreen.jsx";
 import { useResponsiveStyle } from "@/hooks/useResponsiveStyle";
 import {Canvas, extend, useFrame, useThree, useLoader} from '@react-three/fiber';
+
+import { WebGPURenderer } from 'three/webgpu';
+
 import { TextureLoader } from 'three';
 import * as THREE from "three";
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
@@ -41,6 +44,22 @@ export const Project1 = () => {
         autoRotate={true}
         autoRotateSpeed={5}
       />
+    );
+  };
+
+  // Компонент рендера
+  const WebGPUCanvas = ({ children, style }) => {
+    return (
+      <Canvas
+        style={style}
+        gl={async (props) => {
+          const renderer = new WebGPURenderer({canvas: props.canvas, antialias: true, alpha: true,});
+          await renderer.init();
+          return renderer;
+        }}
+      >
+        {children}
+      </Canvas>
     );
   };
 
@@ -158,7 +177,8 @@ export const Project1 = () => {
         <hr className="custom-line" />
 
         <div ref={canvasContainerRef}>
-          <Canvas style={canvasStyle} gl={{antialias: true, toneMapping: THREE.NoToneMapping}}>
+
+          <WebGPUCanvas style={canvasStyle}>
             <perspectiveCamera makeDefault position={[0, 0, 2.5]} />
             <ambientLight intensity={0.6} />
 
@@ -167,7 +187,8 @@ export const Project1 = () => {
 
             <Box />
             <CameraControls />
-          </Canvas>
+          </WebGPUCanvas>
+
         </div>
 
       </div>
