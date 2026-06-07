@@ -55,6 +55,8 @@ export const Project1 = () => {
         gl={async (props) => {
           const renderer = new WebGPURenderer({canvas: props.canvas, antialias: true, alpha: true,});
           await renderer.init();
+          renderer.outputColorSpace = THREE.SRGBColorSpace;
+          renderer.toneMapping = THREE.NoToneMapping;
           // console.log('WebGPU INIT:', renderer); // Убеждаемся, что реально используется WebGPU
           return renderer;
         }}
@@ -85,12 +87,12 @@ export const Project1 = () => {
 
     // Цвета для 6 сторон с прозрачностью - используем MeshBasicMaterial для ярких цветов
     const materials = [
-      new THREE.MeshBasicMaterial({ color: 'red', transparent: true, opacity: 0.7 }),
-      new THREE.MeshBasicMaterial({ color: 'green', transparent: true, opacity: 0.7 }),
-      new THREE.MeshBasicMaterial({ color: 'blue', transparent: true, opacity: 0.7 }),
-      new THREE.MeshBasicMaterial({ color: 'gold', transparent: true, opacity: 0.7 }),
-      new THREE.MeshBasicMaterial({ color: 'purple', transparent: true, opacity: 0.7 }),
-      new THREE.MeshBasicMaterial({ color: 'cyan', transparent: true, opacity: 0.7 }),
+      new THREE.MeshBasicMaterial({ color: 'red', transparent: true, opacity: 1 }),
+      new THREE.MeshBasicMaterial({ color: 'green', transparent: true, opacity: 1 }),
+      new THREE.MeshBasicMaterial({ color: 'blue', transparent: true, opacity: 1 }),
+      new THREE.MeshBasicMaterial({ color: 'gold', transparent: true, opacity: 1 }),
+      new THREE.MeshBasicMaterial({ color: 'purple', transparent: true, opacity: 1 }),
+      new THREE.MeshBasicMaterial({ color: 'cyan', transparent: true, opacity: 1 }),
     ];
 
     // Устанавливаем начальный наклон куба
