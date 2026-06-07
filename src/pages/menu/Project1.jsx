@@ -55,6 +55,7 @@ export const Project1 = () => {
         gl={async (props) => {
           const renderer = new WebGPURenderer({canvas: props.canvas, antialias: true, alpha: true,});
           await renderer.init();
+          // console.log('WebGPU INIT:', renderer);
           return renderer;
         }}
       >
