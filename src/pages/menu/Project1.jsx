@@ -88,7 +88,7 @@ export const Project1 = () => {
       new THREE.MeshBasicMaterial({ color: 'red', transparent: true, opacity: 0.7 }),
       new THREE.MeshBasicMaterial({ color: 'green', transparent: true, opacity: 0.7 }),
       new THREE.MeshBasicMaterial({ color: 'blue', transparent: true, opacity: 0.7 }),
-      new THREE.MeshBasicMaterial({ color: 'yellow', transparent: true, opacity: 0.7 }),
+      new THREE.MeshBasicMaterial({ color: 'gold', transparent: true, opacity: 0.7 }),
       new THREE.MeshBasicMaterial({ color: 'purple', transparent: true, opacity: 0.7 }),
       new THREE.MeshBasicMaterial({ color: 'cyan', transparent: true, opacity: 0.7 }),
     ];
