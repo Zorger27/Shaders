@@ -7,17 +7,13 @@ import ToggleFooterButton from "@/components/util/ToggleFooterButton.jsx";
 import MetaTags from "@/components/seo/MetaTags.jsx";
 import CanvasFullScreen from "@/components/util/CanvasFullScreen.jsx";
 import { useResponsiveStyle } from "@/hooks/useResponsiveStyle";
-import {Canvas, extend, useFrame, useThree, useLoader} from '@react-three/fiber';
+import WebGPUCanvas from '@/components/canvas/WebGPUCanvas.jsx';
+import SceneBackground from '@/components/canvas/SceneBackground.jsx';
 
-import { WebGPURenderer } from 'three/webgpu';
-
-import { TextureLoader } from 'three';
 import * as THREE from "three";
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import { OrbitControls } from '@react-three/drei';
 
 import background01 from "@/assets/CanvasFullScreen/cube3-20.webp";
-
-extend({ OrbitControls }); // Регистрируем OrbitControls в R3F
 
 export const Project1 = () => {
   const { t } = useTranslation();
@@ -28,58 +24,6 @@ export const Project1 = () => {
 
   // Функция для перевода градусов в радианы
   const degreesToRadians = (degrees) => degrees * (Math.PI / 180);
-
-  // Компонент управления камерой
-  const CameraControls = () => {
-    const { camera, gl } = useThree();
-    const controls = useRef(null);
-    useFrame(() => controls.current && controls.current.update());
-    return (
-      <orbitControls
-        ref={controls}
-        args={[camera, gl.domElement]}
-        enableDamping
-        enablePan={false}
-        enableZoom={true}
-        autoRotate={true}
-        autoRotateSpeed={5}
-      />
-    );
-  };
-
-  // Компонент рендера
-  const WebGPUCanvas = ({ children, style }) => {
-    return (
-      <Canvas
-        style={style}
-        gl={async (props) => {
-          const renderer = new WebGPURenderer({canvas: props.canvas, antialias: true, alpha: true,});
-          await renderer.init();
-          renderer.outputColorSpace = THREE.SRGBColorSpace;
-          renderer.toneMapping = THREE.NoToneMapping;
-          // console.log('WebGPU INIT:', renderer); // Убеждаемся, что реально используется WebGPU
-          return renderer;
-        }}
-      >
-        {children}
-      </Canvas>
-    );
-  };
-
-  // Компонент для установки фона
-  function SceneBackground({ imagePath, canvasFullscreen }) {
-    // Хук R3F для загрузки ресурсов three.js
-    // const texture = useLoader(EXRLoader, imagePath);
-    const texture = useLoader(TextureLoader, imagePath);
-
-    // Если НЕ в fullscreen - НЕ устанавливаем фон вообще (прозрачный)
-    if (!canvasFullscreen) {
-      return null; // ⭐ Просто ничего не рендерим - фон будет прозрачным
-    }
-
-    // Возвращаем специальный элемент, который прикрепляет текстуру к фону сцены
-    return <primitive attach="background" object={texture} />;
-  }
 
   // Куб с прозрачными гранями и свечением по контуру
   const Box = () => {
@@ -185,11 +129,10 @@ export const Project1 = () => {
             <perspectiveCamera makeDefault position={[0, 0, 2.5]} />
             <ambientLight intensity={0.6} />
 
-            {/* Используем компонент с путём к картинке */}
-            <SceneBackground imagePath={background01} canvasFullscreen={isFullscreen} />
+            <SceneBackground imagePath={background01} enabled={isFullscreen} />
 
             <Box />
-            <CameraControls />
+            <OrbitControls enableDamping enablePan={false} enableZoom autoRotate autoRotateSpeed={5}/>
           </WebGPUCanvas>
 
         </div>

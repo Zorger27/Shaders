@@ -12,6 +12,7 @@
 🔹 React ⚛️ — modern UI development.<br>
 🔹 Three.js 🌌 — 3D graphics and visualization in the browser.<br>
 🔹 React Three Fiber 🖼️ — React renderer for Three.js.<br>
+🔹 React Three Drei 📦 — essential helpers and abstractions for R3F.<br>
 🔹 Redux Toolkit 🎯 — efficient and scalable state management.<br>
 🔹 React Router 🧭 — seamless navigation between apps.<br>
 🔹 React i18next 🌍 — multilingual support (EN, ES, UK).<br>
