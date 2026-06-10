@@ -67,7 +67,6 @@ export const Project3 = () => {
       const centerOffset = sizeF.mul(0.5).sub(0.5);
 
       // 8. Задаем расстояние (промежуток) между центрами маленьких кубиков
-      // const spacing = float(0.15);
       const spacing = float(0.30);
 
       // 9. Собираем 3D-вектор смещения: вычитаем центр и умножаем на расстояние
@@ -93,8 +92,8 @@ export const Project3 = () => {
       mat.colorNode = vec3(r, g, b);
 
       // 13. Настраиваем физические свойства: делаем кубики слегка глянцевыми и металлическими
-      mat.roughness = 0.2;
-      mat.metalness = 0.8;
+      mat.roughness = 0.1;
+      mat.metalness = 0.9;
 
       return mat;
     }, []);
@@ -108,7 +107,6 @@ export const Project3 = () => {
 
     return (
       <instancedMesh ref={meshRef} args={[null, null, count]} scale={1}>
-        {/*<boxGeometry args={[0.08, 0.08, 0.08]} />*/}
         <boxGeometry args={[0.16, 0.16, 0.16]} />
         <primitive object={materialNode} attach="material" />
       </instancedMesh>
@@ -180,8 +178,16 @@ export const Project3 = () => {
           <WebGPUCanvas style={canvasStyle}>
             <perspectiveCamera makeDefault position={[0, 0, 4.5]} />
 
-            <ambientLight intensity={0.9} />
-            <directionalLight position={[0, 10, 0]} intensity={3.5} />
+            <ambientLight intensity={0.6} /> {/* Небольшой общий свет, чтобы тени не были абсолютно черными */}
+
+            {/* Четко закрепленный прожектор */}
+            <spotLight
+              position={[3, 3, 1.5]} // Координаты: X (вправо), Y (вверх), Z (ближе к экрану)
+              angle={0.8}            // Ширина светового конуса (в радианах). Чем меньше, тем уже луч
+              penumbra={0.3}         // Степень размытия краев светового пятна (от 0 — жесткие края, до 1 — мягкие)
+              intensity={55}         // Интенсивность (для spotLight значения нужны выше, чем для directional)
+              decay={1.2}            // Естественное затухание света в зависимости от расстояния
+            />
 
             <SceneBackground imagePath={background03} enabled={isFullscreen}/>
 
