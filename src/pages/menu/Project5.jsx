@@ -1,8 +1,8 @@
-import React, {useEffect, useRef, useState} from "react";
+import React, { useRef, useState, useMemo } from "react";
 import { useTranslation } from 'react-i18next';
 import '@/pages/menu/Project5.scss';
-import {Link} from "react-router-dom";
-import {useSpaCleanup} from "@/hooks/useSpaCleanup.js";
+import { Link } from "react-router-dom";
+import { useSpaCleanup } from "@/hooks/useSpaCleanup.js";
 import ToggleFooterButton from "@/components/util/ToggleFooterButton.jsx";
 import MetaTags from "@/components/seo/MetaTags.jsx";
 import CanvasFullScreen from "@/components/util/CanvasFullScreen.jsx";
@@ -10,9 +10,20 @@ import { useResponsiveStyle } from "@/hooks/useResponsiveStyle";
 import WebGPUCanvas from '@/components/canvas/WebGPUCanvas.jsx';
 import SceneBackground from '@/components/canvas/SceneBackground.jsx';
 
-import * as THREE from "three";
+// import * as THREE from "three";
+import { MeshPhysicalNodeMaterial } from 'three/webgpu';
 import { OrbitControls } from '@react-three/drei';
-import { instanceIndex, positionLocal, storage, wgslFn, color, uniform } from 'three/tsl'
+import { useFrame } from "@react-three/fiber";
+
+// Импортируем только необходимые математические узлы TSL
+import {
+  instanceIndex,
+  positionLocal,
+  float,
+  vec3,
+  mod,
+  floor
+} from 'three/tsl';
 
 import background05 from "@/assets/CanvasFullScreen/cube3-15.webp";
 
@@ -23,44 +34,82 @@ export const Project5 = () => {
   const canvasContainerRef = useRef(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
 
-  // Функция для перевода градусов в радианы
-  const degreesToRadians = (degrees) => degrees * (Math.PI / 180);
-
-  // Куб с прозрачными гранями и свечением по контуру
-  const Box = () => {
+  // Компонент куба на чистом TSL
+  const TslGridCube = () => {
+    const gridSize = 10;
+    const count = gridSize * gridSize * gridSize;
     const meshRef = useRef(null);
 
-    // Цвета для 6 сторон с прозрачностью - используем MeshBasicMaterial для ярких цветов
-    const materials = [
-      new THREE.MeshBasicMaterial({ color: 'red', transparent: true, opacity: 1 }),
-      new THREE.MeshBasicMaterial({ color: 'green', transparent: true, opacity: 1 }),
-      new THREE.MeshBasicMaterial({ color: 'blue', transparent: true, opacity: 1 }),
-      new THREE.MeshBasicMaterial({ color: 'gold', transparent: true, opacity: 1 }),
-      new THREE.MeshBasicMaterial({ color: 'purple', transparent: true, opacity: 1 }),
-      new THREE.MeshBasicMaterial({ color: 'cyan', transparent: true, opacity: 1 }),
-    ];
+    const materialNode = useMemo(() => {
+      // 1. Создаем материал, который поддерживает узловую (Node) логику TSL
+      const mat = new MeshPhysicalNodeMaterial();
 
-    // Устанавливаем начальный наклон куба
-    useEffect(() => {
-      if (meshRef.current) {
-        const euler = new THREE.Euler(
-          degreesToRadians(90),   // 90 градусов по X
-          degreesToRadians(20),   // 20 градусов по Y
-          0                            // 0° поворот по Z
-        );
+      // 2. Конвертируем размер сетки (10) в тип float для вычислений на видеокарте
+      const sizeF = float(gridSize);
 
-        meshRef.current.setRotationFromEuler(euler);
-      }
+      // 3. Получаем уникальный номер текущего кубика (от 0 до 999) и делаем его float
+      const indexF = float(instanceIndex);
+
+      // --- РАСЧЕТ КООРДИНАТ (X, Y, Z) ДЛЯ СЕТКИ ---
+
+      // 4. Считаем X: берем остаток от деления индекса кубика на ширину сетки (x = index % 10)
+      const x = mod(indexF, sizeF);
+
+      // 5. Считаем Y: делим индекс на 10, берем целую часть, затем остаток от деления на 10
+      const y = mod(floor(indexF.div(sizeF)), sizeF);
+
+      // 6. Считаем Z: делим индекс на 100 (10 * 10) и берем целую часть
+      const z = floor(indexF.div(sizeF.mul(sizeF)));
+
+      // --- ЦЕНТРИРОВАНИЕ И РАССТАНОВКА ---
+
+      // 7. Сдвиг для центрирования всего большого куба: (10 * 0.5) - 0.5 = 4.5
+      const centerOffset = sizeF.mul(0.5).sub(0.5);
+
+      // 8. Задаем расстояние (промежуток) между центрами маленьких кубиков
+      const spacing = float(0.30);
+
+      // 9. Собираем 3D-вектор смещения: вычитаем центр и умножаем на расстояние
+      const instanceOffset = vec3(
+        x.sub(centerOffset),
+        y.sub(centerOffset),
+        z.sub(centerOffset)
+      ).mul(spacing);
+
+      // --- ПРИМЕНЕНИЕ ПОЗИЦИИ ---
+
+      // 10. Итоговая позиция вершины = её локальная позиция + смещение конкретного кубика
+      mat.positionNode = positionLocal.add(instanceOffset);
+
+      // --- РАСЧЕТ ЦВЕТА (СИНЕ-ЗЕЛЕНО-КРАСНЫЙ) ---
+
+      // 11. Нормализуем координаты от 0 до 1 (делим текущую координату на размер сетки)
+      const r = x.div(sizeF); // Красный канал (Red) привязан к оси X
+      const g = y.div(sizeF); // Зеленый канал (Green) привязан к оси Y
+      const b = z.div(sizeF); // Синий канал (Blue) привязан к оси Z
+
+      // 12. Передаем собранный RGB-вектор напрямую в ноду цвета материала
+      mat.colorNode = vec3(r, g, b);
+
+      // 13. Настраиваем физические свойства: делаем кубики слегка глянцевыми и металлическими
+      mat.roughness = 0.1;
+      mat.metalness = 0.9;
+
+      return mat;
     }, []);
 
+    useFrame((state) => {
+      if (meshRef.current) {
+        meshRef.current.rotation.x = state.clock.elapsedTime * 0.2;
+        meshRef.current.rotation.y = state.clock.elapsedTime * 0.3;
+      }
+    });
+
     return (
-      <group ref={meshRef}>
-        <mesh geometry={new THREE.BoxGeometry(2.5, 2.5, 2.5)} material={materials} />
-        {/* Белые линии по рёбрам куба */}
-        <lineSegments geometry={new THREE.EdgesGeometry(new THREE.BoxGeometry(2.5,2.5,2.5))}>
-          <lineBasicMaterial color="white" transparent opacity={0.8} depthTest={false} />
-        </lineSegments>
-      </group>
+      <instancedMesh ref={meshRef} args={[null, null, count]} scale={1}>
+        <boxGeometry args={[0.16, 0.16, 0.16]} />
+        <primitive object={materialNode} attach="material" />
+      </instancedMesh>
     );
   };
 
@@ -127,13 +176,24 @@ export const Project5 = () => {
         <div ref={canvasContainerRef}>
 
           <WebGPUCanvas style={canvasStyle}>
-            <perspectiveCamera makeDefault position={[0, 0, 2.5]} />
-            <ambientLight intensity={0.6} />
+            <perspectiveCamera makeDefault position={[0, 0, 4.5]} />
+
+            <ambientLight intensity={0.7} /> {/* Небольшой общий свет, чтобы тени не были абсолютно черными */}
+
+            {/* Четко закрепленный прожектор */}
+            <spotLight
+              position={[3, 3, 3.5]} // Координаты: X (вправо), Y (вверх), Z (ближе к экрану)
+              angle={0.8}            // Ширина светового конуса (в радианах). Чем меньше, тем уже луч
+              penumbra={0.3}         // Степень размытия краев светового пятна (от 0 — жесткие края, до 1 — мягкие)
+              intensity={55}         // Интенсивность (для spotLight значения нужны выше, чем для directional)
+              decay={1.2}            // Естественное затухание света в зависимости от расстояния
+            />
 
             <SceneBackground imagePath={background05} enabled={isFullscreen}/>
 
-            <Box />
-            <OrbitControls enableDamping enablePan={false} enableZoom autoRotate autoRotateSpeed={5}/>
+            <TslGridCube />
+
+            <OrbitControls enableDamping enablePan={false} enableZoom autoRotate autoRotateSpeed={2}/>
           </WebGPUCanvas>
 
         </div>
