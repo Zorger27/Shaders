@@ -67,7 +67,8 @@ export const Project3 = () => {
       const centerOffset = sizeF.mul(0.5).sub(0.5);
 
       // 8. Задаем расстояние (промежуток) между центрами маленьких кубиков
-      const spacing = float(0.15);
+      // const spacing = float(0.15);
+      const spacing = float(0.30);
 
       // 9. Собираем 3D-вектор смещения: вычитаем центр и умножаем на расстояние
       const instanceOffset = vec3(
@@ -106,8 +107,9 @@ export const Project3 = () => {
     });
 
     return (
-      <instancedMesh ref={meshRef} args={[null, null, count]}>
-        <boxGeometry args={[0.08, 0.08, 0.08]} />
+      <instancedMesh ref={meshRef} args={[null, null, count]} scale={1}>
+        {/*<boxGeometry args={[0.08, 0.08, 0.08]} />*/}
+        <boxGeometry args={[0.16, 0.16, 0.16]} />
         <primitive object={materialNode} attach="material" />
       </instancedMesh>
     );
@@ -176,7 +178,7 @@ export const Project3 = () => {
         <div ref={canvasContainerRef}>
 
           <WebGPUCanvas style={canvasStyle}>
-            <perspectiveCamera makeDefault position={[0, 0, 2.2]} />
+            <perspectiveCamera makeDefault position={[0, 0, 4.5]} />
 
             <ambientLight intensity={0.9} />
             <directionalLight position={[0, 10, 0]} intensity={3.5} />
