@@ -23,43 +23,12 @@ export const Project3 = () => {
   const canvasContainerRef = useRef(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
 
-  // Функция для перевода градусов в радианы
-  const degreesToRadians = (degrees) => degrees * (Math.PI / 180);
-
   // Куб с прозрачными гранями и свечением по контуру
-  const Box = () => {
-    const meshRef = useRef(null);
-
-    // Цвета для 6 сторон с прозрачностью - используем MeshBasicMaterial для ярких цветов
-    const materials = [
-      new THREE.MeshBasicMaterial({ color: 'red', transparent: true, opacity: 1 }),
-      new THREE.MeshBasicMaterial({ color: 'green', transparent: true, opacity: 1 }),
-      new THREE.MeshBasicMaterial({ color: 'blue', transparent: true, opacity: 1 }),
-      new THREE.MeshBasicMaterial({ color: 'gold', transparent: true, opacity: 1 }),
-      new THREE.MeshBasicMaterial({ color: 'purple', transparent: true, opacity: 1 }),
-      new THREE.MeshBasicMaterial({ color: 'cyan', transparent: true, opacity: 1 }),
-    ];
-
-    // Устанавливаем начальный наклон куба
-    useEffect(() => {
-      if (meshRef.current) {
-        const euler = new THREE.Euler(
-          degreesToRadians(90),   // 90 градусов по X
-          degreesToRadians(20),   // 20 градусов по Y
-          0                            // 0° поворот по Z
-        );
-
-        meshRef.current.setRotationFromEuler(euler);
-      }
-    }, []);
+  const Sphere = () => {
 
     return (
-      <group ref={meshRef}>
-        <mesh geometry={new THREE.BoxGeometry(2.5, 2.5, 2.5)} material={materials} />
-        {/* Белые линии по рёбрам куба */}
-        <lineSegments geometry={new THREE.EdgesGeometry(new THREE.BoxGeometry(2.5,2.5,2.5))}>
-          <lineBasicMaterial color="white" transparent opacity={0.8} depthTest={false} />
-        </lineSegments>
+      <group>
+
       </group>
     );
   };
@@ -129,10 +98,10 @@ export const Project3 = () => {
           <WebGPUCanvas style={canvasStyle}>
             <perspectiveCamera makeDefault position={[0, 0, 2.5]} />
             <ambientLight intensity={0.6} />
-
             <SceneBackground imagePath={background03} enabled={isFullscreen}/>
 
-            <Box />
+            <Sphere />
+
             <OrbitControls enableDamping enablePan={false} enableZoom autoRotate autoRotateSpeed={5}/>
           </WebGPUCanvas>
 
