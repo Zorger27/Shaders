@@ -15,8 +15,15 @@ import { MeshPhysicalNodeMaterial } from 'three/webgpu';
 import { OrbitControls } from '@react-three/drei';
 import { useFrame } from "@react-three/fiber";
 
-// Импортируем только чистые TSL-узлы
-import {instanceIndex, positionLocal, color, float, vec3, mod, floor} from 'three/tsl';
+// Импортируем только необходимые математические узлы TSL
+import {
+  instanceIndex,
+  positionLocal,
+  float,
+  vec3,
+  mod,
+  floor
+} from 'three/tsl';
 
 import background03 from "@/assets/CanvasFullScreen/cube3-14.webp";
 
@@ -34,40 +41,57 @@ export const Project3 = () => {
     const meshRef = useRef(null);
 
     const materialNode = useMemo(() => {
-      // Используем класс материала
+      // 1. Создаем материал, который поддерживает узловую (Node) логику TSL
       const mat = new MeshPhysicalNodeMaterial();
 
-      // --- ЧИСТЫЙ TSL: Математика для 3D сетки ---
-
-      // Переводим входные данные в float-узлы для точных расчетов
+      // 2. Конвертируем размер сетки (10) в тип float для вычислений на видеокарте
       const sizeF = float(gridSize);
+
+      // 3. Получаем уникальный номер текущего кубика (от 0 до 999) и делаем его float
       const indexF = float(instanceIndex);
 
-      // x = index % size
+      // --- РАСЧЕТ КООРДИНАТ (X, Y, Z) ДЛЯ СЕТКИ ---
+
+      // 4. Считаем X: берем остаток от деления индекса кубика на ширину сетки (x = index % 10)
       const x = mod(indexF, sizeF);
 
-      // y = floor(index / size) % size
+      // 5. Считаем Y: делим индекс на 10, берем целую часть, затем остаток от деления на 10
       const y = mod(floor(indexF.div(sizeF)), sizeF);
 
-      // z = floor(index / (size * size))
+      // 6. Считаем Z: делим индекс на 100 (10 * 10) и берем целую часть
       const z = floor(indexF.div(sizeF.mul(sizeF)));
 
-      // Смещение для центрирования куба: (size * 0.5) - 0.5
+      // --- ЦЕНТРИРОВАНИЕ И РАССТАНОВКА ---
+
+      // 7. Сдвиг для центрирования всего большого куба: (10 * 0.5) - 0.5 = 4.5
       const centerOffset = sizeF.mul(0.5).sub(0.5);
 
-      // Расстояние между элементами
+      // 8. Задаем расстояние (промежуток) между центрами маленьких кубиков
       const spacing = float(0.15);
 
-      // Собираем итоговый вектор смещения для текущего инстанса
+      // 9. Собираем 3D-вектор смещения: вычитаем центр и умножаем на расстояние
       const instanceOffset = vec3(
         x.sub(centerOffset),
         y.sub(centerOffset),
         z.sub(centerOffset)
       ).mul(spacing);
 
-      // Применяем позицию и цвет
+      // --- ПРИМЕНЕНИЕ ПОЗИЦИИ ---
+
+      // 10. Итоговая позиция вершины = её локальная позиция + смещение конкретного кубика
       mat.positionNode = positionLocal.add(instanceOffset);
-      mat.colorNode = color('#ff6600');
+
+      // --- РАСЧЕТ ЦВЕТА (СИНЕ-ЗЕЛЕНО-КРАСНЫЙ) ---
+
+      // 11. Нормализуем координаты от 0 до 1 (делим текущую координату на размер сетки)
+      const r = x.div(sizeF); // Красный канал (Red) привязан к оси X
+      const g = y.div(sizeF); // Зеленый канал (Green) привязан к оси Y
+      const b = z.div(sizeF); // Синий канал (Blue) привязан к оси Z
+
+      // 12. Передаем собранный RGB-вектор напрямую в ноду цвета материала
+      mat.colorNode = vec3(r, g, b);
+
+      // 13. Настраиваем физические свойства: делаем кубики слегка глянцевыми и металлическими
       mat.roughness = 0.2;
       mat.metalness = 0.8;
 
@@ -152,9 +176,10 @@ export const Project3 = () => {
         <div ref={canvasContainerRef}>
 
           <WebGPUCanvas style={canvasStyle}>
-            <perspectiveCamera makeDefault position={[0, 0, 4.5]} />
-            <ambientLight intensity={0.6} />
-            <directionalLight position={[5, 10, 5]} intensity={1.5} />
+            <perspectiveCamera makeDefault position={[0, 0, 2.2]} />
+
+            <ambientLight intensity={0.9} />
+            <directionalLight position={[0, 10, 0]} intensity={3.5} />
 
             <SceneBackground imagePath={background03} enabled={isFullscreen}/>
 
