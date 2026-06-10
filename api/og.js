@@ -61,9 +61,9 @@ export default function handler(req, res) {
         es: { title: "Noise Field", desc: "Un entorno generativo para explorar ruido procedimental y patrones de movimiento basados en algoritmos Perlin y Simplex (creado por Anatolii Zorin)" }
       },
       project5: {
-        en: { title: "Shader Viewer", desc: "A final rendering mode with a clean output view, free of UI elements, designed to showcase the result (created by Anatolii Zorin)" },
-        uk: { title: "Shader Viewer", desc: "Режим фінальної візуалізації шейдера в чистому рендері без інтерфейсних елементів для демонстрації результату (створено Анатолієм Зоріним)" },
-        es: { title: "Shader Viewer", desc: "Un modo de renderizado final con una vista limpia sin elementos de interfaz, diseñado para mostrar el resultado (creado por Anatolii Zorin)" }
+        en: { title: "TSL Instancing", desc: "Rendering thousands of instances where positions and colors are calculated exclusively by TSL math nodes (created by Anatolii Zorin)" },
+        uk: { title: "TSL Instancing", desc: "Рендеринг тисяч інстансів, де позиції та кольори обчислюються виключно математичними вузлами TSL (створено Анатолієм Зоріним)" },
+        es: { title: "TSL Instancing", desc: "Renderizado de miles de instancias donde las posiciones y colores se calculan exclusivamente mediante nodos matemáticos TSL (creado por Anatolii Zorin)" }
       },
       about: {
         en: { title: "About", desc: "Detailed information about Shaders (created by Anatolii Zorin)" },

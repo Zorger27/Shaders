@@ -92,8 +92,8 @@ export const Project3 = () => {
       mat.colorNode = vec3(r, g, b);
 
       // 13. Настраиваем физические свойства: делаем кубики слегка глянцевыми и металлическими
-      mat.roughness = 0.1;
-      mat.metalness = 0.9;
+      mat.roughness = 0.9;
+      mat.metalness = 0.1;
 
       return mat;
     }, []);

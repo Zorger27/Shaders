@@ -48,8 +48,8 @@
     "disc": "Un entorno generativo para explorar ruido procedimental y patrones de movimiento basados en algoritmos Perlin y Simplex"
   },
   "project5": {
-    "name": "Shader Viewer",
-    "disc": "Un modo de renderizado final con una vista limpia sin elementos de interfaz, diseñado para mostrar el resultado"
+    "name": "TSL Instancing",
+    "disc": "Renderizado de miles de instancias donde las posiciones y colores se calculan exclusivamente mediante nodos matemáticos TSL"
   },
   "about": {
     "title": "Shaders",

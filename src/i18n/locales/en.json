@@ -48,8 +48,8 @@
     "disc": "A generative environment for exploring procedural noise and motion patterns based on Perlin and Simplex algorithms"
   },
   "project5": {
-    "name": "Shader Viewer",
-    "disc": "A final rendering mode with a clean output view, free of UI elements, designed to showcase the result"
+    "name": "TSL Instancing",
+    "disc": "Rendering thousands of instances where positions and colors are calculated exclusively by TSL math nodes"
   },
   "about": {
     "title": "Shaders",
