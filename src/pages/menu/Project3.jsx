@@ -36,7 +36,7 @@ export const Project3 = () => {
 
   // Компонент куба на чистом TSL
   const TslGridCube = () => {
-    const gridSize = 10;
+    const gridSize = 4;
     const count = gridSize * gridSize * gridSize;
     const meshRef = useRef(null);
 
@@ -67,7 +67,7 @@ export const Project3 = () => {
       const centerOffset = sizeF.mul(0.5).sub(0.5);
 
       // 8. Задаем расстояние (промежуток) между центрами маленьких кубиков
-      const spacing = float(0.30);
+      const spacing = float(0.8);
 
       // 9. Собираем 3D-вектор смещения: вычитаем центр и умножаем на расстояние
       const instanceOffset = vec3(
@@ -107,7 +107,7 @@ export const Project3 = () => {
 
     return (
       <instancedMesh ref={meshRef} args={[null, null, count]} scale={1}>
-        <boxGeometry args={[0.16, 0.16, 0.16]} />
+        <boxGeometry args={[0.6, 0.6, 0.6]} />
         <primitive object={materialNode} attach="material" />
       </instancedMesh>
     );
@@ -178,7 +178,7 @@ export const Project3 = () => {
           <WebGPUCanvas style={canvasStyle}>
             <perspectiveCamera makeDefault position={[0, 0, 4.5]} />
 
-            <ambientLight intensity={0.6} /> {/* Небольшой общий свет, чтобы тени не были абсолютно черными */}
+            <ambientLight intensity={0.7} /> {/* Небольшой общий свет, чтобы тени не были абсолютно черными */}
 
             {/* Четко закрепленный прожектор */}
             <spotLight
