@@ -1,8 +1,8 @@
-import React, {useEffect, useRef, useState} from "react";
+import React, { useRef, useState, useMemo } from "react";
 import { useTranslation } from 'react-i18next';
 import '@/pages/menu/Project3.scss';
-import {Link} from "react-router-dom";
-import {useSpaCleanup} from "@/hooks/useSpaCleanup.js";
+import { Link } from "react-router-dom";
+import { useSpaCleanup } from "@/hooks/useSpaCleanup.js";
 import ToggleFooterButton from "@/components/util/ToggleFooterButton.jsx";
 import MetaTags from "@/components/seo/MetaTags.jsx";
 import CanvasFullScreen from "@/components/util/CanvasFullScreen.jsx";
@@ -10,9 +10,13 @@ import { useResponsiveStyle } from "@/hooks/useResponsiveStyle";
 import WebGPUCanvas from '@/components/canvas/WebGPUCanvas.jsx';
 import SceneBackground from '@/components/canvas/SceneBackground.jsx';
 
-import * as THREE from "three";
+// import * as THREE from "three";
+import { MeshPhysicalNodeMaterial } from 'three/webgpu';
 import { OrbitControls } from '@react-three/drei';
-import { instanceIndex, positionLocal, storage, wgslFn, color, uniform } from 'three/tsl'
+import { useFrame } from "@react-three/fiber";
+
+// Импортируем только чистые TSL-узлы
+import {instanceIndex, positionLocal, color, float, vec3, mod, floor} from 'three/tsl';
 
 import background03 from "@/assets/CanvasFullScreen/cube3-14.webp";
 
@@ -23,13 +27,65 @@ export const Project3 = () => {
   const canvasContainerRef = useRef(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
 
-  // Куб с прозрачными гранями и свечением по контуру
-  const Sphere = () => {
+  // Компонент куба на чистом TSL
+  const TslGridCube = () => {
+    const gridSize = 10;
+    const count = gridSize * gridSize * gridSize;
+    const meshRef = useRef(null);
+
+    const materialNode = useMemo(() => {
+      // Используем класс материала
+      const mat = new MeshPhysicalNodeMaterial();
+
+      // --- ЧИСТЫЙ TSL: Математика для 3D сетки ---
+
+      // Переводим входные данные в float-узлы для точных расчетов
+      const sizeF = float(gridSize);
+      const indexF = float(instanceIndex);
+
+      // x = index % size
+      const x = mod(indexF, sizeF);
+
+      // y = floor(index / size) % size
+      const y = mod(floor(indexF.div(sizeF)), sizeF);
+
+      // z = floor(index / (size * size))
+      const z = floor(indexF.div(sizeF.mul(sizeF)));
+
+      // Смещение для центрирования куба: (size * 0.5) - 0.5
+      const centerOffset = sizeF.mul(0.5).sub(0.5);
+
+      // Расстояние между элементами
+      const spacing = float(0.15);
+
+      // Собираем итоговый вектор смещения для текущего инстанса
+      const instanceOffset = vec3(
+        x.sub(centerOffset),
+        y.sub(centerOffset),
+        z.sub(centerOffset)
+      ).mul(spacing);
+
+      // Применяем позицию и цвет
+      mat.positionNode = positionLocal.add(instanceOffset);
+      mat.colorNode = color('#ff6600');
+      mat.roughness = 0.2;
+      mat.metalness = 0.8;
+
+      return mat;
+    }, []);
+
+    useFrame((state) => {
+      if (meshRef.current) {
+        meshRef.current.rotation.x = state.clock.elapsedTime * 0.2;
+        meshRef.current.rotation.y = state.clock.elapsedTime * 0.3;
+      }
+    });
 
     return (
-      <group>
-
-      </group>
+      <instancedMesh ref={meshRef} args={[null, null, count]}>
+        <boxGeometry args={[0.08, 0.08, 0.08]} />
+        <primitive object={materialNode} attach="material" />
+      </instancedMesh>
     );
   };
 
@@ -96,13 +152,15 @@ export const Project3 = () => {
         <div ref={canvasContainerRef}>
 
           <WebGPUCanvas style={canvasStyle}>
-            <perspectiveCamera makeDefault position={[0, 0, 2.5]} />
+            <perspectiveCamera makeDefault position={[0, 0, 4.5]} />
             <ambientLight intensity={0.6} />
+            <directionalLight position={[5, 10, 5]} intensity={1.5} />
+
             <SceneBackground imagePath={background03} enabled={isFullscreen}/>
 
-            <Sphere />
+            <TslGridCube />
 
-            <OrbitControls enableDamping enablePan={false} enableZoom autoRotate autoRotateSpeed={5}/>
+            <OrbitControls enableDamping enablePan={false} enableZoom autoRotate autoRotateSpeed={2}/>
           </WebGPUCanvas>
 
         </div>
