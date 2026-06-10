@@ -97,7 +97,7 @@ export const Project3 = () => {
       mat.transparent = true;
 
       // transmission: от 0 (непрозрачное) до 1 (полностью пропускает свет как стекло)
-      mat.transmission = 0.2;
+      mat.transmission = 0.3;
 
       // opacity оставляем 1, так как прозрачностью теперь управляет transmission
       mat.opacity = 1.0;
