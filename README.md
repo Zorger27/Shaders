@@ -13,10 +13,11 @@
 🔹 Three.js 🌌 — 3D graphics and visualization in the browser.<br>
 🔹 React Three Fiber 🖼️ — React renderer for Three.js.<br>
 🔹 React Three Drei 📦 — essential helpers and abstractions for R3F.<br>
+🔹 Three.js Shading Language (TSL) 🧪 — node-based shader development for WebGL/WebGPU.<br>
 🔹 Redux Toolkit 🎯 — efficient and scalable state management.<br>
 🔹 React Router 🧭 — seamless navigation between apps.<br>
 🔹 React i18next 🌍 — multilingual support (EN, ES, UK).<br>
-🔹 JavaScript (ESNext) 💡 — dynamic, maintainable code.<br>
+🔸 JavaScript (ESNext) 💡 — dynamic, maintainable code.<br>
 🔸 SASS / SCSS 🎨 — modular and elegant styling.<br>
 🔸 Flexbox & CSS Grid 🧩 — responsive and flexible layouts.<br>
 🔸 Vite ⚡ — lightning-fast builds and dev server.<br>
