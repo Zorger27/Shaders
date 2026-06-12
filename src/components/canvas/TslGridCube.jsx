@@ -45,6 +45,8 @@ export const TslGridCube = ({ gridSize }) => {
     const b = z.div(sizeF);
     mat.colorNode = vec3(r, g, b);
 
+    // mat.colorNode = vec3(0.66, 0.36, 1.0);
+
     // Физические свойства материала
     mat.roughness = 0.1;
     mat.metalness = 0.9;
