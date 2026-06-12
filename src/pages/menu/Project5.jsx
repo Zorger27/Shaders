@@ -86,7 +86,7 @@ export const Project5 = () => {
 
           {/* Панель выбора количества этажей куба */}
           <div className="control-panel">
-            {[5, 10, 15, 20].map((size) => (
+            {[3, 5, 10, 15, 20].map((size) => (
               <button
                 key={size}
                 className={`control-btn ${gridSize === size ? 'control-btn--active' : ''}`}
