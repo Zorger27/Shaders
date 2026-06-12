@@ -16,14 +16,7 @@ import { OrbitControls } from '@react-three/drei';
 import { useFrame } from "@react-three/fiber";
 
 // Импортируем только необходимые математические узлы TSL
-import {
-  instanceIndex,
-  positionLocal,
-  float,
-  vec3,
-  mod,
-  floor
-} from 'three/tsl';
+import {instanceIndex, positionLocal, float, vec3, mod, floor} from 'three/tsl';
 
 import background05 from "@/assets/CanvasFullScreen/cube3-15.webp";
 
