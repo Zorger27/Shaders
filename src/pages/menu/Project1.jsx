@@ -1,4 +1,4 @@
-import React, { useRef, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import { useTranslation } from 'react-i18next';
 import '@/pages/menu/Project1.scss';
 import {Link} from "react-router-dom";
@@ -20,6 +20,12 @@ export const Project1 = () => {
 
   const canvasContainerRef = useRef(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
+
+  // Реф для контейнера меню (нужен для отслеживания кликов снаружи)
+  const controlsRef = useRef(null);
+
+  // Состояние для видимости меню
+  const [isControlsOpen, setIsControlsOpen] = useState(false);
 
   // Состояние слайдеров
   const [amplitude, setAmplitude] = useState(0.9);
@@ -49,6 +55,19 @@ export const Project1 = () => {
       marginLeft: '0rem',
     }
   });
+
+  // Логика закрытия меню при клике вне его области
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      // Если клик был НЕ по нашему меню и меню открыто - закрываем его
+      if (controlsRef.current && !controlsRef.current.contains(event.target)) {setIsControlsOpen(false);}
+    };
+
+    if (isControlsOpen) {document.addEventListener("mousedown", handleClickOutside);}
+
+    // Очистка слушателя при размонтировании или закрытии меню
+    return () => {document.removeEventListener("mousedown", handleClickOutside);};
+  }, [isControlsOpen]);
 
   return (
     <div className="project1">
@@ -90,42 +109,55 @@ export const Project1 = () => {
 
         <div ref={canvasContainerRef} className="canvas-wrapper">
 
-          {/* ПАНЕЛЬ УПРАВЛЕНИЯ ШЕЙДЕРОМ */}
-          <div className="shader-controls">
-            <div className="control-group">
-              <label>Амплитуда: {amplitude.toFixed(2)}</label>
-              <input type="range" min="0" max="2" step="0.01" value={amplitude} onChange={(e) => setAmplitude(parseFloat(e.target.value))} />
-            </div>
+          {/* БЛОК УПРАВЛЕНИЯ */}
+          <div className="controls-container" ref={controlsRef}>
+            {!isControlsOpen ? (
+              // Кнопка для открытия (показывается, когда меню скрыто)
+              <button className="open-controls-btn" onClick={() => setIsControlsOpen(true)} title="Настройки шейдера">
+                <i className="fa fa-sliders"></i>
+              </button>
+            ) : (
+              // Само меню (показывается, когда isControlsOpen === true)
+              <div className="shader-controls">
+                <button className="close-controls-btn" onClick={() => setIsControlsOpen(false)}>
+                  &times;
+                </button>
 
-            <div className="control-group">
-              <label>Частота: {frequency.toFixed(2)}</label>
-              <input type="range" min="0.1" max="5" step="0.1" value={frequency} onChange={(e) => setFrequency(parseFloat(e.target.value))} />
-            </div>
+                <div className="control-group">
+                  <label>Амплитуда: {amplitude.toFixed(2)}</label>
+                  <input type="range" min="0" max="2" step="0.01" value={amplitude} onChange={(e) => setAmplitude(parseFloat(e.target.value))} />
+                </div>
 
-            <div className="control-group">
-              <label>Скорость: {speed.toFixed(2)}</label>
-              <input type="range" min="0" max="4" step="0.1" value={speed} onChange={(e) => setSpeed(parseFloat(e.target.value))} />
-            </div>
+                <div className="control-group">
+                  <label>Частота: {frequency.toFixed(2)}</label>
+                  <input type="range" min="0.1" max="5" step="0.1" value={frequency} onChange={(e) => setFrequency(parseFloat(e.target.value))} />
+                </div>
 
-            <div className="control-group checkbox">
-              <label>
-                <input type="checkbox" checked={wireframe} onChange={(e) => setWireframe(e.target.checked)} />
-                Показать сетку вершин
-              </label>
-            </div>
+                <div className="control-group">
+                  <label>Скорость: {speed.toFixed(2)}</label>
+                  <input type="range" min="0" max="4" step="0.1" value={speed} onChange={(e) => setSpeed(parseFloat(e.target.value))} />
+                </div>
 
-            <div className="control-group checkbox">
-              <label>
-                <input type="checkbox" checked={autoRotate} onChange={(e) => setAutoRotate(e.target.checked)} />
-                Вращать сцену
-              </label>
-            </div>
+                <div className="control-group checkbox">
+                  <label>
+                    <input type="checkbox" checked={wireframe} onChange={(e) => setWireframe(e.target.checked)} />
+                    Показать сетку
+                  </label>
+                </div>
 
+                <div className="control-group checkbox">
+                  <label>
+                    <input type="checkbox" checked={autoRotate} onChange={(e) => setAutoRotate(e.target.checked)} />
+                    Вращать сцену
+                  </label>
+                </div>
+
+              </div>
+            )}
           </div>
 
           <WebGPUCanvas style={canvasStyle}>
             <perspectiveCamera makeDefault position={[8, 8, 8]} />
-
             <ambientLight intensity={0.4} />
             <spotLight position={[10, 15, 10]} angle={0.3} penumbra={1} intensity={100} castShadow />
             <pointLight position={[-10, -10, -10]} intensity={50} color="#0044ff" />
