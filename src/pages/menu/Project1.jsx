@@ -26,6 +26,7 @@ export const Project1 = () => {
   const [frequency, setFrequency] = useState(1.5);
   const [speed, setSpeed] = useState(1.2);
   const [wireframe, setWireframe] = useState(true);
+  const [autoRotate, setAutoRotate] = useState(false); // Состояние для вращения сцены
 
   // responsive inline-стили
   const canvasStyle = useResponsiveStyle({
@@ -112,6 +113,14 @@ export const Project1 = () => {
                 Показать сетку вершин
               </label>
             </div>
+
+            <div className="control-group checkbox">
+              <label>
+                <input type="checkbox" checked={autoRotate} onChange={(e) => setAutoRotate(e.target.checked)} />
+                Вращать сцену
+              </label>
+            </div>
+
           </div>
 
           <WebGPUCanvas style={canvasStyle}>
@@ -125,7 +134,7 @@ export const Project1 = () => {
 
             <VertexWave amplitude={amplitude} frequency={frequency} speed={speed} wireframe={wireframe}/>
 
-            <OrbitControls enableDamping enablePan={false} enableZoom autoRotate autoRotateSpeed={5}/>
+            <OrbitControls enableDamping enablePan={false} enableZoom autoRotate={autoRotate} autoRotateSpeed={1.5}/>
           </WebGPUCanvas>
 
         </div>
