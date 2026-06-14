@@ -41,7 +41,7 @@ export const VertexWave = ({
     const displacement = sin(dist.mul(uFrequency).sub(t)).mul(uAmplitude);
 
     // Применяем смещение по оси Z
-    mat.positionNode = positionLocal.add(vec3(0, 0, displacement));
+    mat.positionNode = positionLocal.add(vec3(0, 2, displacement));
 
     return mat;
   }, []);
