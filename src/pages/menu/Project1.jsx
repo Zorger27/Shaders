@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from "react";
+import React, { useRef, useState} from "react";
 import { useTranslation } from 'react-i18next';
 import '@/pages/menu/Project1.scss';
 import {Link} from "react-router-dom";
@@ -9,60 +9,23 @@ import CanvasFullScreen from "@/components/util/CanvasFullScreen.jsx";
 import { useResponsiveStyle } from "@/hooks/useResponsiveStyle";
 import WebGPUCanvas from '@/components/canvas/WebGPUCanvas.jsx';
 import SceneBackground from '@/components/canvas/SceneBackground.jsx';
-
-import * as THREE from "three";
 import { OrbitControls } from '@react-three/drei';
-import { instanceIndex, positionLocal, storage, wgslFn, color, uniform } from 'three/tsl'
-
+import { VertexWave } from "@/components/canvas/VertexWave.jsx"
 import background01 from "@/assets/CanvasFullScreen/cube3-20.webp";
 
 export const Project1 = () => {
   const { t } = useTranslation();
   const siteUrl = import.meta.env.VITE_SITE_URL;
   useSpaCleanup();
+
   const canvasContainerRef = useRef(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
 
-  // Функция для перевода градусов в радианы
-  const degreesToRadians = (degrees) => degrees * (Math.PI / 180);
-
-  // Куб с прозрачными гранями и свечением по контуру
-  const Box = () => {
-    const meshRef = useRef(null);
-
-    // Цвета для 6 сторон с прозрачностью - используем MeshBasicMaterial для ярких цветов
-    const materials = [
-      new THREE.MeshBasicMaterial({ color: 'red', transparent: true, opacity: 1 }),
-      new THREE.MeshBasicMaterial({ color: 'green', transparent: true, opacity: 1 }),
-      new THREE.MeshBasicMaterial({ color: 'blue', transparent: true, opacity: 1 }),
-      new THREE.MeshBasicMaterial({ color: 'gold', transparent: true, opacity: 1 }),
-      new THREE.MeshBasicMaterial({ color: 'purple', transparent: true, opacity: 1 }),
-      new THREE.MeshBasicMaterial({ color: 'cyan', transparent: true, opacity: 1 }),
-    ];
-
-    // Устанавливаем начальный наклон куба
-    useEffect(() => {
-      if (meshRef.current) {
-        const euler = new THREE.Euler(
-          degreesToRadians(90),   // 90 градусов по X
-          degreesToRadians(20),   // 20 градусов по Y
-          0                            // 0° поворот по Z
-        );
-
-        meshRef.current.setRotationFromEuler(euler);
-      }
-    }, []);
-
-    return (
-      <group ref={meshRef}>
-        <mesh geometry={new THREE.BoxGeometry(2.5, 2.5, 2.5)} material={materials} />
-        {/* Белые линии по рёбрам куба */}
-        <lineSegments geometry={new THREE.EdgesGeometry(new THREE.BoxGeometry(2.5,2.5,2.5))}>
-          <lineBasicMaterial color="white" transparent opacity={0.8} depthTest={false} />
-        </lineSegments>
-      </group>
-    );
-  };
+  // Состояние слайдеров
+  const [amplitude, setAmplitude] = useState(0.4);
+  const [frequency, setFrequency] = useState(1.5);
+  const [speed, setSpeed] = useState(1.2);
+  const [wireframe, setWireframe] = useState(true);
 
   // responsive inline-стили
   const canvasStyle = useResponsiveStyle({
@@ -124,15 +87,44 @@ export const Project1 = () => {
         </h1>
         <hr className="custom-line" />
 
-        <div ref={canvasContainerRef}>
+        <div ref={canvasContainerRef} className="canvas-wrapper">
+
+          {/* ПАНЕЛЬ УПРАВЛЕНИЯ ШЕЙДЕРОМ */}
+          <div className="shader-controls">
+            <div className="control-group">
+              <label>Амплитуда: {amplitude.toFixed(2)}</label>
+              <input type="range" min="0" max="2" step="0.01" value={amplitude} onChange={(e) => setAmplitude(parseFloat(e.target.value))} />
+            </div>
+
+            <div className="control-group">
+              <label>Частота: {frequency.toFixed(2)}</label>
+              <input type="range" min="0.1" max="5" step="0.1" value={frequency} onChange={(e) => setFrequency(parseFloat(e.target.value))} />
+            </div>
+
+            <div className="control-group">
+              <label>Скорость: {speed.toFixed(2)}</label>
+              <input type="range" min="0" max="4" step="0.1" value={speed} onChange={(e) => setSpeed(parseFloat(e.target.value))} />
+            </div>
+
+            <div className="control-group checkbox">
+              <label>
+                <input type="checkbox" checked={wireframe} onChange={(e) => setWireframe(e.target.checked)} />
+                Показать сетку вершин
+              </label>
+            </div>
+          </div>
 
           <WebGPUCanvas style={canvasStyle}>
-            <perspectiveCamera makeDefault position={[0, 0, 2.5]} />
-            <ambientLight intensity={0.6} />
+            <perspectiveCamera makeDefault position={[8, 8, 8]} />
+
+            <ambientLight intensity={0.4} />
+            <spotLight position={[10, 15, 10]} angle={0.3} penumbra={1} intensity={100} castShadow />
+            <pointLight position={[-10, -10, -10]} intensity={50} color="#0044ff" />
 
             <SceneBackground imagePath={background01} enabled={isFullscreen} />
 
-            <Box />
+            <VertexWave amplitude={amplitude} frequency={frequency} speed={speed} wireframe={wireframe}/>
+
             <OrbitControls enableDamping enablePan={false} enableZoom autoRotate autoRotateSpeed={5}/>
           </WebGPUCanvas>
 
