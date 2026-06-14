@@ -4,7 +4,7 @@ import { positionLocal, time, sin, uniform, vec3, color, length, vec2 } from 'th
 import * as THREE from 'three';
 
 export const VertexWave = ({
-                             amplitude = 0.5,
+                             amplitude = 0.9,
                              frequency = 1.0,
                              speed = 1.0,
                              wireframe = true
@@ -53,7 +53,7 @@ export const VertexWave = ({
   return (
     <mesh ref={meshRef} rotation={[-Math.PI / 2, 0, 0]}>
       {/* Оставляем плотную сетку для плавности кругов */}
-      <planeGeometry args={[10, 10, 128, 128]} />
+      <planeGeometry args={[8, 8, 128, 128]} />
       <primitive object={materialNode} attach="material" />
     </mesh>
   );

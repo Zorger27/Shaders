@@ -22,7 +22,7 @@ export const Project1 = () => {
   const [isFullscreen, setIsFullscreen] = useState(false);
 
   // Состояние слайдеров
-  const [amplitude, setAmplitude] = useState(0.4);
+  const [amplitude, setAmplitude] = useState(0.9);
   const [frequency, setFrequency] = useState(1.5);
   const [speed, setSpeed] = useState(1.2);
   const [wireframe, setWireframe] = useState(true);
