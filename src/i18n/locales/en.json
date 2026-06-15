@@ -33,7 +33,14 @@
   },
   "project1": {
     "name": "Vertex Playground",
-    "disc": "An interactive environment for working with geometry, allowing real-time vertex deformation and object structure design"
+    "disc": "An interactive environment for working with geometry, allowing real-time vertex deformation and object structure design",
+    "controls-btn-title": "Shader settings",
+    "close-title": "Close",
+    "amplitude": "Amplitude",
+    "frequency": "Frequency",
+    "speed": "Speed",
+    "wireframe": "Show wireframe",
+    "rotate": "Rotate the scene"
   },
   "project2": {
     "name": "Fragment Lab",

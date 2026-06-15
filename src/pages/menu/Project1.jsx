@@ -113,42 +113,42 @@ export const Project1 = () => {
           <div className="controls-container" ref={controlsRef}>
             {!isControlsOpen ? (
               // Кнопка для открытия (показывается, когда меню скрыто)
-              <button className="open-controls-btn" onClick={() => setIsControlsOpen(true)} title="Настройки шейдера">
+              <button className="open-controls-btn" onClick={() => setIsControlsOpen(true)} title={t ('project1.controls-btn-title')}>
                 <i className="fa fa-sliders"></i>
               </button>
             ) : (
               // Само меню (показывается, когда isControlsOpen === true)
               <div className="shader-controls">
-                <button className="close-controls-btn" onClick={() => setIsControlsOpen(false)}>
+                <button className="close-controls-btn" onClick={() => setIsControlsOpen(false)} title={t ('project1.close-title')}>
                   &times;
                 </button>
 
                 <div className="control-group">
-                  <label>Амплитуда: {amplitude.toFixed(2)}</label>
+                  <label>{t ('project1.amplitude')}: {amplitude.toFixed(2)}</label>
                   <input type="range" min="0" max="2" step="0.01" value={amplitude} onChange={(e) => setAmplitude(parseFloat(e.target.value))} />
                 </div>
 
                 <div className="control-group">
-                  <label>Частота: {frequency.toFixed(2)}</label>
+                  <label>{t ('project1.frequency')}: {frequency.toFixed(2)}</label>
                   <input type="range" min="0.1" max="5" step="0.1" value={frequency} onChange={(e) => setFrequency(parseFloat(e.target.value))} />
                 </div>
 
                 <div className="control-group">
-                  <label>Скорость: {speed.toFixed(2)}</label>
+                  <label>{t ('project1.speed')}: {speed.toFixed(2)}</label>
                   <input type="range" min="0" max="4" step="0.1" value={speed} onChange={(e) => setSpeed(parseFloat(e.target.value))} />
                 </div>
 
                 <div className="control-group checkbox">
                   <label>
                     <input type="checkbox" checked={wireframe} onChange={(e) => setWireframe(e.target.checked)} />
-                    Показать сетку
+                    {t ('project1.wireframe')}
                   </label>
                 </div>
 
                 <div className="control-group checkbox">
                   <label>
                     <input type="checkbox" checked={autoRotate} onChange={(e) => setAutoRotate(e.target.checked)} />
-                    Вращать сцену
+                    {t ('project1.rotate')}
                   </label>
                 </div>
 

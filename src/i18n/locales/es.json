@@ -33,7 +33,14 @@
   },
   "project1": {
     "name": "Vertex Playground",
-    "disc": "Un entorno interactivo para trabajar con geometría, que permite deformar vértices y diseñar estructuras de objetos en tiempo real"
+    "disc": "Un entorno interactivo para trabajar con geometría, que permite deformar vértices y diseñar estructuras de objetos en tiempo real",
+    "controls-btn-title": "Configuración de sombreado",
+    "close-title": "Cerrar",
+    "amplitude": "Amplitud",
+    "frequency": "Frecuencia",
+    "speed": "Velocidad",
+    "wireframe": "Estructura alámbrica",
+    "rotate": "Gira la escena"
   },
   "project2": {
     "name": "Fragment Lab",
