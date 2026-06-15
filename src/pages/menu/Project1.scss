@@ -28,7 +28,7 @@
 
         .open-controls-btn {
           background: rgba(0, 0, 0, 0.7);
-          border: 1px solid rgba(255, 255, 255, 0.2);
+          border: 1px solid transparent;
           color: #00f2ff;
           font-size: 1.5rem;
           width: 50px;
@@ -39,26 +39,26 @@
           align-items: center;
           justify-content: center;
           transition: all 0.3s ease;
-          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.9);
 
           &:hover {
             color: rgba(0, 0, 0, 0.7);
-            background: rgba(0, 242, 255, 0.2);
-            border-color: #00f2ff;
-            transform: scale(1.05);
+            background: rgba(0, 242, 255, 0.6);
+            border-color: rgb(0 0 0);
+            box-shadow: none;
           }
         }
 
         .shader-controls {
           background: rgba(0, 0, 0, 0.7);
           padding: 25px 20px 20px; // Сверху чуть больше отступ из-за крестика
-          border-radius: 15px;
+          border-radius: 10px;
           border: 1px solid rgba(255, 255, 255, 0.1);
           display: flex;
           flex-direction: column;
           gap: 15px;
           width: 240px;
-          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.9);
           animation: fadeIn 0.3s ease-out;
           position: relative;
 
@@ -68,7 +68,8 @@
             right: 10px;
             background: none;
             border: none;
-            color: rgba(255, 255, 255, 0.6);
+            //color: rgba(255, 255, 255, 0.6);
+            color: white;
             font-size: 1.5rem;
             cursor: pointer;
             transition: color 0.2s ease;
@@ -143,6 +144,66 @@
         font-size: 2.3rem;
         margin: 0.6rem auto;
       }
+
+      .canvas-wrapper {
+        border-radius: 9px;
+
+        .controls-container {
+          top: 20px;
+          right: 20px;
+
+          .open-controls-btn {
+            font-size: 1.5rem;
+            width: 50px;
+            height: 50px;
+          }
+
+          .shader-controls {
+            padding: 25px 15px 15px;
+            border-radius: 9px;
+            gap: 13px;
+            width: 200px;
+
+            .close-controls-btn {
+              top: 5px;
+              right: 8px;
+              font-size: 1.3rem;
+            }
+
+            .control-group {
+              gap: 8px;
+
+              label {
+                font-size: 0.8rem;
+                letter-spacing: 1px;
+              }
+
+              &.checkbox {
+                label {gap: 10px;}
+
+                input {
+                  width: 16px;
+                  height: 16px;
+                }
+              }
+            }
+          }
+        }
+
+        // Анимация плавного появления меню
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+            transform: translateY(-10px) scale(0.95);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+          }
+        }
+
+      }
+
     }
   }
 }
@@ -154,6 +215,66 @@
         font-size: 2rem;
         margin: 0.5rem auto;
       }
+
+      .canvas-wrapper {
+        border-radius: 6px;
+
+        .controls-container {
+          top: 5px;
+          right: 10px;
+
+          .open-controls-btn {
+            font-size: 1.5rem;
+            width: 50px;
+            height: 50px;
+          }
+
+          .shader-controls {
+            padding: 20px 10px 10px;
+            border-radius: 9px;
+            gap: 13px;
+            width: 165px;
+
+            .close-controls-btn {
+              top: 1px;
+              right: 8px;
+              font-size: 1.3rem;
+            }
+
+            .control-group {
+              gap: 7px;
+
+              label {
+                font-size: 0.7rem;
+                //letter-spacing: 1px;
+              }
+
+              &.checkbox {
+                label {gap: 10px;}
+
+                input {
+                  width: 14px;
+                  height: 14px;
+                }
+              }
+            }
+          }
+        }
+
+        // Анимация плавного появления меню
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+            transform: translateY(-10px) scale(0.95);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+          }
+        }
+
+      }
+
     }
   }
 }
