@@ -12,7 +12,6 @@ import SceneBackground from '@/components/canvas/SceneBackground.jsx';
 
 import * as THREE from "three";
 import { OrbitControls } from '@react-three/drei';
-import { instanceIndex, positionLocal, storage, wgslFn, color, uniform } from 'three/tsl'
 
 import background02 from "@/assets/CanvasFullScreen/cube3-25.webp";
 
