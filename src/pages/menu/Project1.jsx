@@ -158,7 +158,7 @@ export const Project1 = () => {
 
           <WebGPUCanvas style={canvasStyle}>
             <perspectiveCamera makeDefault position={[8, 8, 8]} />
-            <ambientLight intensity={0.4} />
+            <ambientLight intensity={0.5} />
             <spotLight position={[3, 3, 1.5]} angle={0.7} penumbra={1} intensity={100} castShadow />
             <pointLight position={[-10, -10, -10]} intensity={50} color="#0044ff" />
 
