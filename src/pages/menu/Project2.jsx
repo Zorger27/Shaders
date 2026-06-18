@@ -9,7 +9,6 @@ import CanvasFullScreen from "@/components/util/CanvasFullScreen.jsx";
 import { useResponsiveStyle } from "@/hooks/useResponsiveStyle";
 import WebGPUCanvas from '@/components/canvas/WebGPUCanvas.jsx';
 import SceneBackground from '@/components/canvas/SceneBackground.jsx';
-import { OrbitControls } from '@react-three/drei';
 import { FragmentCore } from "@/components/canvas/FragmentCore.jsx"
 import background02 from "@/assets/CanvasFullScreen/cube3-25.webp";
 
@@ -136,7 +135,7 @@ export const Project2 = () => {
           </div>
 
           <WebGPUCanvas style={canvasStyle}>
-            {/* Ортографическая камера или статичная перспектива. Мы смотрим прямо на плоскость */}
+            {/* Статичная перспектива. Мы смотрим прямо на плоскость */}
             <perspectiveCamera makeDefault position={[0, 0, 8]} />
 
             <SceneBackground imagePath={background02} enabled={isFullscreen} />

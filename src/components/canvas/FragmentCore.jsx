@@ -1,6 +1,7 @@
 import React, { useRef, useMemo, useEffect } from "react";
 import { MeshBasicNodeMaterial } from 'three/webgpu';
-import { Fn, uv, time, uniform, vec2, vec3, color, mix, cos, sin, length, add, mul } from 'three/tsl';
+import { Fn, uv, time, uniform, vec2, vec3, cos, sin } from 'three/tsl';
+import { useThree } from '@react-three/fiber';
 import * as THREE from 'three';
 
 export const FragmentCore = ({
@@ -10,14 +11,24 @@ export const FragmentCore = ({
                              }) => {
   const meshRef = useRef(null);
 
+  // Достаем размеры видимого экрана в 3D-юнитах
+  const { viewport } = useThree();
+
   // Uniforms для мгновенной передачи параметров с UI
   const uViscosity = useMemo(() => uniform(viscosity), []);
   const uTurbulence = useMemo(() => uniform(turbulence), []);
   const uSpeed = useMemo(() => uniform(speed), []);
 
+  // Создаем uniform для сохранения правильных пропорций (чтобы круги не стали овалами)
+  const aspect = viewport.width / viewport.height;
+  const uAspect = useMemo(() => uniform(aspect), []);
+
   useEffect(() => { uViscosity.value = viscosity; }, [viscosity]);
   useEffect(() => { uTurbulence.value = turbulence; }, [turbulence]);
   useEffect(() => { uSpeed.value = speed; }, [speed]);
+
+  // Мгновенно обновляем пропорции при изменении размера окна
+  useEffect(() => { uAspect.value = aspect; }, [aspect]);
 
   const materialNode = useMemo(() => {
     const mat = new MeshBasicNodeMaterial();
@@ -25,12 +36,9 @@ export const FragmentCore = ({
 
     // --- ФРАГМЕНТНЫЙ ШЕЙДЕР (TSL) ---
 
-    // 1. Центрируем UV-координаты (от -0.5 до 0.5)
+    // 1. Центрируем UV-координаты (от -0.5 до 0.5) и корректируем UV-координаты с учетом пропорций экрана (умножаем ось X на uAspect)
     // Это нужно, чтобы эффект расходился из центра экрана
-    const centeredUv = uv().sub(vec2(0.5));
-
-    // Вычисляем расстояние от центра (для виньетки/затухания по краям)
-    const distToCenter = length(centeredUv);
+    const centeredUv = uv().sub(vec2(0.5)).mul(vec2(uAspect, 1.0));
 
     // Умножаем UV на параметр вязкости (масштаб)
     const p = centeredUv.mul(uViscosity).mul(5.0);
@@ -65,39 +73,27 @@ export const FragmentCore = ({
 
     // Шаг В: Финальное значение шума
     const finalNoise = fluidNoise(p.add(q2).add(t));
+    const noiseNorm = finalNoise.add(1.0).mul(0.5);
 
     // 4. Генерация цвета (Косинусные палитры Иньиго Килеса)
-    // Формула: color(t) = a + b * cos( 2*PI * (c*t + d) )
+    // Одна красивая палитра
     const colorA = vec3(0.5, 0.5, 0.5);
     const colorB = vec3(0.5, 0.5, 0.5);
     const colorC = vec3(1.0, 1.0, 1.0);
-    // Настройки для яркой кибер-плазмы (бирюзовый -> синий -> фиолетовый)
     const colorD = vec3(0.0, 0.33, 0.67);
 
-    // Нормализуем шум от 0 до 1 для палитры
-    const noiseNorm = finalNoise.add(1.0).mul(0.5);
-
-    // Собираем цвет
+    // Вычисляем цвет и отдаем чистый цвет плазмы на весь экран!
     const palettePhase = colorC.mul(noiseNorm).add(colorD).mul(Math.PI * 2.0);
-    const plasmaColor = colorA.add( colorB.mul(cos(palettePhase)) );
-
-    // 5. Пост-обработка (Затемнение к краям)
-    // Отсекаем края, чтобы ядро светилось в центре и уходило в темноту
-    const vignette = vec3(1.0).sub(distToCenter.mul(1.8));
-    const finalColor = plasmaColor.mul(vignette);
-
-    // Назначаем цвет в материал
-    mat.colorNode = finalColor;
+    mat.colorNode = colorA.add( colorB.mul(cos(palettePhase)) );
 
     return mat;
-  }, []);
+  }, []); // Пустой массив зависимостей, шейдер компилируется только один раз!
 
   return (
     // Используем плоскую геометрию на весь экран.
-    // Фрагментному шейдеру не нужна плотная сетка (как в VertexLab),
-    // ему достаточно всего 2-х треугольников (1x1 сегмент).
     <mesh ref={meshRef}>
-      <planeGeometry args={[15, 15, 1, 1]} />
+      {/* Плоскость всегда принимает точный размер видимого окна */}
+      <planeGeometry args={[viewport.width, viewport.height, 1, 1]} />
       <primitive object={materialNode} attach="material" />
     </mesh>
   );
