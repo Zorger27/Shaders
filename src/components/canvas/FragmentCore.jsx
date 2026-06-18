@@ -51,7 +51,7 @@ export const FragmentCore = ({
     // Считаем дистанцию до курсора
     const mouseDist = length(centeredUv.sub(uMouse));
     // Плавная зона влияния (радиус 0.4)
-    const mouseEffect = smoothstep(0.4, 0.0, mouseDist).mul(0.5); // Сила влияния мыши
+    const mouseEffect = smoothstep(0.4, 0.0, mouseDist).mul(0.9); // Сила влияния мыши
 
     // Умножаем UV на параметр вязкости (масштаб)
     const p = centeredUv.mul(uViscosity).mul(5.0);
