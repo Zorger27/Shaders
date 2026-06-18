@@ -11,6 +11,7 @@ import WebGPUCanvas from '@/components/canvas/WebGPUCanvas.jsx';
 import SceneBackground from '@/components/canvas/SceneBackground.jsx';
 import { FragmentCore } from "@/components/canvas/FragmentCore.jsx"
 import background02 from "@/assets/CanvasFullScreen/cube3-25.webp";
+import * as THREE from "three";
 
 export const Project2 = () => {
   const { t } = useTranslation();
@@ -19,6 +20,8 @@ export const Project2 = () => {
 
   const canvasContainerRef = useRef(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
+
+  const [mouse, setMouse] = useState(new THREE.Vector2(0, 0));
 
   // Реф для контейнера меню (нужен для отслеживания кликов снаружи)
   const controlsRef = useRef(null);
@@ -52,6 +55,14 @@ export const Project2 = () => {
       marginLeft: '0rem',
     }
   });
+
+  // Хук для отслеживания мыши
+  const handlePointerMove = (e) => {
+    // Нормализуем координаты мыши от -0.5 до 0.5
+    const x = (e.clientX / window.innerWidth) - 0.5;
+    const y = -(e.clientY / window.innerHeight) + 0.5;
+    setMouse(new THREE.Vector2(x, y));
+  };
 
   // Логика закрытия меню при клике вне его области
   useEffect(() => {
@@ -117,7 +128,7 @@ export const Project2 = () => {
                 <button className="close-controls-btn" onClick={() => setIsControlsOpen(false)}>&times;</button>
 
                 <div className="control-group">
-                  <label>Вязкость материи: {viscosity.toFixed(2)}</label>
+                  <label>Вязкость: {viscosity.toFixed(2)}</label>
                   <input type="range" min="0.2" max="3" step="0.01" value={viscosity} onChange={(e) => setViscosity(parseFloat(e.target.value))} />
                 </div>
 
@@ -127,20 +138,20 @@ export const Project2 = () => {
                 </div>
 
                 <div className="control-group">
-                  <label>Температура ядра (Скорость): {speed.toFixed(2)}</label>
+                  <label>Температура: {speed.toFixed(2)}</label>
                   <input type="range" min="0" max="3" step="0.1" value={speed} onChange={(e) => setSpeed(parseFloat(e.target.value))} />
                 </div>
               </div>
             )}
           </div>
 
-          <WebGPUCanvas style={canvasStyle}>
+          <WebGPUCanvas onPointerMove={handlePointerMove} style={canvasStyle}>
             {/* Статичная перспектива. Мы смотрим прямо на плоскость */}
             <perspectiveCamera makeDefault position={[0, 0, 8]} />
 
             <SceneBackground imagePath={background02} enabled={isFullscreen} />
 
-            <FragmentCore viscosity={viscosity} turbulence={turbulence} speed={speed}/>
+            <FragmentCore viscosity={viscosity} turbulence={turbulence} speed={speed} mouse={mouse}/>
           </WebGPUCanvas>
 
         </div>

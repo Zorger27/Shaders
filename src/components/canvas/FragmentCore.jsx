@@ -1,13 +1,14 @@
 import React, { useRef, useMemo, useEffect } from "react";
 import { MeshBasicNodeMaterial } from 'three/webgpu';
-import { Fn, uv, time, uniform, vec2, vec3, cos, sin } from 'three/tsl';
+import { Fn, uv, time, uniform, vec2, vec3, cos, sin, length, smoothstep } from 'three/tsl';
 import { useThree } from '@react-three/fiber';
 import * as THREE from 'three';
 
 export const FragmentCore = ({
                                viscosity = 1.0,
                                turbulence = 1.5,
-                               speed = 1.0
+                               speed = 1.0,
+                               mouse
                              }) => {
   const meshRef = useRef(null);
 
@@ -19,6 +20,9 @@ export const FragmentCore = ({
   const uTurbulence = useMemo(() => uniform(turbulence), []);
   const uSpeed = useMemo(() => uniform(speed), []);
 
+  // Создаем uniform для мыши
+  const uMouse = useMemo(() => uniform(new THREE.Vector2(0, 0)), []);
+
   // Создаем uniform для сохранения правильных пропорций (чтобы круги не стали овалами)
   const aspect = viewport.width / viewport.height;
   const uAspect = useMemo(() => uniform(aspect), []);
@@ -26,6 +30,9 @@ export const FragmentCore = ({
   useEffect(() => { uViscosity.value = viscosity; }, [viscosity]);
   useEffect(() => { uTurbulence.value = turbulence; }, [turbulence]);
   useEffect(() => { uSpeed.value = speed; }, [speed]);
+
+  // Обновляем uniform при изменении пропса mouse
+  useEffect(() => {uMouse.value.copy(mouse);}, [mouse]);
 
   // Мгновенно обновляем пропорции при изменении размера окна
   useEffect(() => { uAspect.value = aspect; }, [aspect]);
@@ -39,6 +46,12 @@ export const FragmentCore = ({
     // 1. Центрируем UV-координаты (от -0.5 до 0.5) и корректируем UV-координаты с учетом пропорций экрана (умножаем ось X на uAspect)
     // Это нужно, чтобы эффект расходился из центра экрана
     const centeredUv = uv().sub(vec2(0.5)).mul(vec2(uAspect, 1.0));
+
+    // РЕАКЦИЯ НА МЫШЬ:
+    // Считаем дистанцию до курсора
+    const mouseDist = length(centeredUv.sub(uMouse));
+    // Плавная зона влияния (радиус 0.4)
+    const mouseEffect = smoothstep(0.4, 0.0, mouseDist).mul(0.5); // Сила влияния мыши
 
     // Умножаем UV на параметр вязкости (масштаб)
     const p = centeredUv.mul(uViscosity).mul(5.0);
@@ -59,8 +72,8 @@ export const FragmentCore = ({
     // 3. Domain Warping (Искажение пространства)
     // Шаг А: Первое искажение
     const q1 = vec2(
-      fluidNoise(p),
-      fluidNoise(p.add(vec2(5.2, 1.3)))
+      fluidNoise(p).add(mouseEffect), // <--- МЫШЬ ДВИГАЕТ ШУМ
+      fluidNoise(p.add(vec2(5.2, 1.3))).add(mouseEffect) // <-- Магия здесь: мы сдвигаем пространство в сторону мыши
     );
 
     // Шаг Б: Второе искажение (искажаем уже искаженные координаты!)
