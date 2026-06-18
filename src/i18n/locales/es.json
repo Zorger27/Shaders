@@ -44,7 +44,10 @@
   },
   "project2": {
     "name": "Fragment Lab",
-    "disc": "Un entorno experimental para trabajar con píxeles, colores, ruido, texturas y efectos de postprocesado"
+    "disc": "Un entorno experimental para trabajar con píxeles, colores, ruido, texturas y efectos de postprocesado",
+    "viscosity": "Viscosidad",
+    "turbulence": "Turbulencia",
+    "speed": "Velocidad"
   },
   "project3": {
     "name": "Uniform Control",

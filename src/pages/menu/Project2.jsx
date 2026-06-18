@@ -128,17 +128,17 @@ export const Project2 = () => {
                 <button className="close-controls-btn" onClick={() => setIsControlsOpen(false)}>&times;</button>
 
                 <div className="control-group">
-                  <label>Вязкость: {viscosity.toFixed(2)}</label>
+                  <label>{t ('project2.viscosity')}: {viscosity.toFixed(2)}</label>
                   <input type="range" min="0.2" max="3" step="0.01" value={viscosity} onChange={(e) => setViscosity(parseFloat(e.target.value))} />
                 </div>
 
                 <div className="control-group">
-                  <label>Турбулентность: {turbulence.toFixed(2)}</label>
+                  <label>{t ('project2.turbulence')}: {turbulence.toFixed(2)}</label>
                   <input type="range" min="0" max="5" step="0.1" value={turbulence} onChange={(e) => setTurbulence(parseFloat(e.target.value))} />
                 </div>
 
                 <div className="control-group">
-                  <label>Температура: {speed.toFixed(2)}</label>
+                  <label>{t ('project2.speed')}: {speed.toFixed(2)}</label>
                   <input type="range" min="0" max="3" step="0.1" value={speed} onChange={(e) => setSpeed(parseFloat(e.target.value))} />
                 </div>
               </div>
