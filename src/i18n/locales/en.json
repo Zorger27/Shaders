@@ -47,7 +47,11 @@
     "disc": "An experimental environment for working with pixels, colors, noise, textures, and post-processing effects",
     "viscosity": "Viscosity",
     "turbulence": "Turbulence",
-    "speed": "Speed"
+    "speed": "Speed",
+    "palette": "State of Matter",
+    "corona": "Solar Corona",
+    "cyber": "Cyber Fluid",
+    "dark": "Dark Matter"
   },
   "project3": {
     "name": "Uniform Control",

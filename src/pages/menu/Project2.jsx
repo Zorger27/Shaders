@@ -13,11 +13,11 @@ import { FragmentCore } from "@/components/canvas/FragmentCore.jsx"
 import background02 from "@/assets/CanvasFullScreen/cube3-25.webp";
 import * as THREE from "three";
 
-// НАШИ МАТЕМАТИЧЕСКИЕ ПАЛИТРЫ (Иньиго Килес)
+// МАТЕМАТИЧЕСКИЕ ПАЛИТРЫ (Иньиго Килес)
 const PALETTES = {
   corona: {
     id: 'corona',
-    name: 'Солнечная корона',
+    nameKey: 'project2.corona',
     a: new THREE.Vector3(0.5, 0.5, 0.5),
     b: new THREE.Vector3(0.5, 0.5, 0.5),
     c: new THREE.Vector3(1.0, 1.0, 1.0),
@@ -25,7 +25,7 @@ const PALETTES = {
   },
   cyber: {
     id: 'cyber',
-    name: 'Кибер-жидкость',
+    nameKey: 'project2.cyber',
     a: new THREE.Vector3(0.5, 0.5, 0.5),
     b: new THREE.Vector3(0.5, 0.5, 0.5),
     c: new THREE.Vector3(1.0, 1.0, 1.0),
@@ -33,7 +33,7 @@ const PALETTES = {
   },
   dark: {
     id: 'dark',
-    name: 'Темная материя',
+    nameKey: 'project2.dark',
     a: new THREE.Vector3(0.1, 0.1, 0.1), // Очень темная база
     b: new THREE.Vector3(0.2, 0.2, 0.2), // Низкий контраст
     c: new THREE.Vector3(2.0, 1.0, 1.0), // Резкие переходы
@@ -148,7 +148,7 @@ export const Project2 = () => {
 
                 {/* БЛОК: Выбор состояния материи */}
                 <div className="control-group palette-selector">
-                  <label>Состояние материи:</label>
+                  <label>{t ('project2.palette')}:</label>
                   <div className="palette-buttons">
                     {Object.values(PALETTES).map((pal) => (
                       <button
@@ -157,7 +157,7 @@ export const Project2 = () => {
                         // Если палитра активна, добавляем класс 'active'
                         className={currentPalette.id === pal.id ? 'active' : ''}
                       >
-                        {pal.name}
+                        {t(pal.nameKey)} {/* <-- ПЕРЕВОД ПРОИСХОДИТ ЗДЕСЬ */}
                       </button>
                     ))}
                   </div>
