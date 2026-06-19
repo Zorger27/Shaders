@@ -53,7 +53,7 @@
           background: rgba(0, 0, 0, 0.7);
           padding: 25px 20px 20px; // Сверху чуть больше отступ из-за крестика
           border-radius: 10px;
-          border: 1px solid rgba(255, 255, 255, 0.1);
+          border: 1px solid white;
           display: flex;
           flex-direction: column;
           gap: 15px;
@@ -62,13 +62,17 @@
           animation: fadeIn 0.3s ease-out;
           position: relative;
 
+          .control-group-line {
+            margin: 5px 0;
+            border-color: rgba(68, 68, 68, 1.0);
+          }
+
           .close-controls-btn {
             position: absolute;
             top: 5px;
             right: 10px;
             background: none;
             border: none;
-            //color: rgba(255, 255, 255, 0.6);
             color: white;
             font-size: 1.5rem;
             cursor: pointer;
@@ -86,7 +90,6 @@
 
             label {
               text-shadow: 0 1px 2px darkred;
-              //color: #00f2ff;
               color: white;
               font-size: 0.85rem;
               font-family: 'Montserrat', sans-serif;
@@ -99,12 +102,51 @@
               accent-color: #00f2ff;
             }
 
+            // --- СТИЛИ ДЛЯ ВЫБОРА ПАЛИТРЫ ---
+            &.palette-selector {
+              label {
+                font-weight: bold;
+                margin-top: 1rem;
+                margin-bottom: 0.2rem;
+              }
+
+              .palette-buttons {
+                display: flex;
+                flex-direction: column;
+                gap: 0.5rem;
+
+                button {
+                  padding: 8px 10px;
+                  background-color: #333;
+                  color: #fff;
+                  border: 1px solid white;
+                  border-radius: 4px;
+                  cursor: pointer;
+                  text-align: left;
+                  font-family: 'Montserrat', sans-serif;
+                  font-size: 0.8rem;
+                  transition: all 0.2s ease;
+
+                  &:hover {
+                    background-color: #444;
+                    //border-color: rgba(255, 255, 255, 0.2);
+                    border-color: darkgoldenrod;
+                  }
+
+                  &.active {
+                    background-color: #4a90e2;
+                    border-color: #4a90e2;
+                    box-shadow: 0 0 8px rgba(74, 144, 226, 0.4);
+                  }
+                }
+              }
+            }
+
             &.checkbox {
               flex-direction: row;
               align-items: center;
 
               label {
-                //text-shadow: 0 2px 2px darkred;
                 display: flex;
                 align-items: center;
                 gap: 10px;
@@ -168,6 +210,8 @@
             gap: 13px;
             width: 200px;
 
+            .control-group-line {margin: 4px 0;}
+
             .close-controls-btn {
               top: 5px;
               right: 8px;
@@ -180,6 +224,24 @@
               label {
                 font-size: 0.8rem;
                 letter-spacing: 1px;
+              }
+
+              // --- СТИЛИ ДЛЯ ВЫБОРА ПАЛИТРЫ ---
+              &.palette-selector {
+                label {
+                  margin-top: 0.7rem;
+                  margin-bottom: 0.2rem;
+                }
+
+                .palette-buttons {
+                  gap: 0.5rem;
+
+                  button {
+                    padding: 8px 10px;
+                    border-radius: 4px;
+                    font-size: 0.8rem;
+                  }
+                }
               }
 
               &.checkbox {
@@ -239,6 +301,8 @@
             gap: 13px;
             width: 165px;
 
+            .control-group-line {margin: 3px 0;}
+
             .close-controls-btn {
               top: 1px;
               right: 8px;
@@ -247,10 +311,24 @@
 
             .control-group {
               gap: 7px;
+              label {font-size: 0.6rem;}
 
-              label {
-                font-size: 0.6rem;
-                //letter-spacing: 1px;
+              // --- СТИЛИ ДЛЯ ВЫБОРА ПАЛИТРЫ ---
+              &.palette-selector {
+                label {
+                  margin-top: 0.5rem;
+                  margin-bottom: 0.2rem;
+                }
+
+                .palette-buttons {
+                  gap: 0.4rem;
+
+                  button {
+                    padding: 7px 9px;
+                    border-radius: 4px;
+                    font-size: 0.8rem;
+                  }
+                }
               }
 
               &.checkbox {

@@ -1,14 +1,14 @@
 import React, { useRef, useMemo, useEffect } from "react";
 import { MeshBasicNodeMaterial } from 'three/webgpu';
 import { Fn, uv, time, uniform, vec2, vec3, cos, sin, length, smoothstep } from 'three/tsl';
-import { useThree } from '@react-three/fiber';
+import { useThree, useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 
 export const FragmentCore = ({
                                viscosity = 1.0,
                                turbulence = 1.5,
                                speed = 1.0,
-                               mouse
+                               palette
                              }) => {
   const meshRef = useRef(null);
 
@@ -20,22 +20,43 @@ export const FragmentCore = ({
   const uTurbulence = useMemo(() => uniform(turbulence), []);
   const uSpeed = useMemo(() => uniform(speed), []);
 
-  // Создаем uniform для мыши
+  // Uniform для мыши (живет только здесь)
   const uMouse = useMemo(() => uniform(new THREE.Vector2(0, 0)), []);
+
+  // Uniforms для Палитры (A, B, C, D)
+  const uColorA = useMemo(() => uniform(new THREE.Vector3()), []);
+  const uColorB = useMemo(() => uniform(new THREE.Vector3()), []);
+  const uColorC = useMemo(() => uniform(new THREE.Vector3()), []);
+  const uColorD = useMemo(() => uniform(new THREE.Vector3()), []);
 
   // Создаем uniform для сохранения правильных пропорций (чтобы круги не стали овалами)
   const aspect = viewport.width / viewport.height;
   const uAspect = useMemo(() => uniform(aspect), []);
 
+  // Обновляем параметры
   useEffect(() => { uViscosity.value = viscosity; }, [viscosity]);
   useEffect(() => { uTurbulence.value = turbulence; }, [turbulence]);
   useEffect(() => { uSpeed.value = speed; }, [speed]);
 
-  // Обновляем uniform при изменении пропса mouse
-  useEffect(() => {uMouse.value.copy(mouse);}, [mouse]);
-
   // Мгновенно обновляем пропорции при изменении размера окна
   useEffect(() => { uAspect.value = aspect; }, [aspect]);
+
+  // Обновляем цвета при переключении палитры
+  useEffect(() => {
+    if (palette) {
+      uColorA.value.copy(palette.a);
+      uColorB.value.copy(palette.b);
+      uColorC.value.copy(palette.c);
+      uColorD.value.copy(palette.d);
+    }
+  }, [palette]);
+
+  // МАГИЯ R3F: Берем координаты мыши напрямую из движка каждый кадр!
+  useFrame((state) => {
+    // state.pointer дает значения от -1 до 1.
+    // Наш шейдер работает в координатах от -0.5 до 0.5, поэтому делим на 2
+    uMouse.value.set(state.pointer.x * 0.5, state.pointer.y * 0.5);
+  });
 
   const materialNode = useMemo(() => {
     const mat = new MeshBasicNodeMaterial();
@@ -89,15 +110,9 @@ export const FragmentCore = ({
     const noiseNorm = finalNoise.add(1.0).mul(0.5);
 
     // 4. Генерация цвета (Косинусные палитры Иньиго Килеса)
-    // Одна красивая палитра
-    const colorA = vec3(0.5, 0.5, 0.5);
-    const colorB = vec3(0.5, 0.5, 0.5);
-    const colorC = vec3(1.0, 1.0, 1.0);
-    const colorD = vec3(0.0, 0.33, 0.67);
-
-    // Вычисляем цвет и отдаем чистый цвет плазмы на весь экран!
-    const palettePhase = colorC.mul(noiseNorm).add(colorD).mul(Math.PI * 2.0);
-    mat.colorNode = colorA.add( colorB.mul(cos(palettePhase)) );
+    // ИСПОЛЬЗУЕМ UNIFORMS ЦВЕТОВ. Вычисляем цвет и отдаем чистый цвет плазмы на весь экран!
+    const palettePhase = uColorC.mul(noiseNorm).add(uColorD).mul(Math.PI * 2.0);
+    mat.colorNode = uColorA.add( uColorB.mul(cos(palettePhase)) );
 
     return mat;
   }, []); // Пустой массив зависимостей, шейдер компилируется только один раз!

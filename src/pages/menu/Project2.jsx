@@ -13,6 +13,34 @@ import { FragmentCore } from "@/components/canvas/FragmentCore.jsx"
 import background02 from "@/assets/CanvasFullScreen/cube3-25.webp";
 import * as THREE from "three";
 
+// НАШИ МАТЕМАТИЧЕСКИЕ ПАЛИТРЫ (Иньиго Килес)
+const PALETTES = {
+  corona: {
+    id: 'corona',
+    name: 'Солнечная корона',
+    a: new THREE.Vector3(0.5, 0.5, 0.5),
+    b: new THREE.Vector3(0.5, 0.5, 0.5),
+    c: new THREE.Vector3(1.0, 1.0, 1.0),
+    d: new THREE.Vector3(0.0, 0.33, 0.67), // Янтарно-синий
+  },
+  cyber: {
+    id: 'cyber',
+    name: 'Кибер-жидкость',
+    a: new THREE.Vector3(0.5, 0.5, 0.5),
+    b: new THREE.Vector3(0.5, 0.5, 0.5),
+    c: new THREE.Vector3(1.0, 1.0, 1.0),
+    d: new THREE.Vector3(0.8, 0.9, 0.3), // Кислотно-зеленый и пурпурный
+  },
+  dark: {
+    id: 'dark',
+    name: 'Темная материя',
+    a: new THREE.Vector3(0.1, 0.1, 0.1), // Очень темная база
+    b: new THREE.Vector3(0.2, 0.2, 0.2), // Низкий контраст
+    c: new THREE.Vector3(2.0, 1.0, 1.0), // Резкие переходы
+    d: new THREE.Vector3(0.5, 0.0, 0.1), // Кроваво-красный / Глубокий бордовый
+  }
+};
+
 export const Project2 = () => {
   const { t } = useTranslation();
   const siteUrl = import.meta.env.VITE_SITE_URL;
@@ -33,6 +61,7 @@ export const Project2 = () => {
   const [viscosity, setViscosity] = useState(1.0);     // Масштаб шума
   const [turbulence, setTurbulence] = useState(1.5);   // Сила завихрений
   const [speed, setSpeed] = useState(0.8);             // Скорость анимации
+  const [currentPalette, setCurrentPalette] = useState(PALETTES.corona); // Состояние текущей палитры (по умолчанию 'corona')
 
   // responsive inline-стили
   const canvasStyle = useResponsiveStyle({
@@ -55,14 +84,6 @@ export const Project2 = () => {
       marginLeft: '0rem',
     }
   });
-
-  // Хук для отслеживания мыши
-  const handlePointerMove = (e) => {
-    // Нормализуем координаты мыши от -0.5 до 0.5
-    const x = (e.clientX / window.innerWidth) - 0.5;
-    const y = -(e.clientY / window.innerHeight) + 0.5;
-    setMouse(new THREE.Vector2(x, y));
-  };
 
   // Логика закрытия меню при клике вне его области
   useEffect(() => {
@@ -127,6 +148,25 @@ export const Project2 = () => {
               <div className="shader-controls">
                 <button className="close-controls-btn" onClick={() => setIsControlsOpen(false)}>&times;</button>
 
+                {/* БЛОК: Выбор состояния материи */}
+                <div className="control-group palette-selector">
+                  <label>Состояние материи:</label>
+                  <div className="palette-buttons">
+                    {Object.values(PALETTES).map((pal) => (
+                      <button
+                        key={pal.id}
+                        onClick={() => setCurrentPalette(pal)}
+                        // Если палитра активна, добавляем класс 'active'
+                        className={currentPalette.id === pal.id ? 'active' : ''}
+                      >
+                        {pal.name}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <hr className="control-group-line" />
+
                 <div className="control-group">
                   <label>{t ('project2.viscosity')}: {viscosity.toFixed(2)}</label>
                   <input type="range" min="0.2" max="3" step="0.01" value={viscosity} onChange={(e) => setViscosity(parseFloat(e.target.value))} />
@@ -145,13 +185,13 @@ export const Project2 = () => {
             )}
           </div>
 
-          <WebGPUCanvas onPointerMove={handlePointerMove} style={canvasStyle}>
+          <WebGPUCanvas style={canvasStyle}>
             {/* Статичная перспектива. Мы смотрим прямо на плоскость */}
             <perspectiveCamera makeDefault position={[0, 0, 8]} />
 
             <SceneBackground imagePath={background02} enabled={isFullscreen} />
 
-            <FragmentCore viscosity={viscosity} turbulence={turbulence} speed={speed} mouse={mouse}/>
+            <FragmentCore viscosity={viscosity} turbulence={turbulence} speed={speed} palette={currentPalette}/>
           </WebGPUCanvas>
 
         </div>
