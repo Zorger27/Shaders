@@ -49,8 +49,6 @@ export const Project2 = () => {
   const canvasContainerRef = useRef(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
 
-  const [mouse, setMouse] = useState(new THREE.Vector2(0, 0));
-
   // Реф для контейнера меню (нужен для отслеживания кликов снаружи)
   const controlsRef = useRef(null);
 
