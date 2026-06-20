@@ -2,7 +2,7 @@
 ### You can view my CV here: [Curriculum VITAE](https://zorger27.github.io)❗️ ###
 ### You can view my Portfolio here: [My Portfolio](https://Zorin.Expert)❗️ ###
 
-<img width="1712" alt="home" src="https://github.com/user-attachments/assets/63ecc485-c25e-4f1e-bbef-1b0192d62d0f" />
+<img width="1711" alt="home" src="https://github.com/user-attachments/assets/3bbe41b4-d7bc-48e2-9a9a-d024ac6f4024" />
 
 #### ⚡ Shaders is an interactive environment for exploring Vertex and Fragment Shaders in real time, where code is instantly transformed into visual output. 🎨 ####
 
