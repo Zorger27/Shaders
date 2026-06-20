@@ -41,29 +41,29 @@ export default function handler(req, res) {
         es: { title: "Shaders", desc: "Shaders es un entorno interactivo para aprender, experimentar y visualizar Vertex y Fragment Shaders (creado por Anatolii Zorin)" }
       },
       project1: {
-        en: { title: "Vertex Playground", desc: "An interactive environment for working with geometry, allowing real-time vertex deformation and object structure design (created by Anatolii Zorin)" },
-        uk: { title: "Vertex Playground", desc: "Інтерактивне середовище для роботи з геометрією, де можна деформувати вершини та формувати структуру об’єктів у реальному часі (створено Анатолієм Зоріним)" },
-        es: { title: "Vertex Playground", desc: "Un entorno interactivo para trabajar con geometría, que permite deformar vértices y diseñar estructuras de objetos en tiempo real (creado por Anatolii Zorin)" }
+        en: { title: "3D Geometry", desc: "Vertex Geometry — mesh deformation and real-time shape manipulation module driven by shader nodes (created by Anatolii Zorin)" },
+        uk: { title: "3D-Геометрія", desc: "Vertex Geometry — модуль деформації сіток та маніпуляцій з формою об'єктів у реальному часі (створено Анатолієм Зоріним)" },
+        es: { title: "Geometría 3D", desc: "Vertex Geometry — módulo de deformación de mallas y manipulación de formas en tiempo real con nodos (creado por Anatolii Zorin)" }
       },
       project2: {
-        en: { title: "Fragment Lab", desc: "An experimental environment for working with pixels, colors, noise, textures, and post-processing effects (created by Anatolii Zorin)" },
-        uk: { title: "Fragment Lab", desc: "Експериментальне середовище для роботи з пікселями, кольорами, шумами, текстурами та пост-ефектами (створено Анатолієм Зоріним)" },
-        es: { title: "Fragment Lab", desc: "Un entorno experimental para trabajar con píxeles, colores, ruido, texturas y efectos de postprocesado (creado por Anatolii Zorin)" }
+        en: { title: "Pixels", desc: "Fragment Engine — pixel processing lab focused on custom noises, procedural palettes, and post-effects (created by Anatolii Zorin)" },
+        uk: { title: "Пікселі", desc: "Fragment Engine — лабораторія генерації шумів, кольорових палітр та процедурних пост-ефектів (створено Анатолієм Зоріним)" },
+        es: { title: "Píxeles", desc: "Fragment Engine — laboratorio de ruidos, paletas de colores y post-efectos procedimentales (creado por Anatolii Zorin)" }
       },
       project3: {
-        en: { title: "Uniform Control", desc: "A real-time shader parameter control panel with interactive sliders and dynamic values (created by Anatolii Zorin)" },
-        uk: { title: "Uniform Control", desc: "Панель керування параметрами шейдера в реальному часі з інтерактивними слайдерами та динамічними значеннями (створено Анатолієм Зоріним)" },
-        es: { title: "Uniform Control", desc: "Un panel de control de parámetros de shaders en tiempo real con deslizadores interactivos y valores dinámicos (creado por Anatolii Zorin)" }
+        en: { title: "3D Physics", desc: "GPGPU Compute — high-performance simulation where thousands of objects calculate their own physics (created by Anatolii Zorin)" },
+        uk: { title: "3D-Фізика", desc: "GPGPU Compute — система симуляції тисяч об'єктів, що обчислюють власну фізику через векторні поля (створено Анатолієм Зоріним)" },
+        es: { title: "Física 3D", desc: "GPGPU Compute — simulación de miles de objetos que calculan su propia física con campos vectoriales (creado por Anatolii Zorin)" }
       },
       project4: {
-        en: { title: "Noise Field", desc: "A generative environment for exploring procedural noise and motion patterns based on Perlin and Simplex algorithms (created by Anatolii Zorin)" },
-        uk: { title: "Noise Field", desc: "Генеративне середовище для дослідження процедурних шумів і патернів руху на основі алгоритмів Perlin і Simplex (створено Анатолієм Зоріним)" },
-        es: { title: "Noise Field", desc: "Un entorno generativo para explorar ruido procedimental y patrones de movimiento basados en algoritmos Perlin y Simplex (creado por Anatolii Zorin)" }
+        en: { title: "3D Math", desc: "Raymarching SDF — generation of complex three-dimensional worlds using mathematical distance functions (created by Anatolii Zorin)" },
+        uk: { title: "3D-Математика", desc: "Raymarching SDF — генерація складних тривимірних світів за допомогою математичних функцій відстані (створено Анатолієм Зоріним)" },
+        es: { title: "Matemática 3D", desc: "Raymarching SDF — generación de mundos tridimensionales complejos mediante funciones de distancia (creado por Anatolii Zorin)" }
       },
       project5: {
-        en: { title: "TSL Instancing", desc: "Rendering thousands of instances where positions and colors are calculated exclusively by TSL math nodes (created by Anatolii Zorin)" },
-        uk: { title: "TSL Instancing", desc: "Рендеринг тисяч інстансів, де позиції та кольори обчислюються виключно математичними вузлами TSL (створено Анатолієм Зоріним)" },
-        es: { title: "TSL Instancing", desc: "Renderizado de miles de instancias donde las posiciones y colores se calculan exclusivamente mediante nodos matemáticos TSL (creado por Anatolii Zorin)" }
+        en: { title: "Instancing", desc: "TSL Instancing — rendering of thousands of copies with positions and colors computed by math nodes (created by Anatolii Zorin)" },
+        uk: { title: "Інстансинг", desc: "TSL Instancing — рендеринг тисяч копій, де позиції та кольори обчислюються математичними вузлами (створено Анатолієм Зоріним)" },
+        es: { title: "Instancing", desc: "TSL Instancing — renderizado de miles de copias con posiciones y colores calculados por nodos (creado por Anatolii Zorin)" }
       },
       about: {
         en: { title: "About", desc: "Detailed information about Shaders (created by Anatolii Zorin)" },

@@ -32,8 +32,8 @@
     "disc": "This is the Project's Main Page"
   },
   "project1": {
-    "name": "Vertex Playground",
-    "disc": "An interactive environment for working with geometry, allowing real-time vertex deformation and object structure design",
+    "name": "3D Geometry",
+    "disc": "Vertex Geometry — mesh deformation and real-time shape manipulation module driven by shader nodes",
     "controls-btn-title": "Shader settings",
     "close-title": "Close",
     "amplitude": "Amplitude",
@@ -43,8 +43,8 @@
     "rotate": "Rotate the scene"
   },
   "project2": {
-    "name": "Fragment Lab",
-    "disc": "An experimental environment for working with pixels, colors, noise, textures, and post-processing effects",
+    "name": "Pixels",
+    "disc": "Fragment Engine — pixel processing lab focused on custom noises, procedural palettes, and post-effects",
     "viscosity": "Viscosity",
     "turbulence": "Turbulence",
     "speed": "Speed",
@@ -54,16 +54,16 @@
     "dark": "Dark Matter"
   },
   "project3": {
-    "name": "Uniform Control",
-    "disc": "A real-time shader parameter control panel with interactive sliders and dynamic values"
+    "name": "3D Physics",
+    "disc": "GPGPU Compute — high-performance simulation where thousands of objects calculate their own physics"
   },
   "project4": {
-    "name": "Noise Field",
-    "disc": "A generative environment for exploring procedural noise and motion patterns based on Perlin and Simplex algorithms"
+    "name": "3D Math",
+    "disc": "Raymarching SDF — generation of complex three-dimensional worlds using mathematical distance functions"
   },
   "project5": {
-    "name": "TSL Instancing",
-    "disc": "Rendering thousands of instances where positions and colors are calculated exclusively by TSL math nodes"
+    "name": "Instancing",
+    "disc": "TSL Instancing — rendering of thousands of copies with positions and colors computed by math nodes"
   },
   "about": {
     "title": "Shaders",

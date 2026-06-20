@@ -32,8 +32,8 @@
     "disc": "Esta es la página principal del proyecto"
   },
   "project1": {
-    "name": "Vertex Playground",
-    "disc": "Un entorno interactivo para trabajar con geometría, que permite deformar vértices y diseñar estructuras de objetos en tiempo real",
+    "name": "Geometría 3D",
+    "disc": "Vertex Geometry — módulo de deformación de mallas y manipulación de formas en tiempo real con nodos",
     "controls-btn-title": "Configuración de sombreado",
     "close-title": "Cerrar",
     "amplitude": "Amplitud",
@@ -43,8 +43,8 @@
     "rotate": "Gira la escena"
   },
   "project2": {
-    "name": "Fragment Lab",
-    "disc": "Un entorno experimental para trabajar con píxeles, colores, ruido, texturas y efectos de postprocesado",
+    "name": "Píxeles",
+    "disc": "Fragment Engine — laboratorio de ruidos, paletas de colores y post-efectos procedimentales",
     "viscosity": "Viscosidad",
     "turbulence": "Turbulencia",
     "speed": "Velocidad",
@@ -54,16 +54,16 @@
     "dark": "Materia Oscura"
   },
   "project3": {
-    "name": "Uniform Control",
-    "disc": "Un panel de control de parámetros de shaders en tiempo real con deslizadores interactivos y valores dinámicos"
+    "name": "Física 3D",
+    "disc": "GPGPU Compute — simulación de miles de objetos que calculan su propia física con campos vectoriales"
   },
   "project4": {
-    "name": "Noise Field",
-    "disc": "Un entorno generativo para explorar ruido procedimental y patrones de movimiento basados en algoritmos Perlin y Simplex"
+    "name": "Matemática 3D",
+    "disc": "Raymarching SDF — generación de mundos tridimensionales complejos mediante funciones de distancia"
   },
   "project5": {
-    "name": "TSL Instancing",
-    "disc": "Renderizado de miles de instancias donde las posiciones y colores se calculan exclusivamente mediante nodos matemáticos TSL"
+    "name": "Instancing",
+    "disc": "TSL Instancing — renderizado de miles de copias con posiciones y colores calculados por nodos"
   },
   "about": {
     "title": "Shaders",
