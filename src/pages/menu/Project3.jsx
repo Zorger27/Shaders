@@ -86,7 +86,7 @@ export const Project3 = () => {
 
           <WebGPUCanvas style={canvasStyle}>
             <perspectiveCamera makeDefault fov={50} />
-            <FitCamera radius={3.4} />
+            <FitCamera radius={2.2} />
 
             <ambientLight intensity={0.7} /> {/* Небольшой общий свет, чтобы тени не были абсолютно черными */}
 

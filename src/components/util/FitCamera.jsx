@@ -1,6 +1,8 @@
 import { useThree } from '@react-three/fiber';
 import { useLayoutEffect } from 'react';
 
+// Автоматически подстроит камеру под радиус сферы!!!
+
 export default function FitCamera({ radius }) {
   const { camera } = useThree();
 
