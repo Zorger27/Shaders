@@ -34,7 +34,7 @@ export default function GPGPUParticles() {
 
     return {
       positionNode: finalPosition,
-      colorNode: color('#248370')
+      colorNode: color('#7a43d8')
     };
   }, [particlesAttribute, particleCount]);
 
