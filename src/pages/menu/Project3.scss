@@ -12,6 +12,175 @@
       margin: 0.7rem auto;
       color: black;
     }
+
+    .canvas-wrapper {
+      position: relative;
+      border-radius: 10px;
+      overflow: hidden;
+
+      // Контейнер, который держит внутри либо кнопку, либо само меню
+      .controls-container {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        z-index: 100;
+
+        .open-controls-btn {
+          background: rgba(0, 0, 0, 0.7);
+          border: 1px solid white;
+          color: #00f2ff;
+          font-size: 1.5rem;
+          width: 50px;
+          height: 50px;
+          border-radius: 50%;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: all 0.3s ease;
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.9);
+
+          &:hover {
+            color: rgba(0, 0, 0, 0.7);
+            background: rgba(0, 242, 255, 0.6);
+            border-color: rgb(0 0 0);
+            box-shadow: none;
+          }
+        }
+
+        .shader-controls {
+          background: rgba(0, 0, 0, 0.7);
+          padding: 25px 20px 20px; // Сверху чуть больше отступ из-за крестика
+          border-radius: 10px;
+          border: 1px solid white;
+          display: flex;
+          flex-direction: column;
+          gap: 15px;
+          width: 240px;
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.9);
+          animation: fadeIn 0.3s ease-out;
+          position: relative;
+
+          .control-group-line {
+            margin: 5px 0;
+            border-color: rgba(68, 68, 68, 1.0);
+          }
+
+          .close-controls-btn {
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: color 0.2s ease;
+            line-height: 1;
+            padding: 0;
+
+            &:hover {color: #ff4444;}
+          }
+
+          .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+
+            label {
+              text-shadow: 0 1px 2px darkred;
+              color: white;
+              font-size: 0.85rem;
+              font-family: 'Montserrat', sans-serif;
+              text-transform: uppercase;
+              letter-spacing: 1px;
+            }
+
+            input[type="range"] {
+              cursor: pointer;
+              accent-color: #00f2ff;
+            }
+
+            // --- СТИЛИ ДЛЯ ВЫБОРА ПАЛИТРЫ ---
+            &.palette-selector {
+              label {
+                font-weight: bold;
+                margin-top: 1rem;
+                margin-bottom: 0.2rem;
+              }
+
+              .palette-buttons {
+                display: flex;
+                flex-direction: column;
+                gap: 0.5rem;
+
+                button {
+                  padding: 8px 10px;
+                  background-color: #333;
+                  color: #fff;
+                  border: 1px solid white;
+                  border-radius: 4px;
+                  cursor: pointer;
+                  text-align: left;
+                  font-family: 'Montserrat', sans-serif;
+                  font-size: 0.8rem;
+                  transition: all 0.2s ease;
+
+                  &:hover {
+                    background-color: #444;
+                    //border-color: rgba(255, 255, 255, 0.2);
+                    border-color: darkgoldenrod;
+                  }
+
+                  &.active {
+                    //background-color: #4a90e2;
+                    //border-color: #4a90e2;
+                    background-color: rgba(0, 242, 255, 0.5);
+                    border-color: rgba(0, 242, 255, 0.5);
+                    box-shadow: 0 0 8px rgb(23 210 236 / 0.4);
+                  }
+                }
+              }
+            }
+
+            &.checkbox {
+              flex-direction: row;
+              align-items: center;
+
+              label {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                cursor: pointer;
+                text-transform: none;
+                color: #fff;
+              }
+
+              input {
+                width: 18px;
+                height: 18px;
+                cursor: pointer;
+                accent-color: #00f2ff;
+              }
+            }
+          }
+        }
+      }
+
+      // Анимация плавного появления меню
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(-10px) scale(0.95);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+      }
+
+    }
+
   }
 }
 
@@ -22,6 +191,86 @@
         font-size: 2.3rem;
         margin: 0.6rem auto;
       }
+
+      .canvas-wrapper {
+        border-radius: 9px;
+
+        .controls-container {
+          top: 20px;
+          right: 20px;
+
+          .open-controls-btn {
+            font-size: 1.5rem;
+            width: 50px;
+            height: 50px;
+          }
+
+          .shader-controls {
+            padding: 25px 15px 15px;
+            border-radius: 9px;
+            gap: 13px;
+            width: 200px;
+
+            .control-group-line {margin: 4px 0;}
+
+            .close-controls-btn {
+              top: 5px;
+              right: 8px;
+              font-size: 1.3rem;
+            }
+
+            .control-group {
+              gap: 8px;
+
+              label {
+                font-size: 0.8rem;
+                letter-spacing: 1px;
+              }
+
+              // --- СТИЛИ ДЛЯ ВЫБОРА ПАЛИТРЫ ---
+              &.palette-selector {
+                label {
+                  margin-top: 0.7rem;
+                  margin-bottom: 0.2rem;
+                }
+
+                .palette-buttons {
+                  gap: 0.5rem;
+
+                  button {
+                    padding: 8px 10px;
+                    border-radius: 4px;
+                    font-size: 0.8rem;
+                  }
+                }
+              }
+
+              &.checkbox {
+                label {gap: 10px;}
+
+                input {
+                  width: 16px;
+                  height: 16px;
+                }
+              }
+            }
+          }
+        }
+
+        // Анимация плавного появления меню
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+            transform: translateY(-10px) scale(0.95);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+          }
+        }
+
+      }
+
     }
   }
 }
@@ -33,6 +282,82 @@
         font-size: 2rem;
         margin: 0.5rem auto;
       }
+
+      .canvas-wrapper {
+        border-radius: 6px;
+
+        .controls-container {
+          top: 5px;
+          right: 10px;
+
+          .open-controls-btn {
+            font-size: 1.5rem;
+            width: 50px;
+            height: 50px;
+          }
+
+          .shader-controls {
+            padding: 20px 10px 10px;
+            border-radius: 9px;
+            gap: 13px;
+            width: 165px;
+
+            .control-group-line {margin: 3px 0;}
+
+            .close-controls-btn {
+              top: 1px;
+              right: 8px;
+              font-size: 1.3rem;
+            }
+
+            .control-group {
+              gap: 7px;
+              label {font-size: 0.6rem;}
+
+              // --- СТИЛИ ДЛЯ ВЫБОРА ПАЛИТРЫ ---
+              &.palette-selector {
+                label {
+                  margin-top: 0.5rem;
+                  margin-bottom: 0.2rem;
+                }
+
+                .palette-buttons {
+                  gap: 0.4rem;
+
+                  button {
+                    padding: 7px 9px;
+                    border-radius: 4px;
+                    font-size: 0.6rem;
+                  }
+                }
+              }
+
+              &.checkbox {
+                label {gap: 10px;}
+
+                input {
+                  width: 14px;
+                  height: 14px;
+                }
+              }
+            }
+          }
+        }
+
+        // Анимация плавного появления меню
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+            transform: translateY(-10px) scale(0.95);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+          }
+        }
+
+      }
+
     }
   }
 }

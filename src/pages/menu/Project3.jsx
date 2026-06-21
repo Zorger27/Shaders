@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, {useEffect, useRef, useState} from "react";
 import { useTranslation } from 'react-i18next';
 import '@/pages/menu/Project3.scss';
 import { Link } from "react-router-dom";
@@ -20,7 +20,18 @@ export const Project3 = () => {
   useSpaCleanup();
 
   const canvasContainerRef = useRef(null);
+  const controlsRef = useRef(null);
+
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [isControlsOpen, setIsControlsOpen] = useState(false);
+  const [autoRotate, setAutoRotate] = useState(false);
+
+  // --- СОСТОЯНИЯ ДЛЯ СИМУЛЯЦИИ ЧАСТИЦ ---
+  const [isExploding, setIsExploding] = useState(false);
+  const [gravityForce, setGravityForce] = useState(0.002);
+  const [friction, setFriction] = useState(0.98);
+  const [explosionPower, setExplosionPower] = useState(1.5);
+  const [particleColor, setParticleColor] = useState('#00ffcc');
 
   // responsive inline-стили
   const canvasStyle = useResponsiveStyle({
@@ -43,6 +54,19 @@ export const Project3 = () => {
       marginLeft: '0rem',
     }
   });
+
+  // Логика закрытия меню при клике вне его области
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      // Если клик был НЕ по нашему меню и меню открыто - закрываем его
+      if (controlsRef.current && !controlsRef.current.contains(event.target)) {setIsControlsOpen(false);}
+    };
+
+    if (isControlsOpen) {document.addEventListener("mousedown", handleClickOutside);}
+
+    // Очистка слушателя при размонтировании или закрытии меню
+    return () => {document.removeEventListener("mousedown", handleClickOutside);};
+  }, [isControlsOpen]);
 
   return (
     <div className="project3">
@@ -82,7 +106,61 @@ export const Project3 = () => {
         </h1>
         <hr className="custom-line" />
 
-        <div ref={canvasContainerRef}>
+        <div ref={canvasContainerRef} className="canvas-wrapper">
+
+          {/* БЛОК УПРАВЛЕНИЯ */}
+          <div className="controls-container" ref={controlsRef}>
+            {!isControlsOpen ? (
+              <button className="open-controls-btn" onClick={() => setIsControlsOpen(true)}>
+                <i className="fa fa-sliders"></i>
+              </button>
+            ) : (
+              <div className="shader-controls">
+                <button className="close-controls-btn" onClick={() => setIsControlsOpen(false)}>
+                  &times;
+                </button>
+
+                <div className="control-group checkbox">
+                  <label>
+                    <input type="checkbox" checked={isExploding} onChange={(e) => setIsExploding(e.target.checked)} />
+                    🔥 Взрыв (Цикл)
+                  </label>
+                </div>
+
+                <div className="control-group">
+                  <label>Скорость сжатия: {gravityForce.toFixed(4)}</label>
+                  <input type="range" min="0.0001" max="0.01" step="0.0001" value={gravityForce} onChange={(e) => setGravityForce(parseFloat(e.target.value))} />
+                </div>
+
+                <div className="control-group">
+                  <label>Вязкость (трение): {friction.toFixed(3)}</label>
+                  <input type="range" min="0.90" max="0.999" step="0.001" value={friction} onChange={(e) => setFriction(parseFloat(e.target.value))} />
+                </div>
+
+                <div className="control-group">
+                  <label>Сила отскока: {explosionPower.toFixed(1)}</label>
+                  <input type="range" min="0.5" max="5.0" step="0.1" value={explosionPower} onChange={(e) => setExplosionPower(parseFloat(e.target.value))} />
+                </div>
+
+                <div className="control-group">
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                    Цвет:
+                    <input type="color" value={particleColor} onChange={(e) => setParticleColor(e.target.value)} style={{ cursor: 'pointer' }} />
+                  </label>
+                </div>
+
+                <hr style={{ borderColor: 'rgba(255,255,255,0.1)', margin: '15px 0' }}/>
+
+                <div className="control-group checkbox">
+                  <label>
+                    <input type="checkbox" checked={autoRotate} onChange={(e) => setAutoRotate(e.target.checked)} />
+                    Вращать камеру
+                  </label>
+                </div>
+
+              </div>
+            )}
+          </div>
 
           <WebGPUCanvas style={canvasStyle}>
             <perspectiveCamera makeDefault fov={50} />
@@ -101,7 +179,14 @@ export const Project3 = () => {
 
             <SceneBackground imagePath={background03} enabled={isFullscreen}/>
 
-            <GPGPUParticles />
+            {/* ПЕРЕДАЕМ СОСТОЯНИЯ КАК PROPS */}
+            <GPGPUParticles
+              isExploding={isExploding}
+              gravityForce={gravityForce}
+              friction={friction}
+              explosionPower={explosionPower}
+              particleColor={particleColor}
+            />
 
             <OrbitControls makeDefault target={[0, 0, 0]} enableDamping enablePan={false} enableZoom autoRotate autoRotateSpeed={2}/>
           </WebGPUCanvas>
