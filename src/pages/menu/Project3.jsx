@@ -9,9 +9,9 @@ import CanvasFullScreen from "@/components/util/CanvasFullScreen.jsx";
 import { useResponsiveStyle } from "@/hooks/useResponsiveStyle";
 import WebGPUCanvas from '@/components/canvas/WebGPUCanvas.jsx';
 import SceneBackground from '@/components/canvas/SceneBackground.jsx';
+import FitCamera from "@/components/util/FitCamera.jsx";
 import GPGPUParticles from "@/components/canvas/GPGPUParticles.jsx";
 import { OrbitControls } from '@react-three/drei';
-
 import background03 from "@/assets/CanvasFullScreen/cube3-14.webp";
 
 export const Project3 = () => {
@@ -85,7 +85,8 @@ export const Project3 = () => {
         <div ref={canvasContainerRef}>
 
           <WebGPUCanvas style={canvasStyle}>
-            <perspectiveCamera makeDefault position={[0, 5, 20]} fov={50}/>
+            <perspectiveCamera makeDefault fov={50} />
+            <FitCamera radius={3.4} />
 
             <ambientLight intensity={0.7} /> {/* Небольшой общий свет, чтобы тени не были абсолютно черными */}
 

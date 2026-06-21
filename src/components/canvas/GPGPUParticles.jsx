@@ -11,7 +11,7 @@ export default function GPGPUParticles() {
   // 1. Генерируем стартовую сетку
 
   // Генерируем массив (например, сетка 64x64x64, радиус 5) - из-за обрезки углов куба останется около 140 000 частиц — идеально для GPU!
-  const basePositions = useMemo(() => generateSphericalGrid(64, 3.0), []);
+  const basePositions = useMemo(() => generateSphericalGrid(64, 5.0), []);
 
   // Узнаем точное количество получившихся частиц (массив плоский [x, y, z], поэтому делим на 3)
   const particleCount = basePositions.length / 3;
