@@ -28,9 +28,8 @@ export default function GPGPUParticles() {
     // Создаем TSL-ноду хранилища из нашего атрибута
     const positionStorage = storage(particlesAttribute, 'vec3', particleCount);
 
-    // Достаем позицию конкретной частицы по её индексу (instanceIndex)
-    // и прибавляем к локальным вершинам геометрии кубика
-    const finalPosition = positionLocal.add(positionStorage.element(instanceIndex));
+    // Достаем позицию конкретной частицы по её индексу (instanceIndex) и прибавляем к локальным вершинам геометрии кубика
+    const finalPosition = positionLocal.add(positionStorage.element(instanceIndex))
 
     return {
       positionNode: finalPosition,
