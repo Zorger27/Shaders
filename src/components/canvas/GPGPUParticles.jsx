@@ -13,7 +13,7 @@ export default function GPGPUParticles({
                                          gravityForce = 0.002,
                                          friction = 0.98,
                                          explosionPower = 1.5,
-                                         particleColor = '#00ffcc'
+                                         particleColor = '#7300ff'
                                        }) {
 
   // --- ЮНИФОРМЫ ---

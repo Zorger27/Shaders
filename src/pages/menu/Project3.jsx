@@ -31,7 +31,7 @@ export const Project3 = () => {
   const [gravityForce, setGravityForce] = useState(0.002);
   const [friction, setFriction] = useState(0.98);
   const [explosionPower, setExplosionPower] = useState(1.5);
-  const [particleColor, setParticleColor] = useState('#00ffcc');
+  const [particleColor, setParticleColor] = useState('#7300ff');
 
   // responsive inline-стили
   const canvasStyle = useResponsiveStyle({
