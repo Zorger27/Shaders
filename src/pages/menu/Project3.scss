@@ -129,14 +129,14 @@
               padding: 8px;
               cursor: pointer;
               background: white;
-              color: darkblue;
-              border: 1px solid darkblue;
+              color: darkred;
+              border: 1px solid darkred;
               border-radius: 4px;
               transition: all 0.2s ease;
 
               &:hover {
-                color: blue;
-                border-color: blue;
+                color: red;
+                border-color: red;
               }
             }
           }
