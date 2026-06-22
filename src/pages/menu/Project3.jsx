@@ -24,7 +24,6 @@ export const Project3 = () => {
 
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [isControlsOpen, setIsControlsOpen] = useState(false);
-  const [autoRotate, setAutoRotate] = useState(false);
 
   // --- СОСТОЯНИЯ ДЛЯ СИМУЛЯЦИИ ЧАСТИЦ ---
   const [isExploding, setIsExploding] = useState(false);
@@ -146,15 +145,6 @@ export const Project3 = () => {
                   <label style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                     Цвет:
                     <input type="color" value={particleColor} onChange={(e) => setParticleColor(e.target.value)} style={{ cursor: 'pointer' }} />
-                  </label>
-                </div>
-
-                <hr style={{ borderColor: 'rgba(255,255,255,0.1)', margin: '15px 0' }}/>
-
-                <div className="control-group checkbox">
-                  <label>
-                    <input type="checkbox" checked={autoRotate} onChange={(e) => setAutoRotate(e.target.checked)} />
-                    Вращать камеру
                   </label>
                 </div>
 
