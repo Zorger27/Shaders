@@ -1,18 +1,38 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useEffect } from 'react';
 import { extend, useFrame } from '@react-three/fiber';
 import { MeshBasicNodeMaterial, StorageInstancedBufferAttribute } from 'three/webgpu';
-import { storage, positionLocal, color, instanceIndex, Fn, length } from 'three/tsl';
+import { storage, positionLocal, instanceIndex, Fn, length, uniform, select, vec3 } from 'three/tsl';
 import { generateSphericalGrid } from "@/components/util/geometry.js";
+import * as THREE from 'three';
 
 // Регистрируем материал, чтобы R3F понимал тег <meshBasicNodeMaterial />
 extend({ MeshBasicNodeMaterial });
 
-export default function GPGPUParticles() {
-  // I. Генерируем стартовую сетку
+export default function GPGPUParticles({
+                                         isExploding = false,
+                                         gravityForce = 0.002,
+                                         friction = 0.98,
+                                         explosionPower = 1.5,
+                                         particleColor = '#00ffcc'
+                                       }) {
 
+  // --- ЮНИФОРМЫ ---
+  const uGravity = useMemo(() => uniform(gravityForce), []);
+  const uFriction = useMemo(() => uniform(friction), []);
+  const uExplode = useMemo(() => uniform(isExploding ? 1.0 : 0.0), []);
+  const uExplosionPower = useMemo(() => uniform(explosionPower), []);
+  const uColor = useMemo(() => uniform(new THREE.Color(particleColor)), []);
+
+  // Синхронизируем React props с TSL юниформами (эффективное обновление без ререндера шейдера)
+  useEffect(() => { uGravity.value = gravityForce; }, [gravityForce]);
+  useEffect(() => { uFriction.value = friction; }, [friction]);
+  useEffect(() => { uExplode.value = isExploding ? 1.0 : 0.0; }, [isExploding]);
+  useEffect(() => { uExplosionPower.value = explosionPower; }, [explosionPower]);
+  useEffect(() => { uColor.value.set(particleColor); }, [particleColor]);
+
+  // I. Генерируем стартовую сетку
   // Генерируем массив (например, сетка 64x64x64, радиус 5) - из-за обрезки углов куба останется около 140 000 частиц — идеально для GPU!
   const basePositions = useMemo(() => generateSphericalGrid(64, 5.0), []);
-
   // Узнаем точное количество получившихся частиц (массив плоский [x, y, z], поэтому делим на 3)
   const particleCount = basePositions.length / 3;
 
@@ -25,22 +45,23 @@ export default function GPGPUParticles() {
 
   // Буфер Скоростей (Velocity)
   // Инициализируем "взрыв": задаем начальную скорость от центра
-  const velocityAttribute = useMemo(() => {
-    const velocities = new Float32Array(particleCount * 3);
+  const velocityAttribute = useMemo(() =>
+      new StorageInstancedBufferAttribute(new Float32Array(particleCount * 3), 3),
+    [particleCount]);
+
+  const initVelocityAttribute = useMemo(() => {
+    const initVelocities = new Float32Array(particleCount * 3);
     for (let i = 0; i < particleCount; i++) {
       const x = basePositions[i * 3];
       const y = basePositions[i * 3 + 1];
       const z = basePositions[i * 3 + 2];
-
-      // Вычисляем вектор от центра и нормализуем его
       const len = Math.sqrt(x*x + y*y + z*z) || 1;
-      const explosionForce = Math.random() * 0.15; // Рандомная сила разлета
 
-      velocities[i * 3]     = (x / len) * explosionForce;
-      velocities[i * 3 + 1] = (y / len) * explosionForce;
-      velocities[i * 3 + 2] = (z / len) * explosionForce;
+      initVelocities[i * 3]     = (x / len);
+      initVelocities[i * 3 + 1] = (y / len);
+      initVelocities[i * 3 + 2] = (z / len);
     }
-    return new StorageInstancedBufferAttribute(velocities, 3);
+    return new StorageInstancedBufferAttribute(initVelocities, 3);
   }, [basePositions, particleCount]);
 
   // Вычислительный Шейдер (Compute Shader)
@@ -50,30 +71,35 @@ export default function GPGPUParticles() {
       // Достаем позицию и скорость ТЕКУЩЕЙ частицы
       const pos = storage(particlesAttribute, 'vec3', particleCount).element(instanceIndex);
       const vel = storage(velocityAttribute, 'vec3', particleCount).element(instanceIndex);
+      const initVel = storage(initVelocityAttribute, 'vec3', particleCount).element(instanceIndex);
 
-      // --- ГРАВИТАЦИЯ ---
-      // Вектор направления к центру (просто инвертируем позицию)
-      const dirToCenter = pos.mul(-1.0).normalize();
-      const dist = length(pos); // Расстояние от центра
+      // Проверяем состояние галочки через select() прямо внутри видеокарты
+      vel.addAssign(
+        select(
+          uExplode.greaterThan(0.5),
 
-      // Пружинная гравитация: чем дальше частица, тем сильнее её тянет обратно
-      const gravityForce = dist.mul(0.002);
+          // РЕЖИМ АКТИВНОГО ВЗРЫВА (Галочка стоит): Гравитация + Отскок от центра
+          pos.mul(-1.0).normalize().mul(length(pos).mul(uGravity)).add(
+            select(
+              length(pos).lessThan(0.05),
+              initVel.mul(uExplosionPower).mul(0.15),
+              vec3(0.0)
+            )
+          ),
 
-      // Прибавляем гравитацию к скорости (vel += dir * force)
-      vel.addAssign(dirToCenter.mul(gravityForce));
+          // РЕЖИМ ПОКОЯ (Галочка снята): Плавный возврат частиц на исходный радиус 5.0
+          initVel.mul(5.0).sub(pos).mul(0.05)
+        )
+      );
 
-      // --- ТРЕНИЕ ---
-      // Чтобы частицы не летали бесконечно, гасим их скорость (затухание)
-      vel.mulAssign(0.98);
-
-      // --- ОБНОВЛЕНИЕ ПОЗИЦИИ ---
-      // Сдвигаем частицу на величину её скорости (pos += vel)
+      // 3. Трение и применение скорости к позиции
+      vel.mulAssign(uFriction);
       pos.addAssign(vel);
     });
 
     // Создаем ноду вычислений на нужное количество инстансов
     return computePhysics().compute(particleCount);
-  }, [particlesAttribute, velocityAttribute, particleCount]);
+  }, [particlesAttribute, velocityAttribute, initVelocityAttribute, particleCount, uGravity, uFriction, uExplode, uExplosionPower]);
 
   // Выполняем Compute Shader каждый кадр (60 FPS)
   useFrame((state) => {
@@ -91,9 +117,9 @@ export default function GPGPUParticles() {
 
     return {
       positionNode: finalPosition,
-      colorNode: color('#7a43d8')
+      colorNode: uColor
     };
-  }, [particlesAttribute, particleCount]);
+  }, [particlesAttribute, particleCount, uColor]);
 
   return (
     <instancedMesh args={[null, null, particleCount]}>
