@@ -60,7 +60,8 @@
     "gravity": "Гравітація",
     "friction": "В'язкість",
     "impulse": "Імпульс",
-    "color": "Колір"
+    "color": "Колір",
+    "reaction": "\uD83D\uDDB1 Реакція"
   },
   "project4": {
     "name": "3D-Математика",

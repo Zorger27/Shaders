@@ -33,6 +33,16 @@ export const Project3 = () => {
   const [explosionPower, setExplosionPower] = useState(1.5);
   const [particleColor, setParticleColor] = useState('#7300ff');
 
+  // --- ФУНКЦИЯ СБРОСА НАСТРОЕК ---
+  const handleReset = () => {
+    setIsExploding(false);
+    setIsInteractive(false);
+    setGravityForce(0.002);
+    setFriction(0.98);
+    setExplosionPower(1.5);
+    setParticleColor('#7300ff');
+  };
+
   // responsive inline-стили
   const canvasStyle = useResponsiveStyle({
     default: {
@@ -130,7 +140,7 @@ export const Project3 = () => {
                 <div className="control-group checkbox">
                   <label>
                     <input type="checkbox" checked={isInteractive} onChange={(e) => setIsInteractive(e.target.checked)} />
-                    🖱️ Реакция
+                    {t ('project3.reaction')}
                   </label>
                 </div>
 
@@ -159,6 +169,13 @@ export const Project3 = () => {
                     <input type="color" value={particleColor} onChange={(e) => setParticleColor(e.target.value)} style={{ cursor: 'pointer' }} />
                   </label>
                 </div>
+
+                <button
+                  className="control-group button"
+                  onClick={handleReset}
+                >
+                  🔄 Исходное состояние
+                </button>
 
               </div>
             )}

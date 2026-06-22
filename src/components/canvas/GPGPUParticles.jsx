@@ -81,28 +81,31 @@ export default function GPGPUParticles({
       const pos = storage(particlesAttribute, 'vec3', particleCount).element(instanceIndex);
       const vel = storage(velocityAttribute, 'vec3', particleCount).element(instanceIndex);
       const initVel = storage(initVelocityAttribute, 'vec3', particleCount).element(instanceIndex);
+      // Вектор идеальной позиции на текущем удалении (возвращает частицу на её родной луч)
+      const idealRadialPos = initVel.mul(length(pos));
 
       // 1. Основная логика: Гравитация + Пульсация ИЛИ Плавный возврат в сферу
       vel.addAssign(
         select(
           uExplode.greaterThan(0.5),
-
-          // РЕЖИМ АКТИВНОГО ВЗРЫВА (Галочка стоит): Гравитация + Отскок от центра
-          pos.mul(-1.0).normalize().mul(length(pos).mul(uGravity)).add(
-            select(
-              length(pos).lessThan(0.05),
-              initVel.mul(uExplosionPower).mul(0.15),
-              vec3(0.0)
+          pos.mul(-1.0).normalize().mul(length(pos).mul(uGravity))
+            // РЕЖИМ АКТИВНОГО ВЗРЫВА (Галочка стоит): Гравитация + Отскок от центра (увеличили зону отскока с 0.05 до 0.15 (защита от туннелирования))
+            .add(
+              select(
+                length(pos).lessThan(0.15),
+                initVel.mul(uExplosionPower).mul(0.15),
+                vec3(0.0)
+              )
             )
-          ),
+            // НОВОЕ: Радиальный стабилизатор. Мягко притягивает частицу обратно на её ось, убивая боковую орбиту.
+            .add(idealRadialPos.sub(pos).mul(0.08)),
 
           // РЕЖИМ ПОКОЯ (Галочка снята): Плавный возврат частиц на исходный радиус 5.0
           initVel.mul(5.0).sub(pos).mul(0.05)
         )
       );
 
-      // 2. Логика Реакции (Инлайн, чтобы не ругался ESLint)
-      // Вектор отталкивания применяется ТОЛЬКО если uInteractive > 0.5 И дистанция < 2.5
+      // 2. Логика Реакции
       vel.addAssign(
         select(
           length(pos.sub(uMouse)).lessThan(2.5).and(uInteractive.greaterThan(0.5)),
@@ -118,7 +121,7 @@ export default function GPGPUParticles({
 
     // Создаем ноду вычислений на нужное количество инстансов
     return computePhysics().compute(particleCount);
-  }, [particlesAttribute, velocityAttribute, initVelocityAttribute, particleCount, uGravity, uFriction, uExplode, uExplosionPower, uMouse]);
+  }, [particlesAttribute, velocityAttribute, initVelocityAttribute, particleCount, uGravity, uFriction, uExplode, uInteractive, uExplosionPower, uMouse]);
 
   // Выполняем Compute Shader каждый кадр (60 FPS)
   useFrame((state) => {

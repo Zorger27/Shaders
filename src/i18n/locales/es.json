@@ -60,7 +60,8 @@
     "gravity": "Gravedad",
     "friction": "Viscosidad",
     "impulse": "Impulso",
-    "color": "Color"
+    "color": "Color",
+    "reaction": "\uD83D\uDDB1 Reacción"
   },
   "project4": {
     "name": "Matemática 3D",
