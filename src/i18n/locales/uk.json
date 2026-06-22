@@ -61,7 +61,8 @@
     "friction": "В'язкість",
     "impulse": "Імпульс",
     "color": "Колір",
-    "reaction": "\uD83D\uDDB1 Реакція"
+    "reaction": "\uD83D\uDDB1 Реакція",
+    "reset": "\uD83D\uDD04 Скидання"
   },
   "project4": {
     "name": "3D-Математика",

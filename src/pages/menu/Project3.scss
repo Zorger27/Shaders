@@ -101,48 +101,6 @@
               accent-color: #00f2ff;
             }
 
-            // --- СТИЛИ ДЛЯ ВЫБОРА ПАЛИТРЫ ---
-            &.palette-selector {
-              label {
-                font-weight: bold;
-                margin-top: 1rem;
-                margin-bottom: 0.2rem;
-              }
-
-              .palette-buttons {
-                display: flex;
-                flex-direction: column;
-                gap: 0.5rem;
-
-                button {
-                  padding: 8px 10px;
-                  background-color: #333;
-                  color: #fff;
-                  border: 1px solid white;
-                  border-radius: 4px;
-                  cursor: pointer;
-                  text-align: left;
-                  font-family: 'Montserrat', sans-serif;
-                  font-size: 0.8rem;
-                  transition: all 0.2s ease;
-
-                  &:hover {
-                    background-color: #444;
-                    //border-color: rgba(255, 255, 255, 0.2);
-                    border-color: darkgoldenrod;
-                  }
-
-                  &.active {
-                    //background-color: #4a90e2;
-                    //border-color: #4a90e2;
-                    background-color: rgba(0, 242, 255, 0.5);
-                    border-color: rgba(0, 242, 255, 0.5);
-                    box-shadow: 0 0 8px rgb(23 210 236 / 0.4);
-                  }
-                }
-              }
-            }
-
             &.checkbox {
               flex-direction: row;
               align-items: center;
@@ -166,13 +124,20 @@
 
             &.button {
               width: 100%;
-              //margin-top: 15px;
-              padding: 18px;
+              font-size: 0.85rem;
+              font-weight: bold;
+              padding: 8px;
               cursor: pointer;
-              background: rgba(255, 255, 255, 0.1);
-              color: white;
-              border: 1px solid rgba(255, 255, 255, 0.2);
+              background: white;
+              color: darkblue;
+              border: 1px solid darkblue;
               border-radius: 4px;
+              transition: all 0.2s ease;
+
+              &:hover {
+                color: blue;
+                border-color: blue;
+              }
             }
           }
         }
@@ -238,24 +203,6 @@
                 letter-spacing: 1px;
               }
 
-              // --- СТИЛИ ДЛЯ ВЫБОРА ПАЛИТРЫ ---
-              &.palette-selector {
-                label {
-                  margin-top: 0.7rem;
-                  margin-bottom: 0.2rem;
-                }
-
-                .palette-buttons {
-                  gap: 0.5rem;
-
-                  button {
-                    padding: 8px 10px;
-                    border-radius: 4px;
-                    font-size: 0.8rem;
-                  }
-                }
-              }
-
               &.checkbox {
                 label {gap: 10px;}
 
@@ -263,6 +210,12 @@
                   width: 16px;
                   height: 16px;
                 }
+              }
+
+              &.button {
+                font-size: 0.8rem;
+                padding: 7px;
+                border-radius: 4px;
               }
             }
           }
@@ -325,24 +278,6 @@
               gap: 7px;
               label {font-size: 0.6rem;}
 
-              // --- СТИЛИ ДЛЯ ВЫБОРА ПАЛИТРЫ ---
-              &.palette-selector {
-                label {
-                  margin-top: 0.5rem;
-                  margin-bottom: 0.2rem;
-                }
-
-                .palette-buttons {
-                  gap: 0.4rem;
-
-                  button {
-                    padding: 7px 9px;
-                    border-radius: 4px;
-                    font-size: 0.6rem;
-                  }
-                }
-              }
-
               &.checkbox {
                 label {gap: 10px;}
 
@@ -350,6 +285,12 @@
                   width: 14px;
                   height: 14px;
                 }
+              }
+
+              &.button {
+                font-size: 0.6rem;
+                padding: 6px;
+                border-radius: 3px;
               }
             }
           }

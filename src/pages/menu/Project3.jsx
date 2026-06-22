@@ -170,12 +170,7 @@ export const Project3 = () => {
                   </label>
                 </div>
 
-                <button
-                  className="control-group button"
-                  onClick={handleReset}
-                >
-                  🔄 Исходное состояние
-                </button>
+                <button className="control-group button" onClick={handleReset}>{t ('project3.reset')}</button>
 
               </div>
             )}

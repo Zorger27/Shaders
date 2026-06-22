@@ -61,7 +61,8 @@
     "friction": "Viscosity",
     "impulse": "Impulse",
     "color": "Color",
-    "reaction": "\uD83D\uDDB1 Reaction"
+    "reaction": "\uD83D\uDDB1 Reaction",
+    "reset": "\uD83D\uDD04 Reset"
   },
   "project4": {
     "name": "3D Math",
