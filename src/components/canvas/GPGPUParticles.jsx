@@ -10,6 +10,7 @@ extend({ MeshBasicNodeMaterial });
 
 export default function GPGPUParticles({
                                          isExploding = false,
+                                         isInteractive = false,
                                          gravityForce = 0.002,
                                          friction = 0.98,
                                          explosionPower = 1.5,
@@ -20,6 +21,7 @@ export default function GPGPUParticles({
   const uGravity = useMemo(() => uniform(gravityForce), []);
   const uFriction = useMemo(() => uniform(friction), []);
   const uExplode = useMemo(() => uniform(isExploding ? 1.0 : 0.0), []);
+  const uInteractive = useMemo(() => uniform(isInteractive ? 1.0 : 0.0), []); // Включатель мыши для GPU
   const uExplosionPower = useMemo(() => uniform(explosionPower), []);
   const uColor = useMemo(() => uniform(new THREE.Color(particleColor)), []);
   // Юниформ для мыши
@@ -29,6 +31,7 @@ export default function GPGPUParticles({
   useEffect(() => { uGravity.value = gravityForce; }, [gravityForce]);
   useEffect(() => { uFriction.value = friction; }, [friction]);
   useEffect(() => { uExplode.value = isExploding ? 1.0 : 0.0; }, [isExploding]);
+  useEffect(() => { uInteractive.value = isInteractive ? 1.0 : 0.0; }, [isInteractive]);
   useEffect(() => { uExplosionPower.value = explosionPower; }, [explosionPower]);
   useEffect(() => { uColor.value.set(particleColor); }, [particleColor]);
 
@@ -79,14 +82,7 @@ export default function GPGPUParticles({
       const vel = storage(velocityAttribute, 'vec3', particleCount).element(instanceIndex);
       const initVel = storage(initVelocityAttribute, 'vec3', particleCount).element(instanceIndex);
 
-      // Логика мыши: вектор от мыши к частице
-      const toMouse = pos.sub(uMouse);
-      const distToMouse = length(toMouse);
-
-      // Сила отталкивания от курсора (если ближе 2.5 единиц)
-      const mouseForce = select(distToMouse.lessThan(2.5), toMouse.normalize().mul(0.05), vec3(0.0));
-
-      // Проверяем состояние галочки через select() прямо внутри видеокарты
+      // 1. Основная логика: Гравитация + Пульсация ИЛИ Плавный возврат в сферу
       vel.addAssign(
         select(
           uExplode.greaterThan(0.5),
@@ -105,10 +101,17 @@ export default function GPGPUParticles({
         )
       );
 
-      // Добавляем влияние мыши
-      vel.addAssign(mouseForce);
+      // 2. Логика Реакции (Инлайн, чтобы не ругался ESLint)
+      // Вектор отталкивания применяется ТОЛЬКО если uInteractive > 0.5 И дистанция < 2.5
+      vel.addAssign(
+        select(
+          length(pos.sub(uMouse)).lessThan(2.5).and(uInteractive.greaterThan(0.5)),
+          pos.sub(uMouse).normalize().mul(0.05),
+          vec3(0.0)
+        )
+      );
 
-      // 3. Трение и применение скорости к позиции
+      // 3. Трение и движение
       vel.mulAssign(uFriction);
       pos.addAssign(vel);
     });

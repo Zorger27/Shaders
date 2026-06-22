@@ -27,6 +27,7 @@ export const Project3 = () => {
 
   // --- СОСТОЯНИЯ ДЛЯ СИМУЛЯЦИИ ЧАСТИЦ ---
   const [isExploding, setIsExploding] = useState(false);
+  const [isInteractive, setIsInteractive] = useState(false); // Состояние для мыши
   const [gravityForce, setGravityForce] = useState(0.002);
   const [friction, setFriction] = useState(0.98);
   const [explosionPower, setExplosionPower] = useState(1.5);
@@ -126,6 +127,13 @@ export const Project3 = () => {
                   </label>
                 </div>
 
+                <div className="control-group checkbox">
+                  <label>
+                    <input type="checkbox" checked={isInteractive} onChange={(e) => setIsInteractive(e.target.checked)} />
+                    🖱️ Реакция
+                  </label>
+                </div>
+
                 <hr className="control-group-line" />
 
                 <div className="control-group">
@@ -176,6 +184,7 @@ export const Project3 = () => {
             {/* ПЕРЕДАЕМ СОСТОЯНИЯ КАК PROPS */}
             <GPGPUParticles
               isExploding={isExploding}
+              isInteractive={isInteractive}
               gravityForce={gravityForce}
               friction={friction}
               explosionPower={explosionPower}
