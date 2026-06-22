@@ -1,4 +1,4 @@
-import React, { useMemo, useEffect } from 'react';
+import React, { useMemo, useEffect, useRef } from 'react';
 import { extend, useFrame } from '@react-three/fiber';
 import { MeshBasicNodeMaterial, StorageInstancedBufferAttribute } from 'three/webgpu';
 import { storage, positionLocal, instanceIndex, Fn, length, uniform, select, vec3 } from 'three/tsl';
@@ -22,6 +22,8 @@ export default function GPGPUParticles({
   const uExplode = useMemo(() => uniform(isExploding ? 1.0 : 0.0), []);
   const uExplosionPower = useMemo(() => uniform(explosionPower), []);
   const uColor = useMemo(() => uniform(new THREE.Color(particleColor)), []);
+  // Юниформ для мыши
+  const uMouse = useMemo(() => uniform(new THREE.Vector3(100, 100, 100)), []);
 
   // Синхронизируем React props с TSL юниформами (эффективное обновление без ререндера шейдера)
   useEffect(() => { uGravity.value = gravityForce; }, [gravityForce]);
@@ -64,6 +66,10 @@ export default function GPGPUParticles({
     return new StorageInstancedBufferAttribute(initVelocities, 3);
   }, [basePositions, particleCount]);
 
+  // --- ВЗАИМОДЕЙСТВИЕ ---
+  const raycaster = useRef(new THREE.Raycaster());
+  const mouse3D = useRef(new THREE.Vector3());
+
   // Вычислительный Шейдер (Compute Shader)
   const computeNode = useMemo(() => {
     // Fn компилируется в WGSL-код, который выполняется прямо на видеокарте
@@ -72,6 +78,13 @@ export default function GPGPUParticles({
       const pos = storage(particlesAttribute, 'vec3', particleCount).element(instanceIndex);
       const vel = storage(velocityAttribute, 'vec3', particleCount).element(instanceIndex);
       const initVel = storage(initVelocityAttribute, 'vec3', particleCount).element(instanceIndex);
+
+      // Логика мыши: вектор от мыши к частице
+      const toMouse = pos.sub(uMouse);
+      const distToMouse = length(toMouse);
+
+      // Сила отталкивания от курсора (если ближе 2.5 единиц)
+      const mouseForce = select(distToMouse.lessThan(2.5), toMouse.normalize().mul(0.05), vec3(0.0));
 
       // Проверяем состояние галочки через select() прямо внутри видеокарты
       vel.addAssign(
@@ -92,6 +105,9 @@ export default function GPGPUParticles({
         )
       );
 
+      // Добавляем влияние мыши
+      vel.addAssign(mouseForce);
+
       // 3. Трение и применение скорости к позиции
       vel.mulAssign(uFriction);
       pos.addAssign(vel);
@@ -99,10 +115,16 @@ export default function GPGPUParticles({
 
     // Создаем ноду вычислений на нужное количество инстансов
     return computePhysics().compute(particleCount);
-  }, [particlesAttribute, velocityAttribute, initVelocityAttribute, particleCount, uGravity, uFriction, uExplode, uExplosionPower]);
+  }, [particlesAttribute, velocityAttribute, initVelocityAttribute, particleCount, uGravity, uFriction, uExplode, uExplosionPower, uMouse]);
 
   // Выполняем Compute Shader каждый кадр (60 FPS)
   useFrame((state) => {
+    // Обновляем позицию мыши в 3D пространстве на основе Raycaster
+    raycaster.current.setFromCamera(state.pointer, state.camera);
+    // Проектируем мышь на плоскость Z=0 (или на глубину, где находится сфера)
+    raycaster.current.ray.at(10, mouse3D.current);
+    uMouse.value.copy(mouse3D.current);
+
     // state.gl - это наш WebGPURenderer. Говорим ему: "Посчитай физику!"
     state.gl.compute(computeNode);
   });
