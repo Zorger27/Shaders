@@ -55,7 +55,12 @@
   },
   "project3": {
     "name": "Física 3D",
-    "disc": "GPGPU Compute — simulación de miles de objetos que calculan su propia física con campos vectoriales"
+    "disc": "GPGPU Compute — simulación de miles de objetos que calculan su propia física con campos vectoriales",
+    "exploding": "\uD83D\uDD25 Pulsación",
+    "gravity": "Gravedad",
+    "friction": "Viscosidad",
+    "impulse": "Impulso",
+    "color": "Color"
   },
   "project4": {
     "name": "Matemática 3D",

@@ -55,7 +55,12 @@
   },
   "project3": {
     "name": "3D Physics",
-    "disc": "GPGPU Compute — high-performance simulation where thousands of objects calculate their own physics"
+    "disc": "GPGPU Compute — high-performance simulation where thousands of objects calculate their own physics",
+    "exploding": "\uD83D\uDD25 Pulsation",
+    "gravity": "Gravity",
+    "friction": "Viscosity",
+    "impulse": "Impulse",
+    "color": "Color"
   },
   "project4": {
     "name": "3D Math",

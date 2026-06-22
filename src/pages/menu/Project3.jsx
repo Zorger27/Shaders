@@ -122,28 +122,32 @@ export const Project3 = () => {
                 <div className="control-group checkbox">
                   <label>
                     <input type="checkbox" checked={isExploding} onChange={(e) => setIsExploding(e.target.checked)} />
-                    🔥 Взрыв (Цикл)
+                    {t ('project3.exploding')}
                   </label>
                 </div>
 
+                <hr className="control-group-line" />
+
                 <div className="control-group">
-                  <label>Скорость сжатия: {gravityForce.toFixed(4)}</label>
+                  <label>{t ('project3.gravity')}: {gravityForce.toFixed(4)}</label>
                   <input type="range" min="0.0001" max="0.01" step="0.0001" value={gravityForce} onChange={(e) => setGravityForce(parseFloat(e.target.value))} />
                 </div>
 
                 <div className="control-group">
-                  <label>Вязкость (трение): {friction.toFixed(3)}</label>
+                  <label>{t ('project3.friction')}: {friction.toFixed(3)}</label>
                   <input type="range" min="0.90" max="0.999" step="0.001" value={friction} onChange={(e) => setFriction(parseFloat(e.target.value))} />
                 </div>
 
                 <div className="control-group">
-                  <label>Сила отскока: {explosionPower.toFixed(1)}</label>
+                  <label>{t ('project3.impulse')}: {explosionPower.toFixed(1)}</label>
                   <input type="range" min="0.5" max="5.0" step="0.1" value={explosionPower} onChange={(e) => setExplosionPower(parseFloat(e.target.value))} />
                 </div>
 
+                <hr className="control-group-line" />
+
                 <div className="control-group">
                   <label style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                    Цвет:
+                    {t ('project3.color')}:
                     <input type="color" value={particleColor} onChange={(e) => setParticleColor(e.target.value)} style={{ cursor: 'pointer' }} />
                   </label>
                 </div>
