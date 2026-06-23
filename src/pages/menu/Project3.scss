@@ -103,7 +103,6 @@
 
             .toggle-btn {
               width: 100%;
-              gap: 8px;
               padding: 8px 10px;
               margin-bottom: -0.4rem;
               background: rgba(255, 255, 255, 0.05);
@@ -210,8 +209,8 @@
             .control-group-line {margin: 4px 0;}
 
             .close-controls-btn {
-              top: 5px;
-              right: 8px;
+              margin-top: -1.1rem;
+              margin-bottom: -0.3rem;
               font-size: 1.3rem;
             }
 
@@ -223,18 +222,16 @@
                 letter-spacing: 1px;
               }
 
-              &.checkbox {
-                label {gap: 10px;}
-
-                input {
-                  width: 16px;
-                  height: 16px;
-                }
+              .toggle-btn {
+                padding: 7px 9px;
+                margin-bottom: -0.4rem;
+                border-radius: 4px;
+                font-size: 0.8rem;
               }
 
-              &.button {
+              &.reset {
                 font-size: 0.8rem;
-                padding: 7px;
+                padding: 7px 9px;
                 border-radius: 4px;
               }
             }
@@ -289,27 +286,25 @@
             .control-group-line {margin: 3px 0;}
 
             .close-controls-btn {
-              top: 1px;
-              right: 8px;
+              margin-top: -1.1rem;
+              margin-bottom: -0.3rem;
               font-size: 1.3rem;
             }
 
             .control-group {
               gap: 7px;
-              label {font-size: 0.6rem;}
+              label {font-size: 0.7rem;}
 
-              &.checkbox {
-                label {gap: 10px;}
-
-                input {
-                  width: 14px;
-                  height: 14px;
-                }
+              .toggle-btn {
+                padding: 7px 9px;
+                margin-bottom: -0.4rem;
+                border-radius: 3px;
+                font-size: 0.8rem;
               }
 
-              &.button {
-                font-size: 0.6rem;
-                padding: 6px;
+              &.reset {
+                font-size: 0.8rem;
+                padding: 7px 9px;
                 border-radius: 3px;
               }
             }
