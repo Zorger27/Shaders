@@ -32,6 +32,7 @@ export const Project3 = () => {
   const [friction, setFriction] = useState(0.98);
   const [explosionPower, setExplosionPower] = useState(1.5);
   const [particleColor, setParticleColor] = useState('#7300ff');
+  const [resetKey, setResetKey] = useState(0);
 
   // --- ФУНКЦИЯ СБРОСА НАСТРОЕК ---
   const handleReset = () => {
@@ -41,6 +42,9 @@ export const Project3 = () => {
     setFriction(0.98);
     setExplosionPower(1.5);
     setParticleColor('#7300ff');
+
+    // Меняем ключ, заставляя React пересоздать компонент GPGPUParticles с нуля
+    setResetKey(prev => prev + 1);
   };
 
   // responsive inline-стили
@@ -195,6 +199,7 @@ export const Project3 = () => {
 
             {/* ПЕРЕДАЕМ СОСТОЯНИЯ КАК PROPS */}
             <GPGPUParticles
+              key={resetKey}
               isExploding={isExploding}
               isInteractive={isInteractive}
               gravityForce={gravityForce}
