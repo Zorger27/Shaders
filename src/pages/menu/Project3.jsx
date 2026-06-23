@@ -134,18 +134,18 @@ export const Project3 = () => {
                   &times;
                 </button>
 
-                <div className="control-group checkbox">
-                  <label>
-                    <input type="checkbox" checked={isExploding} onChange={(e) => setIsExploding(e.target.checked)} />
+                {/* КНОПКА: ПУЛЬСАЦИЯ */}
+                <div className="control-group">
+                  <button className={`toggle-btn ${isExploding ? 'active' : ''}`} onClick={() => setIsExploding(!isExploding)}>
                     {t ('project3.exploding')}
-                  </label>
+                  </button>
                 </div>
 
-                <div className="control-group checkbox">
-                  <label>
-                    <input type="checkbox" checked={isInteractive} onChange={(e) => setIsInteractive(e.target.checked)} />
+                {/* КНОПКА: РЕАКЦИЯ */}
+                <div className="control-group">
+                  <button className={`toggle-btn ${isInteractive ? 'active' : ''}`} onClick={() => setIsInteractive(!isInteractive)}>
                     {t ('project3.reaction')}
-                  </label>
+                  </button>
                 </div>
 
                 <hr className="control-group-line" />
@@ -174,7 +174,7 @@ export const Project3 = () => {
                   </label>
                 </div>
 
-                <button className="control-group button" onClick={handleReset}>{t ('project3.reset')}</button>
+                <button className="control-group reset" onClick={handleReset}>{t ('project3.reset')}</button>
 
               </div>
             )}
