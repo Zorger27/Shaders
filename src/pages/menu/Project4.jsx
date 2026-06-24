@@ -27,6 +27,7 @@ export const Project4 = () => {
   // Состояния для Реймаршинга
   const [objectColor, setObjectColor] = useState('#691bef');
   const [morphFactor, setMorphFactor] = useState(1.0);
+  const [autoRotate, setAutoRotate] = useState(false);
   const [resetKey, setResetKey] = useState(0);
 
   // Закрытие меню по клику вне его области
@@ -43,6 +44,7 @@ export const Project4 = () => {
   const handleReset = () => {
     setObjectColor('#691bef');
     setMorphFactor(1.0);
+    setAutoRotate(false);
     // Меняем ключ, заставляя React пересоздать компоненту с нуля
     setResetKey(prev => prev + 1);
   };
@@ -135,6 +137,13 @@ export const Project4 = () => {
                   </label>
                 </div>
 
+                <div className="control-group checkbox">
+                  <label>
+                    <input type="checkbox" checked={autoRotate} onChange={(e) => setAutoRotate(e.target.checked)} />
+                    {t ('project4.rotate')}
+                  </label>
+                </div>
+
                 <div className="control-group"><button className="reset" onClick={handleReset}>{t ('project4.reset')}</button></div>
               </div>
             )}
@@ -148,10 +157,7 @@ export const Project4 = () => {
 
             <RaymarchingSculptor key={resetKey} objectColor={objectColor} morphFactor={morphFactor}/>
 
-            <OrbitControls makeDefault target={[0, 0, 0]} enableDamping enablePan={false} enableZoom
-                           autoRotate
-                           autoRotateSpeed={2}
-            />
+            <OrbitControls makeDefault target={[0, 0, 0]} enableDamping enablePan={false} enableZoom autoRotate={autoRotate} autoRotateSpeed={2}/>
           </WebGPUCanvas>
 
         </div>

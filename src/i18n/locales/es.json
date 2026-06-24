@@ -69,7 +69,8 @@
     "disc": "Raymarching SDF — generación de mundos tridimensionales complejos mediante funciones de distancia",
     "reset": "\uD83D\uDD04 Restablecer",
     "morph": "Transformación",
-    "color": "Color"
+    "color": "Color",
+    "rotate": "Gira la escena"
   },
   "project5": {
     "name": "Instancing",
