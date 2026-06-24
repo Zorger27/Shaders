@@ -15,21 +15,20 @@ import { sdfSphere, sdfTorus, sdfBox } from "@/components/util/raymarchingMath.j
 // Карта сцены: возвращает минимальное расстояние до геометрии
 const map = Fn(([p, morph]) => {
   // Базовые фигуры
-  const sphere = sdfSphere(p, float(1.8));
+  const sphere = sdfSphere(p, float(2.0));
 
   // ИСПОЛЬЗУЕМ p.xzy — это поворачивает тор так, чтобы дырка смотрела в камеру (вдоль оси Z)
   const torus = sdfTorus(p.xzy, vec2(1.7, 0.6));
   const box = sdfBox(p, vec3(1.4));
 
   // --- ИСТИННЫЙ МОРФИНГ (ЧЕРЕЗ MIX) ---
-  // factor1: меняется от 0 до 1, пока morph идет от 0.0 до 0.5
-  const factor1 = clamp(morph.mul(2.0), 0.0, 1.0);
-
+  // Этап 1 (0.0 - 1.0): Сфера -> Тор
+  const factor1 = clamp(morph, 0.0, 1.0);
   // Перетекание из Сферы в Тор
   const stage1 = mix(sphere, torus, factor1);
 
-  // factor2: меняется от 0 до 1, пока morph идет от 0.5 до 1.0
-  const factor2 = clamp(morph.sub(0.5).mul(2.0), 0.0, 1.0);
+  // Этап 2 (1.0 - 2.0): Тор -> Куб
+  const factor2 = clamp(morph.sub(1.0), 0.0, 1.0);
 
   // Перетекание из получившегося результата (Тора) в Куб
   return mix(stage1, box, factor2);

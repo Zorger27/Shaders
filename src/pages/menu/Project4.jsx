@@ -26,7 +26,7 @@ export const Project4 = () => {
 
   // Состояния для Реймаршинга
   const [objectColor, setObjectColor] = useState('#691bef');
-  const [morphFactor, setMorphFactor] = useState(0.5);
+  const [morphFactor, setMorphFactor] = useState(1.0);
   const [resetKey, setResetKey] = useState(0);
 
   // Закрытие меню по клику вне его области
@@ -42,7 +42,7 @@ export const Project4 = () => {
 
   const handleReset = () => {
     setObjectColor('#691bef');
-    setMorphFactor(0.5);
+    setMorphFactor(1.0);
     // Меняем ключ, заставляя React пересоздать компоненту с нуля
     setResetKey(prev => prev + 1);
   };
@@ -119,7 +119,7 @@ export const Project4 = () => {
 
                 <div className="control-group">
                   <label>{t ('project4.morph')}: {morphFactor}</label>
-                  <input type="range" min="0" max="1" step="0.01" value={morphFactor}
+                  <input type="range" min="0" max="2" step="0.01" value={morphFactor}
                          onChange={(e) => setMorphFactor(parseFloat(e.target.value))}
                   />
                 </div>
