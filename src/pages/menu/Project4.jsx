@@ -150,14 +150,14 @@ export const Project4 = () => {
           </div>
 
           <WebGPUCanvas style={canvasStyle}>
-            <perspectiveCamera makeDefault position={[0, 0, 8]} />
+            <perspectiveCamera key={resetKey} makeDefault position={[0, 0, 8]} />
             <ambientLight intensity={0.6} />
 
             <SceneBackground imagePath={background04} enabled={isFullscreen}/>
 
             <RaymarchingSculptor key={resetKey} objectColor={objectColor} morphFactor={morphFactor}/>
 
-            <OrbitControls makeDefault target={[0, 0, 0]} enableDamping enablePan={false} enableZoom autoRotate={autoRotate} autoRotateSpeed={2}/>
+            <OrbitControls key={resetKey} makeDefault target={[0, 0, 0]} enableDamping enablePan={false} enableZoom autoRotate={autoRotate} autoRotateSpeed={2}/>
           </WebGPUCanvas>
 
         </div>
