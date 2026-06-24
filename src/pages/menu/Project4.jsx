@@ -146,15 +146,11 @@ export const Project4 = () => {
 
             <SceneBackground imagePath={background04} enabled={isFullscreen}/>
 
-            <RaymarchingSculptor
-              key={resetKey}
-              objectColor={objectColor}
-              morphFactor={morphFactor}
-            />
+            <RaymarchingSculptor key={resetKey} objectColor={objectColor} morphFactor={morphFactor}/>
 
             <OrbitControls makeDefault target={[0, 0, 0]} enableDamping enablePan={false} enableZoom
-                           // autoRotate
-                           // autoRotateSpeed={2}
+                           autoRotate
+                           autoRotateSpeed={2}
             />
           </WebGPUCanvas>
 
