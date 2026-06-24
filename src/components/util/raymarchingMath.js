@@ -19,6 +19,5 @@ export const smin = Fn(([a, b, k]) => {
 
 // 4. SDF Куба (Параллелепипеда)
 export const sdfBox = Fn(([p, b]) => {
-  const d = length(max(vec3(p).abs().sub(b), 0.0));
-  return d; // Упрощенный вариант без внутренних областей, идеален для реймершинга
+  return length(max(vec3(p).abs().sub(b), 0.0)); // Упрощенный вариант без внутренних областей, идеален для реймершинга
 });
