@@ -66,7 +66,10 @@
   },
   "project4": {
     "name": "3D Math",
-    "disc": "Raymarching SDF — generation of complex three-dimensional worlds using mathematical distance functions"
+    "disc": "Raymarching SDF — generation of complex three-dimensional worlds using mathematical distance functions",
+    "reset": "\uD83D\uDD04 Reset",
+    "morph": "Morphing",
+    "color": "Color"
   },
   "project5": {
     "name": "Instancing",

@@ -12,6 +12,170 @@
       margin: 0.7rem auto;
       color: black;
     }
+
+    .canvas-wrapper {
+      position: relative;
+      border-radius: 10px;
+      overflow: hidden;
+
+      // Контейнер, который держит внутри либо кнопку, либо само меню
+      .controls-container {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        z-index: 100;
+
+        .open-controls-btn {
+          background: rgba(0, 0, 0, 0.7);
+          border: 1px solid white;
+          color: #00f2ff;
+          font-size: 1.5rem;
+          width: 50px;
+          height: 50px;
+          border-radius: 50%;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: all 0.3s ease;
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.9);
+
+          &:hover {
+            color: rgba(0, 0, 0, 0.7);
+            background: rgba(0, 242, 255, 0.6);
+            border-color: rgb(0 0 0);
+            box-shadow: none;
+          }
+        }
+
+        .shader-controls {
+          background: rgba(0, 0, 0, 0.7);
+          padding: 25px 20px 20px; // Сверху чуть больше отступ из-за крестика
+          border-radius: 10px;
+          border: 1px solid white;
+          display: flex;
+          flex-direction: column;
+          gap: 15px;
+          width: 240px;
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.9);
+          animation: fadeIn 0.3s ease-out;
+          position: relative;
+
+          .control-group-line {
+            margin: 5px 0;
+            border-color: rgba(68, 68, 68, 1.0);
+          }
+
+          .close-controls-btn {
+            text-align: right;
+            margin-top: -1.1rem;
+            margin-bottom: -0.4rem;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: color 0.2s ease;
+            line-height: 1;
+            padding: 0;
+
+            &:hover {color: #ff4444;}
+          }
+
+          .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+
+            label {
+              text-shadow: 0 1px 2px darkred;
+              color: white;
+              font-size: 0.85rem;
+              font-family: 'Montserrat', sans-serif;
+              text-transform: uppercase;
+              letter-spacing: 1px;
+            }
+
+            input[type="range"] {
+              cursor: pointer;
+              accent-color: #00f2ff;
+            }
+
+            .toggle-btn {
+              width: 100%;
+              padding: 8px 10px;
+              margin-bottom: -0.4rem;
+              background: rgba(255, 255, 255, 0.05);
+              color: white;
+              border: 1px solid rgba(255, 255, 255, 0.4);
+              border-radius: 4px;
+              cursor: pointer;
+              font-size: 0.85rem;
+              text-align: left;
+              transition: all 0.3s ease; /* Плавная анимация переходов */
+
+              &:hover {
+                background: rgba(255, 255, 255, 0.20);
+                color: #fff;
+              }
+
+              /* Состояние, когда кнопка ВКЛЮЧЕНА */
+              &.active {
+                background: rgba(0, 255, 204, 0.2);
+                color: #00ffcc;
+                border-color: #00ffcc;
+                box-shadow: 0 0 10px rgba(0, 255, 204, 0.3); /* Легкое свечение */
+              }
+            }
+
+            .reset {
+              width: 100%;
+              font-size: 0.85rem;
+              padding: 8px 10px;
+              cursor: pointer;
+              background: white;
+              color: darkred;
+              border: 1px solid darkred;
+              border-radius: 4px;
+              transition: all 0.2s ease;
+
+              &:hover {
+                color: red;
+                border-color: red;
+                animation: recording-blink 1.2s ease-in-out infinite;
+              }
+
+              @keyframes recording-blink {
+                0%, 100% {
+                  color: red;
+                  border-color: red;
+                  box-shadow: 0 0 6px rgba(255, 0, 0, 0.8);
+                }
+                50% {
+                  color: darkred;
+                  border-color: darkred;
+                  box-shadow: 0 0 2px rgba(255, 0, 0, 0.3);
+                }
+              }
+            }
+          }
+        }
+      }
+
+      // Анимация плавного появления меню
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(-10px) scale(0.95);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+      }
+
+    }
+
   }
 }
 
@@ -22,6 +186,72 @@
         font-size: 2.3rem;
         margin: 0.6rem auto;
       }
+
+      .canvas-wrapper {
+        border-radius: 9px;
+
+        .controls-container {
+          top: 20px;
+          right: 20px;
+
+          .open-controls-btn {
+            font-size: 1.5rem;
+            width: 50px;
+            height: 50px;
+          }
+
+          .shader-controls {
+            padding: 25px 15px 15px;
+            border-radius: 9px;
+            gap: 13px;
+            width: 200px;
+
+            .control-group-line {margin: 4px 0;}
+
+            .close-controls-btn {
+              margin-top: -1.1rem;
+              margin-bottom: -0.3rem;
+              font-size: 1.3rem;
+            }
+
+            .control-group {
+              gap: 8px;
+
+              label {
+                font-size: 0.8rem;
+                letter-spacing: 1px;
+              }
+
+              .toggle-btn {
+                padding: 7px 9px;
+                margin-bottom: -0.4rem;
+                border-radius: 4px;
+                font-size: 0.8rem;
+              }
+
+              &.reset {
+                font-size: 0.8rem;
+                padding: 7px 9px;
+                border-radius: 4px;
+              }
+            }
+          }
+        }
+
+        // Анимация плавного появления меню
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+            transform: translateY(-10px) scale(0.95);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+          }
+        }
+
+      }
+
     }
   }
 }
@@ -33,6 +263,68 @@
         font-size: 2rem;
         margin: 0.5rem auto;
       }
+
+      .canvas-wrapper {
+        border-radius: 6px;
+
+        .controls-container {
+          top: 5px;
+          right: 10px;
+
+          .open-controls-btn {
+            font-size: 1.5rem;
+            width: 50px;
+            height: 50px;
+          }
+
+          .shader-controls {
+            padding: 20px 10px 10px;
+            border-radius: 9px;
+            gap: 13px;
+            width: 165px;
+
+            .control-group-line {margin: 3px 0;}
+
+            .close-controls-btn {
+              margin-top: -1.1rem;
+              margin-bottom: -0.3rem;
+              font-size: 1.3rem;
+            }
+
+            .control-group {
+              gap: 7px;
+              label {font-size: 0.7rem;}
+
+              .toggle-btn {
+                padding: 7px 9px;
+                margin-bottom: -0.4rem;
+                border-radius: 3px;
+                font-size: 0.8rem;
+              }
+
+              &.reset {
+                font-size: 0.8rem;
+                padding: 7px 9px;
+                border-radius: 3px;
+              }
+            }
+          }
+        }
+
+        // Анимация плавного появления меню
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+            transform: translateY(-10px) scale(0.95);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+          }
+        }
+
+      }
+
     }
   }
 }

@@ -9,58 +9,42 @@ import CanvasFullScreen from "@/components/util/CanvasFullScreen.jsx";
 import { useResponsiveStyle } from "@/hooks/useResponsiveStyle";
 import WebGPUCanvas from '@/components/canvas/WebGPUCanvas.jsx';
 import SceneBackground from '@/components/canvas/SceneBackground.jsx';
-
-import * as THREE from "three";
+import RaymarchingSculptor from "@/components/canvas/RaymarchingSculptor.jsx"
 import { OrbitControls } from '@react-three/drei';
-
 import background04 from "@/assets/CanvasFullScreen/cube3-21.webp";
 
 export const Project4 = () => {
   const { t } = useTranslation();
   const siteUrl = import.meta.env.VITE_SITE_URL;
   useSpaCleanup();
+
   const canvasContainerRef = useRef(null);
+  const controlsRef = useRef(null);
+
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [isControlsOpen, setIsControlsOpen] = useState(false);
 
-  // Функция для перевода градусов в радианы
-  const degreesToRadians = (degrees) => degrees * (Math.PI / 180);
+  // Состояния для Реймаршинга
+  const [objectColor, setObjectColor] = useState('#691bef');
+  const [morphFactor, setMorphFactor] = useState(0.3);
+  const [resetKey, setResetKey] = useState(0);
 
-  // Куб с прозрачными гранями и свечением по контуру
-  const Box = () => {
-    const meshRef = useRef(null);
-
-    // Цвета для 6 сторон с прозрачностью - используем MeshBasicMaterial для ярких цветов
-    const materials = [
-      new THREE.MeshBasicMaterial({ color: 'red', transparent: true, opacity: 1 }),
-      new THREE.MeshBasicMaterial({ color: 'green', transparent: true, opacity: 1 }),
-      new THREE.MeshBasicMaterial({ color: 'blue', transparent: true, opacity: 1 }),
-      new THREE.MeshBasicMaterial({ color: 'gold', transparent: true, opacity: 1 }),
-      new THREE.MeshBasicMaterial({ color: 'purple', transparent: true, opacity: 1 }),
-      new THREE.MeshBasicMaterial({ color: 'cyan', transparent: true, opacity: 1 }),
-    ];
-
-    // Устанавливаем начальный наклон куба
-    useEffect(() => {
-      if (meshRef.current) {
-        const euler = new THREE.Euler(
-          degreesToRadians(90),   // 90 градусов по X
-          degreesToRadians(20),   // 20 градусов по Y
-          0                            // 0° поворот по Z
-        );
-
-        meshRef.current.setRotationFromEuler(euler);
+  // Закрытие меню по клику вне его области
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (controlsRef.current && !controlsRef.current.contains(event.target)) {
+        setIsControlsOpen(false);
       }
-    }, []);
+    };
+    if (isControlsOpen) document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [isControlsOpen]);
 
-    return (
-      <group ref={meshRef}>
-        <mesh geometry={new THREE.BoxGeometry(2.5, 2.5, 2.5)} material={materials} />
-        {/* Белые линии по рёбрам куба */}
-        <lineSegments geometry={new THREE.EdgesGeometry(new THREE.BoxGeometry(2.5,2.5,2.5))}>
-          <lineBasicMaterial color="white" transparent opacity={0.8} depthTest={false} />
-        </lineSegments>
-      </group>
-    );
+  const handleReset = () => {
+    setObjectColor('#691bef');
+    setMorphFactor(0.3);
+    // Меняем ключ, заставляя React пересоздать компоненту с нуля
+    setResetKey(prev => prev + 1);
   };
 
   // responsive inline-стили
@@ -123,7 +107,38 @@ export const Project4 = () => {
         </h1>
         <hr className="custom-line" />
 
-        <div ref={canvasContainerRef}>
+        <div ref={canvasContainerRef} className="canvas-wrapper">
+
+          {/* НАСТРОЙКИ UI ИНТЕРФЕЙСА */}
+          <div className="controls-container" ref={controlsRef}>
+            {!isControlsOpen ? (
+              <button className="open-controls-btn" onClick={() => setIsControlsOpen(true)}><i className="fa fa-sliders"></i></button>
+            ) : (
+              <div className="shader-controls">
+                <button className="close-controls-btn" onClick={() => setIsControlsOpen(false)}>&times;</button>
+
+                <div className="control-group">
+                  <label>{t ('project4.morph')}: {morphFactor}</label>
+                  <input type="range" min="0" max="1" step="0.01" value={morphFactor}
+                         onChange={(e) => setMorphFactor(parseFloat(e.target.value))}
+                  />
+                </div>
+
+                <hr className="control-group-line" />
+
+                <div className="control-group">
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                    {t ('project4.color')}
+                    <input type="color" value={objectColor}
+                           onChange={(e) => setObjectColor(e.target.value)}
+                    />
+                  </label>
+                </div>
+
+                <div className="control-group"><button className="reset" onClick={handleReset}>{t ('project4.reset')}</button></div>
+              </div>
+            )}
+          </div>
 
           <WebGPUCanvas style={canvasStyle}>
             <perspectiveCamera makeDefault position={[0, 0, 2.5]} />
@@ -131,8 +146,16 @@ export const Project4 = () => {
 
             <SceneBackground imagePath={background04} enabled={isFullscreen}/>
 
-            <Box />
-            <OrbitControls enableDamping enablePan={false} enableZoom autoRotate autoRotateSpeed={5}/>
+            <RaymarchingSculptor
+              key={resetKey}
+              objectColor={objectColor}
+              morphFactor={morphFactor}
+            />
+
+            <OrbitControls makeDefault target={[0, 0, 0]} enableDamping enablePan={false} enableZoom
+                           // autoRotate
+                           // autoRotateSpeed={2}
+            />
           </WebGPUCanvas>
 
         </div>
