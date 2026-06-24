@@ -26,7 +26,7 @@ export const Project4 = () => {
 
   // Состояния для Реймаршинга
   const [objectColor, setObjectColor] = useState('#691bef');
-  const [morphFactor, setMorphFactor] = useState(0.3);
+  const [morphFactor, setMorphFactor] = useState(0.5);
   const [resetKey, setResetKey] = useState(0);
 
   // Закрытие меню по клику вне его области
@@ -42,7 +42,7 @@ export const Project4 = () => {
 
   const handleReset = () => {
     setObjectColor('#691bef');
-    setMorphFactor(0.3);
+    setMorphFactor(0.5);
     // Меняем ключ, заставляя React пересоздать компоненту с нуля
     setResetKey(prev => prev + 1);
   };
@@ -141,7 +141,7 @@ export const Project4 = () => {
           </div>
 
           <WebGPUCanvas style={canvasStyle}>
-            <perspectiveCamera makeDefault position={[0, 0, 2.5]} />
+            <perspectiveCamera makeDefault position={[0, 0, 8]} />
             <ambientLight intensity={0.6} />
 
             <SceneBackground imagePath={background04} enabled={isFullscreen}/>
