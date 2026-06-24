@@ -6,7 +6,7 @@ import { Color } from 'three';
 import { MeshBasicNodeMaterial } from 'three/webgpu';
 
 // ВНИМАНИЕ: Вся математика и логика импортируется из three/tsl!
-import { vec2, vec3, float, Fn, uv, uniform, Loop, If, Break, dot, max, sin, cos } from 'three/tsl';
+import { vec2, vec3, float, Fn, uv, uniform, Loop, If, Break, dot, max } from 'three/tsl';
 
 // Импортируем SDF-функции из утилитного файла
 import { sdfSphere, sdfTorus, smin } from "@/components/util/raymarchingMath.js";
