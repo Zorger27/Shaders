@@ -10,28 +10,29 @@ import { MeshBasicNodeMaterial } from 'three/webgpu';
 import { vec2, vec3, vec4, float, Fn, uniform, Loop, If, Break, dot, max, clamp, mix, cameraPosition, positionWorld, Discard } from 'three/tsl';
 
 // Импортируем SDF-функции из утилитного файла
-import { sdfSphere, sdfTorus, sdfBox } from "@/components/util/raymarchingMath.js";
+import { sdfSphere, sdfTorus, sdfCylinder, sdfCone } from "@/components/util/raymarchingMath.js";
 
 // Карта сцены: возвращает минимальное расстояние до геометрии
 const map = Fn(([p, morph]) => {
-  // Базовые фигуры
+// 1. Создаем базовые фигуры с выверенными пропорциями
   const sphere = sdfSphere(p, float(2.0));
-
-  // ИСПОЛЬЗУЕМ p.xzy — это поворачивает тор так, чтобы дырка смотрела в камеру (вдоль оси Z)
   const torus = sdfTorus(p.xzy, vec2(1.7, 0.6));
-  const box = sdfBox(p, vec3(1.4));
+  const cylinder = sdfCylinder(p, vec2(1.8, 1.4));  // Радиус 1.8, Половина высоты 1.4
+  const cone = sdfCone(p, float(2.2), float(1.5));  // Радиус низа 2.2, Половина высоты 1.5
 
   // --- ИСТИННЫЙ МОРФИНГ (ЧЕРЕЗ MIX) ---
   // Этап 1 (0.0 - 1.0): Сфера -> Тор
   const factor1 = clamp(morph, 0.0, 1.0);
-  // Перетекание из Сферы в Тор
   const stage1 = mix(sphere, torus, factor1);
 
-  // Этап 2 (1.0 - 2.0): Тор -> Куб
+  // Этап 2 (1.0 - 2.0): Тор -> Цилиндр
   const factor2 = clamp(morph.sub(1.0), 0.0, 1.0);
+  const stage2 = mix(stage1, cylinder, factor2);
 
-  // Перетекание из получившегося результата (Тора) в Куб
-  return mix(stage1, box, factor2);
+  // Этап 3 (2.0 - 3.0): Цилиндр -> Конус
+  const factor3 = clamp(morph.sub(2.0), 0.0, 1.0);
+
+  return mix(stage2, cone, factor3);
 });
 
 // --- ВЫЧИСЛЕНИЕ НОРМАЛЕЙ (Градиент SDF) ---

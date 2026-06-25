@@ -121,9 +121,33 @@ export const Project4 = () => {
 
                 <div className="control-group">
                   <label>{t ('project4.morph')}: {morphFactor}</label>
-                  <input type="range" min="0" max="2" step="0.01" value={morphFactor}
-                         onChange={(e) => setMorphFactor(parseFloat(e.target.value))}
-                  />
+
+                  <div className="morph-slider-wrapper">
+
+                    {/* Кнопка МИНУС: перемещает к предыдущей целой фигуре */}
+                    <button
+                      className="step-btn"
+                      onClick={() => setMorphFactor(prev => Math.max(0, Math.ceil(prev) - 1))}
+                      disabled={morphFactor === 0}
+                    >
+                      -
+                    </button>
+
+                    <input type="range" min="0" max="3" step="0.01" value={morphFactor}
+                      onChange={(e) => setMorphFactor(parseFloat(e.target.value))}
+                    />
+
+                    {/* Кнопка ПЛЮС: перемещает к следующей целой фигуре */}
+                    <button
+                      className="step-btn"
+                      onClick={() => setMorphFactor(prev => Math.min(3, Math.floor(prev) + 1))}
+                      disabled={morphFactor === 3}
+                    >
+                      +
+                    </button>
+
+                  </div>
+
                 </div>
 
                 <hr className="control-group-line" />
