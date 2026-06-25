@@ -1,3 +1,5 @@
+@use "sass:color";
+
 .project4 {
   flex: 1 0 auto;
   background: linear-gradient(to bottom, rgb(253, 241, 255), rgb(228, 237, 253)) no-repeat center;
@@ -106,36 +108,82 @@
               align-items: center;
               width: 100%;
 
-              .step-btn {
-                background: #691bef;
-                color: #ffffff;
-                border: none;
-                font-size: 1.2rem;
-                font-weight: bold;
-                width: 32px;
-                height: 32px;
+              .slider-button {
                 display: flex;
+                z-index: 2;
                 align-items: center;
                 justify-content: center;
-                border-radius: 6px;
-                transition: background 0.2s ease, opacity 0.2s ease;
+                background: transparent;
+                border: none;
+                font-size: 1.6rem;
                 cursor: pointer;
-
-                &:hover:not(:disabled) {
-                  background: lighten(#691bef, 10%);
-                }
+                transition: all 0.2s ease;
 
                 &:disabled {
-                  background: #333333;
                   color: #666666;
                   cursor: not-allowed;
-                  opacity: 0.5;
+                  opacity: 0.3;
                 }
+              }
+
+              .fa-plus-circle {
+                $color: lightseagreen;
+                color: $color;
+                transition: color 0.3s;
+
+                &:hover {color: color.adjust($color, $lightness: -15%);}
+                &:active {color: color.adjust($color, $lightness: -20%);}
+              }
+
+              .fa-minus-circle {
+                $color: deeppink;
+                color: $color;
+                transition: color 0.3s;
+
+                &:hover {color: color.adjust($color, $lightness: -15%);}
+                &:active {color: color.adjust($color, $lightness: -20%);}
               }
 
               input[type="range"] {
                 flex: 1;
-                margin: 0;
+                margin: 0 0.3rem;
+                -webkit-appearance: none; // убираем стандартный стиль
+                background: transparent; // чтобы фон не мешал
+                cursor: pointer;
+
+                // трек (полоска)
+                &::-webkit-slider-runnable-track {
+                  height: 6px;
+                  background: linear-gradient(to right, #4caf50, #2196f3); // зелёно-синяя
+                  border-radius: 3px;
+                }
+
+                &::-moz-range-track {
+                  height: 6px;
+                  background: linear-gradient(to right, #4caf50, #2196f3);
+                  border-radius: 3px;
+                }
+
+                // бегунок (кружок)
+                &::-webkit-slider-thumb {
+                  -webkit-appearance: none;
+                  width: 16px;
+                  height: 16px;
+                  background: #fff;
+                  border: 2px solid #4caf50;
+                  border-radius: 50%;
+                  cursor: pointer;
+                  margin-top: -5px; // центрируем по полоске
+                }
+
+                &::-moz-range-thumb {
+                  width: 16px;
+                  height: 16px;
+                  background: #fff;
+                  border: 2px solid #4caf50;
+                  border-radius: 50%;
+                  cursor: pointer;
+                }
               }
             }
 
@@ -255,11 +303,38 @@
                 letter-spacing: 1px;
               }
 
-              .toggle-btn {
-                padding: 7px 9px;
-                margin-bottom: -0.4rem;
-                border-radius: 4px;
-                font-size: 0.8rem;
+              .morph-slider-wrapper {
+                .slider-button {
+                  font-size: 1.4rem;
+                }
+
+                input[type="range"] {
+                  margin: 0 0.2rem;
+                  width: 100%;
+
+                  &::-webkit-slider-runnable-track {
+                    height: 6px;
+                    border-radius: 3px;
+                  }
+
+                  &::-moz-range-track {
+                    height: 6px;
+                    border-radius: 3px;
+                  }
+
+                  // бегунок (кружок)
+                  &::-webkit-slider-thumb {
+                    width: 14px;
+                    height: 14px;
+                    margin-top: -4.5px; // центрируем по полоске
+                  }
+
+                  &::-moz-range-thumb {
+                    width: 14px;
+                    height: 14px;
+                    cursor: pointer;
+                  }
+                }
               }
 
               &.checkbox {
@@ -337,11 +412,8 @@
               gap: 7px;
               label {font-size: 0.7rem;}
 
-              .toggle-btn {
-                padding: 7px 9px;
-                margin-bottom: -0.4rem;
-                border-radius: 3px;
-                font-size: 0.8rem;
+              .morph-slider-wrapper {
+                .slider-button {font-size: 1.3rem;}
               }
 
               &.checkbox {

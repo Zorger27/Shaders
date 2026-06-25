@@ -126,11 +126,11 @@ export const Project4 = () => {
 
                     {/* Кнопка МИНУС: перемещает к предыдущей целой фигуре */}
                     <button
-                      className="step-btn"
+                      className="slider-button minus"
                       onClick={() => setMorphFactor(prev => Math.max(0, Math.ceil(prev) - 1))}
                       disabled={morphFactor === 0}
                     >
-                      -
+                      <i className="fa-solid fa-minus-circle" />
                     </button>
 
                     <input type="range" min="0" max="3" step="0.01" value={morphFactor}
@@ -139,11 +139,11 @@ export const Project4 = () => {
 
                     {/* Кнопка ПЛЮС: перемещает к следующей целой фигуре */}
                     <button
-                      className="step-btn"
+                      className="slider-button plus"
                       onClick={() => setMorphFactor(prev => Math.min(3, Math.floor(prev) + 1))}
                       disabled={morphFactor === 3}
                     >
-                      +
+                      <i className="fa-solid fa-plus-circle" />
                     </button>
 
                   </div>
