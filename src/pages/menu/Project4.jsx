@@ -129,6 +129,7 @@ export const Project4 = () => {
                     {/* Кнопка МИНУС: перемещает к предыдущей целой фигуре */}
                     <button
                       className="slider-button minus"
+                      title={t("extra.decrease")}
                       onClick={() => setMorphFactor(prev => Math.max(0, Math.ceil(prev) - 1))}
                       disabled={morphFactor === 0}
                     >
@@ -142,6 +143,7 @@ export const Project4 = () => {
                     {/* Кнопка ПЛЮС: перемещает к следующей целой фигуре */}
                     <button
                       className="slider-button plus"
+                      title={t("extra.increase")}
                       onClick={() => setMorphFactor(prev => Math.min(3, Math.floor(prev) + 1))}
                       disabled={morphFactor === 3}
                     >
@@ -159,6 +161,7 @@ export const Project4 = () => {
 
                     <button
                       className="slider-button minus"
+                      title={t("extra.decrease")}
                       onClick={() => setFractalChaos(prev => {
                         const val = Math.round(prev * 100); // например, 35
                         // ceil(3.5)*10 - 10 = 4*10 - 10 = 30 -> 0.30
@@ -175,6 +178,7 @@ export const Project4 = () => {
 
                     <button
                       className="slider-button plus"
+                      title={t("extra.increase")}
                       onClick={() => setFractalChaos(prev => {
                         const val = Math.round(prev * 100); // например, 35
                         // floor(3.5)*10 + 10 = 3*10 + 10 = 40 -> 0.40

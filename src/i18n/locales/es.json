@@ -96,23 +96,14 @@
     "info404": "Página no encontrada, volver a la página principal",
     "btn404": "Volver a la página PRINCIPAL"
   },
-  "save": {
-    "title": "Guardar",
-    "saveData": "Abra el menú de guardar datos en el disco",
-    "closeSaveData": "Cerrar el menú de guardar datos en el disco",
-    "saveJPG": "Guardar como archivo .jpg",
-    "savePNG": "Guardar como archivo .png",
-    "savePDF": "Guardar como archivo .pdf",
-    "startVideo": "Iniciar grabación de vídeo",
-    "stopVideo": "Detener la grabación de vídeo",
-    "created": "Creado con Shaders"
-  },
   "extra": {
     "loading": "Cargando...",
     "detail": "Para más detalles ver aquí ⇢",
     "back": "Volver a la página principal",
     "tableView": "Vista de tabla",
     "listView": "Vista de lista",
+    "decrease": "Disminuir",
+    "increase": "Incrementar",
     "openSearch": "Mostrar ventana de BÚSQUEDA",
     "closeSearch": "Cerrar la ventana de BÚSQUEDA",
     "ascOrder": "Ordenar por orden ascendente",

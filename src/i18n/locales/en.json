@@ -96,23 +96,14 @@
     "info404": "Page not found, back to main page",
     "btn404": "Back to MAIN page"
   },
-  "save": {
-    "title": "Save",
-    "saveData": "Open the save data menu to the disk",
-    "closeSaveData": "Close the save data menu to the disk",
-    "saveJPG": "Save as .jpg file",
-    "savePNG": "Save as .png file",
-    "savePDF": "Save as .pdf file",
-    "startVideo": "Start video recording",
-    "stopVideo": "Stop video recording",
-    "created": "Created with Shaders"
-  },
   "extra": {
     "loading": "Loading...",
     "detail": "For more details see here ⇢",
     "back": "Return to the main page",
     "tableView": "Table view",
     "listView": "List view",
+    "decrease": "Decrease",
+    "increase": "Increase",
     "openSearch": "Show SEARCH window",
     "closeSearch": "Close SEARCH window",
     "ascOrder": "Sort by ascending",
