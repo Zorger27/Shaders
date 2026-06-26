@@ -10,10 +10,10 @@ import { MeshBasicNodeMaterial } from 'three/webgpu';
 import { vec2, vec3, vec4, float, Fn, uniform, Loop, If, Break, dot, max, clamp, mix, cameraPosition, positionWorld, Discard } from 'three/tsl';
 
 // Импортируем SDF-функции из утилитного файла
-import { sdfSphere, sdfTorus, sdfCylinder, sdfCone } from "@/components/util/raymarchingMath.js";
+import { sdfSphere, sdfTorus, sdfCylinder, sdfCone, fractalDisplacement } from "@/components/util/raymarchingMath.js";
 
 // Карта сцены: возвращает минимальное расстояние до геометрии
-const map = Fn(([p, morph]) => {
+const map = Fn(([p, morph, chaos]) => {
 // 1. Создаем базовые фигуры с выверенными пропорциями
   const sphere = sdfSphere(p, float(2.0));
   const torus = sdfTorus(p.xzy, vec2(1.7, 0.6));
@@ -31,32 +31,37 @@ const map = Fn(([p, morph]) => {
 
   // Этап 3 (2.0 - 3.0): Цилиндр -> Конус
   const factor3 = clamp(morph.sub(2.0), 0.0, 1.0);
+  const baseShape = mix(stage2, cone, factor3);
 
-  return mix(stage2, cone, factor3);
+  // ВЫЧИСЛЯЕМ ФРАКТАЛЬНОЕ ИСКАЖЕНИЕ И ПРИБАВЛЯЕМ К БАЗОВОЙ ФОРМЕ
+  const displacement = fractalDisplacement(p, chaos);
+  return baseShape.add(displacement);
 });
 
 // --- ВЫЧИСЛЕНИЕ НОРМАЛЕЙ (Градиент SDF) ---
-const calcNormal = Fn(([p, morph]) => {
+const calcNormal = Fn(([p, morph, chaos]) => {
   const e = vec2(0.001, 0.0);
   return vec3(
     // Теперь передаем morph во все вызовы map
-    map(p.add(e.xyy), morph).sub(map(p.sub(e.xyy), morph)),
-    map(p.add(e.yxy), morph).sub(map(p.sub(e.yxy), morph)),
-    map(p.add(e.yyx), morph).sub(map(p.sub(e.yyx), morph))
+    map(p.add(e.xyy), morph, chaos).sub(map(p.sub(e.xyy), morph, chaos)),
+    map(p.add(e.yxy), morph, chaos).sub(map(p.sub(e.yxy), morph, chaos)),
+    map(p.add(e.yyx), morph, chaos).sub(map(p.sub(e.yyx), morph, chaos))
   ).normalize();
 });
 
-export default function RaymarchingSculptor({ morphFactor, objectColor }) {
+export default function RaymarchingSculptor({ morphFactor, objectColor, fractalChaos }) {
   const meshRef = useRef(null);
 
   // Привязываем реактивный цвет из React к TSL uniform-переменной
   const uColor = uniform(new Color(objectColor));
   const uMorph = uniform(morphFactor);
+  const uChaos = uniform(fractalChaos);
 
   useFrame(() => {
     // Синхронизация параметров на каждом кадре
     uColor.value.set(objectColor);
     uMorph.value = morphFactor;
+    uChaos.value = fractalChaos; // <-- Обновляем каждый кадр
   });
 
   // --- ГЛАВНЫЙ ЦИКЛ РЕЙМАРШИНГА В TSL ---
@@ -84,13 +89,15 @@ export default function RaymarchingSculptor({ morphFactor, objectColor }) {
       const p = ro.add(rd.mul(t));
 
       // Запрашиваем расстояние до ближайшей точки сферы
-      const d = map(p, uMorph);
+      const d = map(p, uMorph, uChaos);
 
-      // Шагаем вперед на это расстояние
-      t.addAssign(d);
+      // Шагаем вперед на это расстояние. Умножаем шаг на 0.5!
+      // Поскольку фрактал искажает дистанцию, луч может "перешагнуть" стенку.
+      // Шагая в 2 раза короче, мы делаем рендеринг точным (без артефактов и дыр).
+      t.addAssign(d.mul(0.5));
 
       // Условие столкновения: если подошли ближе чем на 0.001
-      If(d.lessThan(0.001), () => {
+      If(d.lessThan(0.002), () => {
         hit.assign(1.0); // Фиксируем попадание
         Break();         // Прерываем цикл, дальше шагать не нужно
       });
@@ -109,8 +116,8 @@ export default function RaymarchingSculptor({ morphFactor, objectColor }) {
 
       // 1. Точная координата точки поверхности, в которую ударил луч
       const p = ro.add(rd.mul(t));
-      // 2. Вычисляем нормаль в этой точке
-      const n = calcNormal(p, uMorph);
+      // 2. Вычисляем нормаль в этой точке. Передаем uChaos в calcNormal для правильных теней на шипах!
+      const n = calcNormal(p, uMorph, uChaos);
       // 3. Создаем источник света (направлен сверху-справа)
       const lightDir = vec3(1.0, 1.0, 1.0).normalize();
       // 4. Освещение по Ламберту (Diffuse) - Скалярное произведение вектора света и нормали отсекает всё, что меньше 0.0
@@ -130,8 +137,6 @@ export default function RaymarchingSculptor({ morphFactor, objectColor }) {
 
     // 4. Возвращаем результат
     return finalColor;
-
-
 
   })();
 

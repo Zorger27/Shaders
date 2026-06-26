@@ -27,6 +27,7 @@ export const Project4 = () => {
   // Состояния для Реймаршинга
   const [objectColor, setObjectColor] = useState('#691bef');
   const [morphFactor, setMorphFactor] = useState(1.0);
+  const [fractalChaos, setFractalChaos] = useState(0.0);
   const [autoRotate, setAutoRotate] = useState(false);
   const [resetKey, setResetKey] = useState(0);
 
@@ -44,6 +45,7 @@ export const Project4 = () => {
   const handleReset = () => {
     setObjectColor('#691bef');
     setMorphFactor(1.0);
+    setFractalChaos(0.0);
     setAutoRotate(false);
     // Меняем ключ, заставляя React пересоздать компоненту с нуля
     setResetKey(prev => prev + 1);
@@ -122,7 +124,7 @@ export const Project4 = () => {
                 <div className="control-group">
                   <label>{t ('project4.morph')}: {morphFactor}</label>
 
-                  <div className="morph-slider-wrapper">
+                  <div className="slider-wrapper">
 
                     {/* Кнопка МИНУС: перемещает к предыдущей целой фигуре */}
                     <button
@@ -142,6 +144,35 @@ export const Project4 = () => {
                       className="slider-button plus"
                       onClick={() => setMorphFactor(prev => Math.min(3, Math.floor(prev) + 1))}
                       disabled={morphFactor === 3}
+                    >
+                      <i className="fa-solid fa-plus-circle" />
+                    </button>
+
+                  </div>
+
+                </div>
+
+                <div className="control-group">
+                  <label>{t('project4.chaos')}: {fractalChaos.toFixed(2)}</label>
+
+                  <div className="slider-wrapper">
+
+                    <button
+                      className="slider-button minus"
+                      onClick={() => setFractalChaos(prev => Math.max(0, Math.round((prev - 0.1) * 10) / 10))}
+                      disabled={fractalChaos === 0}
+                    >
+                      <i className="fa-solid fa-minus-circle" />
+                    </button>
+
+                    <input type="range" min="0" max="1" step="0.01" value={fractalChaos}
+                           onChange={(e) => setFractalChaos(parseFloat(e.target.value))}
+                    />
+
+                    <button
+                      className="slider-button plus"
+                      onClick={() => setFractalChaos(prev => Math.min(1, Math.round((prev + 0.1) * 10) / 10))}
+                      disabled={fractalChaos === 1}
                     >
                       <i className="fa-solid fa-plus-circle" />
                     </button>
@@ -179,7 +210,7 @@ export const Project4 = () => {
 
             <SceneBackground imagePath={background04} enabled={isFullscreen}/>
 
-            <RaymarchingSculptor objectColor={objectColor} morphFactor={morphFactor}/>
+            <RaymarchingSculptor objectColor={objectColor} morphFactor={morphFactor} fractalChaos={fractalChaos}/>
 
             <OrbitControls makeDefault target={[0, 0, 0]} enableDamping enablePan={false} enableZoom autoRotate={autoRotate} autoRotateSpeed={2}/>
           </WebGPUCanvas>

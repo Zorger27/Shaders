@@ -1,4 +1,4 @@
-import { vec2, vec3, float, Fn, clamp, max, min, abs, length, mix } from 'three/tsl';
+import { vec2, vec3, float, Fn, clamp, max, min, abs, length, mix, sin } from 'three/tsl';
 
 // 1. SDF Сферы: длина вектора позиции минус радиус
 export const sdfSphere = Fn(([p, r]) => {
@@ -49,4 +49,26 @@ export const sdfCone = Fn(([p, r, h]) => {
 
   // Возвращаем пересечение этих плоскостей (формирует конус)
   return max(d_side, d_caps);
+});
+
+// 7. Фрактальное искажение (Displacement)
+export const fractalDisplacement = Fn(([p, chaos]) => {
+  // Базовый масштаб узора
+  const freq = float(2.5);
+
+  // 1-я октава: крупные искажения (волны/шипы)
+  const p1 = p.mul(freq);
+  const d1 = sin(p1.x).mul(sin(p1.y)).mul(sin(p1.z));
+
+  // 2-я октава: мелкие детали (умножаем частоту, уменьшаем амплитуду)
+  const p2 = p.mul(freq.mul(2.3));
+  const d2 = sin(p2.x).mul(sin(p2.y)).mul(sin(p2.z)).mul(0.5);
+
+  // 3-я октава: микрорельеф
+  const p3 = p.mul(freq.mul(5.1));
+  const d3 = sin(p3.x).mul(sin(p3.y)).mul(sin(p3.z)).mul(0.25);
+
+  // Складываем все слои и умножаем на силу хаоса от ползунка.
+  // Коэффициент 0.4 нужен, чтобы на максимуме (1.0) фигуру не разорвало полностью
+  return d1.add(d2).add(d3).mul(chaos).mul(0.4);
 });
