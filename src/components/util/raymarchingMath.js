@@ -1,4 +1,4 @@
-import { vec2, vec3, float, Fn, clamp, max, min, abs, length, mix, sin } from 'three/tsl';
+import { vec2, vec3, float, Fn, clamp, max, min, abs, length, mix, sin, pow } from 'three/tsl';
 
 // 1. SDF Сферы: длина вектора позиции минус радиус
 export const sdfSphere = Fn(([p, r]) => {
