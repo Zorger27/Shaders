@@ -159,7 +159,11 @@ export const Project4 = () => {
 
                     <button
                       className="slider-button minus"
-                      onClick={() => setFractalChaos(prev => Math.max(0, Math.round((prev - 0.1) * 100) / 100))}
+                      onClick={() => setFractalChaos(prev => {
+                        const val = Math.round(prev * 100); // например, 35
+                        // ceil(3.5)*10 - 10 = 4*10 - 10 = 30 -> 0.30
+                        return Math.max(0, (Math.ceil(val / 10) * 10 - 10) / 100);
+                      })}
                       disabled={fractalChaos <= 0}
                     >
                       <i className="fa-solid fa-minus-circle" />
@@ -171,7 +175,11 @@ export const Project4 = () => {
 
                     <button
                       className="slider-button plus"
-                      onClick={() => setFractalChaos(prev => Math.min(1, Math.round((prev + 0.1) * 100) / 100))}
+                      onClick={() => setFractalChaos(prev => {
+                        const val = Math.round(prev * 100); // например, 35
+                        // floor(3.5)*10 + 10 = 3*10 + 10 = 40 -> 0.40
+                        return Math.min(1, (Math.floor(val / 10) * 10 + 10) / 100);
+                      })}
                       disabled={fractalChaos >= 1}
                     >
                       <i className="fa-solid fa-plus-circle" />
