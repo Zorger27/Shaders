@@ -70,7 +70,8 @@
     "reset": "\uD83D\uDD04 Restablecer",
     "morph": "Transformación",
     "color": "Color",
-    "rotate": "Gira la escena"
+    "rotate": "Gira la escena",
+    "chaos": "Entropía"
   },
   "project5": {
     "name": "Instancing",
