@@ -20,6 +20,7 @@ export const Project4 = () => {
 
   const canvasContainerRef = useRef(null);
   const controlsRef = useRef(null);
+  const morphDirRef = useRef(1); // 1 = вправо (к конусу), -1 = влево (к сфере)
 
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [isControlsOpen, setIsControlsOpen] = useState(false);
@@ -30,6 +31,7 @@ export const Project4 = () => {
   const [colorCylinder, setColorCylinder] = useState('#ff007f'); // Розовый (Цилиндр)
   const [colorCone, setColorCone] = useState('#ffd700');       // Золотой (Конус)
   const [morphFactor, setMorphFactor] = useState(1.0);
+  const [autoMorph, setAutoMorph] = useState(true);
   const [fractalChaos, setFractalChaos] = useState(0.0);
   const [autoRotate, setAutoRotate] = useState(false);
   const [resetKey, setResetKey] = useState(0);
@@ -45,12 +47,52 @@ export const Project4 = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [isControlsOpen]);
 
+  // Бесконечный цикл Автоморфинга (Маятник 0 -> 3 -> 0)
+  useEffect(() => {
+    let animationFrameId;
+    let lastTime = performance.now();
+
+    const loop = (time) => {
+      if (autoMorph) {
+        const delta = time - lastTime;
+        lastTime = time;
+        const speed = 0.0001;
+
+        setMorphFactor((prev) => {
+          // Умножаем скорость на текущее направление (1 или -1)
+          let next = prev + (delta * speed * morphDirRef.current);
+
+          // Если уперлись в Конус (3), меняем направление на обратное
+          if (next >= 3.0) {
+            next = 3.0;
+            morphDirRef.current = -1;
+          }
+          // Если вернулись в Сферу (0), снова идем вперед
+          else if (next <= 0.0) {
+            next = 0.0;
+            morphDirRef.current = 1;
+          }
+          return next;
+        });
+      }
+      animationFrameId = requestAnimationFrame(loop);
+    };
+
+    if (autoMorph) {
+      animationFrameId = requestAnimationFrame(loop);
+    }
+
+    return () => cancelAnimationFrame(animationFrameId);
+  }, [autoMorph]);
+
   const handleReset = () => {
     setColorSphere('#691bef');
     setColorTorus('#00f2ff');
     setColorCylinder('#ff007f');
     setColorCone('#ffd700');
     setMorphFactor(1.0);
+    morphDirRef.current = 1;
+    setAutoMorph(true);  // Включаем автоморфинг при ресете
     setFractalChaos(0.0);
     setAutoRotate(false);
     // Меняем ключ, заставляя React пересоздать компоненту с нуля
@@ -128,7 +170,15 @@ export const Project4 = () => {
                 <button className="close-controls-btn" onClick={() => setIsControlsOpen(false)}>&times;</button>
 
                 <div className="control-group">
-                  <label>{t ('project4.morph')}: {morphFactor}</label>
+                  {/* Кнопка АВТОМОРФИНГ */}
+                  <button
+                    className={`auto-morph-btn ${autoMorph ? 'active' : ''}`}
+                    onClick={() => setAutoMorph(!autoMorph)}
+                  >
+                    {t('project4.autoMorph')}
+                  </button>
+
+                  <label>{t ('project4.morph')}: {morphFactor.toFixed(2)}</label>
 
                   <div className="slider-wrapper">
 
@@ -136,22 +186,31 @@ export const Project4 = () => {
                     <button
                       className="slider-button minus"
                       title={t("extra.decrease")}
-                      onClick={() => setMorphFactor(prev => Math.max(0, Math.ceil(prev) - 1))}
-                      disabled={morphFactor === 0}
+                      onClick={() => {
+                        setAutoMorph(false); // Отключаем цикл при ручном клике
+                        setMorphFactor(prev => Math.max(0, Math.ceil(prev) - 1));
+                      }}
+                      disabled={morphFactor <= 0}
                     >
                       <i className="fa-solid fa-minus-circle" />
                     </button>
 
                     <input type="range" min="0" max="3" step="0.01" value={morphFactor}
-                      onChange={(e) => setMorphFactor(parseFloat(e.target.value))}
+                           onChange={(e) => {
+                             setAutoMorph(false);
+                             setMorphFactor(parseFloat(e.target.value));
+                           }}
                     />
 
                     {/* Кнопка ПЛЮС: перемещает к следующей целой фигуре */}
                     <button
                       className="slider-button plus"
                       title={t("extra.increase")}
-                      onClick={() => setMorphFactor(prev => Math.min(3, Math.floor(prev) + 1))}
-                      disabled={morphFactor === 3}
+                      onClick={() => {
+                        setAutoMorph(false); // Отключаем цикл при ручном клике
+                        setMorphFactor(prev => Math.min(3, Math.floor(prev) + 1));
+                      }}
+                      disabled={morphFactor >= 3}
                     >
                       <i className="fa-solid fa-plus-circle" />
                     </button>

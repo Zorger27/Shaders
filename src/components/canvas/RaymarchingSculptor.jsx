@@ -35,7 +35,8 @@ const map = Fn(([p, morph, chaos]) => {
 
   // ВЫЧИСЛЯЕМ ФРАКТАЛЬНОЕ ИСКАЖЕНИЕ И ПРИБАВЛЯЕМ К БАЗОВОЙ ФОРМЕ
   const displacement = fractalDisplacement(p, chaos);
-  return baseShape.add(displacement);
+
+  return baseShape.sub(displacement);
 });
 
 // --- ВЫЧИСЛЕНИЕ НОРМАЛЕЙ (Градиент SDF) ---
@@ -140,16 +141,16 @@ export default function RaymarchingSculptor({ morphFactor, colorSphere, colorTor
       // Это делает шейдер невероятно быстрым!
 
       // Этап 1 (0.0 - 1.0): Сфера -> Тор
-      const factor1 = clamp(uMorph, 0.0, 1.0);
-      const colorStage1 = mix(uColorSphere, uColorTorus, factor1);
+      const c1 = clamp(uMorph, 0.0, 1.0);
+      const colorStage1 = mix(uColorSphere, uColorTorus, c1);
 
       // Этап 2 (1.0 - 2.0): Тор -> Цилиндр
-      const factor2 = clamp(uMorph.sub(1.0), 0.0, 1.0);
-      const colorStage2 = mix(colorStage1, uColorCylinder, factor2);
+      const c2 = clamp(uMorph.sub(1.0), 0.0, 1.0);
+      const colorStage2 = mix(colorStage1, uColorCylinder, c2);
 
       // Этап 3 (2.0 - 3.0): Цилиндр -> Конус
-      const factor3 = clamp(uMorph.sub(2.0), 0.0, 1.0);
-      const finalObjectColor = mix(colorStage2, uColorCone, factor3);
+      const c3 = clamp(uMorph.sub(2.0), 0.0, 1.0);
+      const finalObjectColor = mix(colorStage2, uColorCone, c3);
 
       // Красим пиксель итоговым смешанным цветом и умножаем на освещение
       finalColor.assign(vec4(finalObjectColor.mul(lighting), 1.0));
