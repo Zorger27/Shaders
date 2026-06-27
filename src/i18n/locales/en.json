@@ -70,6 +70,11 @@
     "reset": "\uD83D\uDD04 Reset",
     "morph": "Morphing",
     "color": "Color",
+    "shapeColors": "Shape Colors",
+    "sphere": "Sphere",
+    "torus": "Torus",
+    "cylinder": "Cylinder",
+    "cone": "Cone",
     "rotate": "Rotate the scene",
     "chaos": "Entropy"
   },

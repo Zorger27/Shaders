@@ -25,7 +25,10 @@ export const Project4 = () => {
   const [isControlsOpen, setIsControlsOpen] = useState(false);
 
   // Состояния для Реймаршинга
-  const [objectColor, setObjectColor] = useState('#691bef');
+  const [colorSphere, setColorSphere] = useState('#691bef');   // Фиолетовый (Сфера)
+  const [colorTorus, setColorTorus] = useState('#00f2ff');     // Циан (Тор)
+  const [colorCylinder, setColorCylinder] = useState('#ff007f'); // Розовый (Цилиндр)
+  const [colorCone, setColorCone] = useState('#ffd700');       // Золотой (Конус)
   const [morphFactor, setMorphFactor] = useState(1.0);
   const [fractalChaos, setFractalChaos] = useState(0.0);
   const [autoRotate, setAutoRotate] = useState(false);
@@ -43,7 +46,10 @@ export const Project4 = () => {
   }, [isControlsOpen]);
 
   const handleReset = () => {
-    setObjectColor('#691bef');
+    setColorSphere('#691bef');
+    setColorTorus('#00f2ff');
+    setColorCylinder('#ff007f');
+    setColorCone('#ffd700');
     setMorphFactor(1.0);
     setFractalChaos(0.0);
     setAutoRotate(false);
@@ -196,13 +202,16 @@ export const Project4 = () => {
                 <hr className="control-group-line" />
 
                 <div className="control-group">
-                  <label style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                    {t ('project4.color')}
-                    <input type="color" value={objectColor}
-                           onChange={(e) => setObjectColor(e.target.value)}
-                    />
-                  </label>
+                  <label>{t('project4.shapeColors')}</label>
+                  <div className="colors">
+                    <input type="color" value={colorSphere} onChange={(e) => setColorSphere(e.target.value)} title={t("project4.sphere")}/>
+                    <input type="color" value={colorTorus} onChange={(e) => setColorTorus(e.target.value)} title={t("project4.torus")}/>
+                    <input type="color" value={colorCylinder} onChange={(e) => setColorCylinder(e.target.value)} title={t("project4.cylinder")}/>
+                    <input type="color" value={colorCone} onChange={(e) => setColorCone(e.target.value)} title={t("project4.cone")}/>
+                  </div>
                 </div>
+
+                {/*<hr className="control-group-line" />*/}
 
                 <div className="control-group checkbox">
                   <label>
@@ -222,7 +231,13 @@ export const Project4 = () => {
 
             <SceneBackground imagePath={background04} enabled={isFullscreen}/>
 
-            <RaymarchingSculptor objectColor={objectColor} morphFactor={morphFactor} fractalChaos={fractalChaos}/>
+            <RaymarchingSculptor colorSphere={colorSphere}
+                                 colorTorus={colorTorus}
+                                 colorCylinder={colorCylinder}
+                                 colorCone={colorCone}
+                                 morphFactor={morphFactor}
+                                 fractalChaos={fractalChaos}
+            />
 
             <OrbitControls makeDefault target={[0, 0, 0]} enableDamping enablePan={false} enableZoom autoRotate={autoRotate} autoRotateSpeed={2}/>
           </WebGPUCanvas>

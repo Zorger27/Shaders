@@ -104,6 +104,18 @@
               accent-color: #00f2ff;
             }
 
+            input[type="color"] {
+              cursor: pointer;
+              width: 100%;
+            }
+
+            .colors {
+              display: flex;
+              justify-content: space-between;
+              margin-top: 5px;
+              gap: 10px;
+            }
+
             .slider-wrapper {
               display: flex;
               align-items: center;
@@ -304,6 +316,11 @@
                 letter-spacing: 1px;
               }
 
+              .colors {
+                margin-top: 4px;
+                gap: 8px;
+              }
+
               .slider-wrapper {
                 .slider-button {
                   font-size: 1.4rem;
@@ -412,6 +429,11 @@
             .control-group {
               gap: 7px;
               label {font-size: 0.7rem;}
+
+              .colors {
+                margin-top: 3px;
+                gap: 5px;
+              }
 
               .slider-wrapper {
                 .slider-button {font-size: 1.3rem;}

@@ -49,17 +49,23 @@ const calcNormal = Fn(([p, morph, chaos]) => {
   ).normalize();
 });
 
-export default function RaymarchingSculptor({ morphFactor, objectColor, fractalChaos }) {
+export default function RaymarchingSculptor({ morphFactor, colorSphere, colorTorus, colorCylinder, colorCone, fractalChaos }) {
   const meshRef = useRef(null);
 
   // Привязываем реактивный цвет из React к TSL uniform-переменной
-  const uColor = uniform(new Color(objectColor));
+  const uColorSphere = uniform(new Color(colorSphere));
+  const uColorTorus = uniform(new Color(colorTorus));
+  const uColorCylinder = uniform(new Color(colorCylinder));
+  const uColorCone = uniform(new Color(colorCone));
   const uMorph = uniform(morphFactor);
   const uChaos = uniform(fractalChaos);
 
   useFrame(() => {
     // Синхронизация параметров на каждом кадре
-    uColor.value.set(objectColor);
+    uColorSphere.value.set(colorSphere);
+    uColorTorus.value.set(colorTorus);
+    uColorCylinder.value.set(colorCylinder);
+    uColorCone.value.set(colorCone);
     uMorph.value = morphFactor;
     uChaos.value = fractalChaos; // <-- Обновляем каждый кадр
   });
@@ -127,8 +133,26 @@ export default function RaymarchingSculptor({ morphFactor, objectColor, fractalC
       // 6. Итоговый множитель света
       const lighting = diff.add(ambient);
 
-      // Закрашиваем фигуру цветом и делаем её плотной (Альфа = 1.0)
-      finalColor.assign(vec4(uColor.mul(lighting), 1.0));
+      // --- ДИНАМИЧЕСКОЕ СМЕШИВАНИЕ ЦВЕТОВ ---
+      // Повторяем ту же логику, что и при смешивании геометрии
+
+      // В этом блоке мы рассчитываем цвет ровно один раз для каждого пикселя на экране, только если луч уже врезался в поверхность.
+      // Это делает шейдер невероятно быстрым!
+
+      // Этап 1 (0.0 - 1.0): Сфера -> Тор
+      const factor1 = clamp(uMorph, 0.0, 1.0);
+      const colorStage1 = mix(uColorSphere, uColorTorus, factor1);
+
+      // Этап 2 (1.0 - 2.0): Тор -> Цилиндр
+      const factor2 = clamp(uMorph.sub(1.0), 0.0, 1.0);
+      const colorStage2 = mix(colorStage1, uColorCylinder, factor2);
+
+      // Этап 3 (2.0 - 3.0): Цилиндр -> Конус
+      const factor3 = clamp(uMorph.sub(2.0), 0.0, 1.0);
+      const finalObjectColor = mix(colorStage2, uColorCone, factor3);
+
+      // Красим пиксель итоговым смешанным цветом и умножаем на освещение
+      finalColor.assign(vec4(finalObjectColor.mul(lighting), 1.0));
 
     }).Else(() => {
       // 3. Для всех лучей, которые пролетели мимо фигур — жестко уничтожаем пиксель
