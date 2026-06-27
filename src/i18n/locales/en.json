@@ -75,7 +75,7 @@
     "torus": "Torus",
     "cylinder": "Cylinder",
     "cone": "Cone",
-    "autoMorph": "Автоморфинг",
+    "autoMorph": "Automorphing",
     "rotate": "Rotate the scene",
     "chaos": "Entropy"
   },
