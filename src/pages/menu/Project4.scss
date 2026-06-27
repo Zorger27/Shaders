@@ -90,59 +90,30 @@
             flex-direction: column;
             gap: 8px;
 
-            //.auto-morph-btn {
-            //  width: 100%;
-            //  font-size: 0.85rem;
-            //  padding: 8px 10px;
-            //  margin-bottom: 5px;
-            //  cursor: pointer;
-            //  background: transparent;
-            //  color: #00f2ff;
-            //  border: 1px solid #00f2ff;
-            //  border-radius: 4px;
-            //  transition: all 0.3s ease;
-            //  text-transform: uppercase;
-            //  font-family: 'Montserrat', sans-serif;
-            //  letter-spacing: 1px;
-            //
-            //  &:hover {
-            //    background: rgba(0, 242, 255, 0.1);
-            //  }
-            //
-            //  // Стили для включенного состояния
-            //  &.active {
-            //    background: #00f2ff;
-            //    color: #000;
-            //    box-shadow: 0 0 10px rgba(0, 242, 255, 0.6);
-            //    font-weight: bold;
-            //    border-color: #00f2ff;
-            //  }
-            //}
-
             .auto-morph-btn {
+              width: 100%;
               padding: 8px 10px;
-              background-color: #333;
-              color: #fff;
-              border: 1px solid white;
+              margin-bottom: 7px;
+              background: rgba(255, 255, 255, 0.05);
+              color: white;
+              border: 1px solid rgba(255, 255, 255, 0.4);
               border-radius: 4px;
               cursor: pointer;
+              font-size: 0.85rem;
               text-align: left;
-              font-family: 'Montserrat', sans-serif;
-              font-size: 0.8rem;
-              transition: all 0.2s ease;
+              transition: all 0.3s ease; /* Плавная анимация переходов */
 
               &:hover {
-                background-color: #444;
-                //border-color: rgba(255, 255, 255, 0.2);
-                border-color: darkgoldenrod;
+                background: rgba(255, 255, 255, 0.20);
+                color: #fff;
               }
 
+              /* Состояние, когда кнопка ВКЛЮЧЕНА */
               &.active {
-                //background-color: #4a90e2;
-                //border-color: #4a90e2;
-                background-color: rgba(0, 242, 255, 0.5);
-                border-color: rgba(0, 242, 255, 0.5);
-                box-shadow: 0 0 8px rgb(23 210 236 / 0.4);
+                background: rgba(0, 255, 204, 0.2);
+                color: #00ffcc;
+                border-color: #00ffcc;
+                box-shadow: 0 0 10px rgba(0, 255, 204, 0.3); /* Легкое свечение */
               }
             }
 
@@ -368,6 +339,13 @@
             .control-group {
               gap: 8px;
 
+              .auto-morph-btn {
+                padding: 7px 9px;
+                margin-bottom: 4px;
+                border-radius: 4px;
+                font-size: 0.8rem;
+              }
+
               label {
                 font-size: 0.8rem;
                 letter-spacing: 1px;
@@ -485,6 +463,14 @@
 
             .control-group {
               gap: 7px;
+
+              .toggle-btn {
+                padding: 7px 9px;
+                margin-bottom: 4px;
+                border-radius: 3px;
+                font-size: 0.8rem;
+              }
+
               label {font-size: 0.7rem;}
 
               .colors {
