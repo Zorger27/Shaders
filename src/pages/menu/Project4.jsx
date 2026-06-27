@@ -175,10 +175,10 @@ export const Project4 = () => {
                     className={`auto-morph-btn ${autoMorph ? 'active' : ''}`}
                     onClick={() => setAutoMorph(!autoMorph)}
                   >
-                    {t('project4.autoMorph')}
+                    <i className="fa-solid fa-wand-magic-sparkles"></i> {t('project4.autoMorph')}
                   </button>
 
-                  <label>{t ('project4.morph')}: {morphFactor.toFixed(2)}</label>
+                  <label>{t('project4.morph')}: {morphFactor.toFixed(2)}</label>
 
                   <div className="slider-wrapper">
 
@@ -269,8 +269,6 @@ export const Project4 = () => {
                     <input type="color" value={colorCone} onChange={(e) => setColorCone(e.target.value)} title={t("project4.cone")}/>
                   </div>
                 </div>
-
-                {/*<hr className="control-group-line" />*/}
 
                 <div className="control-group checkbox">
                   <label>

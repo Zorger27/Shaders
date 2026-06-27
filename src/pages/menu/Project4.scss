@@ -110,10 +110,17 @@
 
               /* Состояние, когда кнопка ВКЛЮЧЕНА */
               &.active {
-                background: rgba(0, 255, 204, 0.2);
-                color: #00ffcc;
-                border-color: #00ffcc;
-                box-shadow: 0 0 10px rgba(0, 255, 204, 0.3); /* Легкое свечение */
+                background: rgba(250, 250, 176, 0.2);
+                color: mistyrose;
+                border-color: #faef7e;
+                box-shadow: 0 0 6px rgba(250, 250, 176, 0.1); /* Легкое свечение */
+              }
+
+              i {
+                color: gold;
+                &.active {
+                  color: #fff;
+                }
               }
             }
 
@@ -451,7 +458,7 @@
             padding: 20px 10px 10px;
             border-radius: 9px;
             gap: 13px;
-            width: 165px;
+            width: 180px;
 
             .control-group-line {margin: 3px 0;}
 
