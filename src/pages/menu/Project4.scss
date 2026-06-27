@@ -111,17 +111,12 @@
               /* Состояние, когда кнопка ВКЛЮЧЕНА */
               &.active {
                 background: rgba(250, 250, 176, 0.2);
-                color: mistyrose;
+                color: white;
                 border-color: #faef7e;
                 box-shadow: 0 0 6px rgba(250, 250, 176, 0.1); /* Легкое свечение */
               }
 
-              i {
-                color: gold;
-                &.active {
-                  color: #fff;
-                }
-              }
+              i { color: gold; }
             }
 
 
