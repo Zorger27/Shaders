@@ -96,6 +96,7 @@
               margin-bottom: 7px;
               background: rgba(255, 255, 255, 0.05);
               color: white;
+              text-shadow: 0 1px 2px darkred;
               border: 1px solid rgba(255, 255, 255, 0.4);
               border-radius: 4px;
               cursor: pointer;
@@ -110,13 +111,15 @@
 
               /* Состояние, когда кнопка ВКЛЮЧЕНА */
               &.active {
+                text-shadow: none;
                 background: rgba(250, 250, 176, 0.2);
                 color: white;
                 border-color: #faef7e;
                 box-shadow: 0 0 6px rgba(250, 250, 176, 0.1); /* Легкое свечение */
+                i { color: blue; text-shadow: 0 0 2px white; }
               }
 
-              i { color: gold; }
+              i { color: gold; text-shadow: 0 1px 2px darkred; }
             }
 
 
