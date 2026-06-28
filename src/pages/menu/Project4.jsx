@@ -31,7 +31,7 @@ export const Project4 = () => {
   const [colorCylinder, setColorCylinder] = useState('#ff007f'); // Розовый (Цилиндр)
   const [colorCone, setColorCone] = useState('#ffd700');       // Золотой (Конус)
   const [morphFactor, setMorphFactor] = useState(1.0);
-  const [autoMorph, setAutoMorph] = useState(true);
+  const [autoMorph, setAutoMorph] = useState(false);
   const [fractalChaos, setFractalChaos] = useState(0.0);
   const [autoRotate, setAutoRotate] = useState(false);
   const [resetKey, setResetKey] = useState(0);
@@ -92,7 +92,7 @@ export const Project4 = () => {
     setColorCone('#ffd700');
     setMorphFactor(1.0);
     morphDirRef.current = 1;
-    setAutoMorph(true);  // Включаем автоморфинг при ресете
+    setAutoMorph(false);  // Автоморфинг при ресете
     setFractalChaos(0.0);
     setAutoRotate(false);
     // Меняем ключ, заставляя React пересоздать компоненту с нуля
