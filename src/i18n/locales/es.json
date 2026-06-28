@@ -77,7 +77,8 @@
     "cone": "Cono",
     "autoMorph": "Autotransformación",
     "rotate": "Gira la escena",
-    "chaos": "Entropía"
+    "chaos": "Entropía",
+    "twist": "Torsión"
   },
   "project5": {
     "name": "Instancing",

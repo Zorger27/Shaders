@@ -30,9 +30,10 @@ export const Project4 = () => {
   const [colorTorus, setColorTorus] = useState('#00f2ff');       // Циан (Тор)
   const [colorCylinder, setColorCylinder] = useState('#ff007f'); // Розовый (Цилиндр)
   const [colorCone, setColorCone] = useState('#ffd700');         // Золотой (Конус)
-  const [morphFactor, setMorphFactor] = useState(1.0);
+  const [morphFactor, setMorphFactor] = useState(0);
   const [autoMorph, setAutoMorph] = useState(false);
-  const [fractalChaos, setFractalChaos] = useState(0.0);
+  const [fractalChaos, setFractalChaos] = useState(0.2);
+  const [twistFactor, setTwistFactor] = useState(1.5);
   const [autoRotate, setAutoRotate] = useState(false);
   const [resetKey, setResetKey] = useState(0);
 
@@ -90,10 +91,11 @@ export const Project4 = () => {
     setColorTorus('#00f2ff');
     setColorCylinder('#ff007f');
     setColorCone('#ffd700');
-    setMorphFactor(1.0);
+    setMorphFactor(0);
     morphDirRef.current = 1;
     setAutoMorph(false);  // Автоморфинг при ресете
-    setFractalChaos(0.0);
+    setFractalChaos(0.2);
+    setTwistFactor(1.5);
     setAutoRotate(false);
     // Меняем ключ, заставляя React пересоздать компоненту с нуля
     setResetKey(prev => prev + 1);
@@ -221,7 +223,6 @@ export const Project4 = () => {
 
                 <div className="control-group">
                   <label>{t('project4.chaos')}: {fractalChaos.toFixed(2)}</label>
-
                   <div className="slider-wrapper">
 
                     <button
@@ -255,7 +256,40 @@ export const Project4 = () => {
                     </button>
 
                   </div>
+                </div>
 
+                <div className="control-group">
+                  <label>{t('project4.twist')}: {twistFactor.toFixed(2)}</label>
+                  <div className="slider-wrapper">
+                    <button
+                      className="slider-button minus"
+                      title={t("extra.decrease")}
+                      onClick={() => setTwistFactor(prev => {
+                        const val = Math.round(prev * 100);
+                        return Math.max(-3, (Math.ceil(val / 10) * 10 - 10) / 100);
+                      })}
+                      disabled={twistFactor <= -3}
+                    >
+                      <i className="fa-solid fa-minus-circle" />
+                    </button>
+
+                    <input
+                      type="range" min="-3" max="3" step="0.01" value={twistFactor}
+                      onChange={(e) => setTwistFactor(parseFloat(e.target.value))}
+                    />
+
+                    <button
+                      className="slider-button plus"
+                      title={t("extra.increase")}
+                      onClick={() => setTwistFactor(prev => {
+                        const val = Math.round(prev * 100);
+                        return Math.min(3, (Math.floor(val / 10) * 10 + 10) / 100);
+                      })}
+                      disabled={twistFactor >= 3}
+                    >
+                      <i className="fa-solid fa-plus-circle" />
+                    </button>
+                  </div>
                 </div>
 
                 <hr className="control-group-line" />
@@ -294,6 +328,7 @@ export const Project4 = () => {
                                  colorCone={colorCone}
                                  morphFactor={morphFactor}
                                  fractalChaos={fractalChaos}
+                                 twistFactor={twistFactor}
             />
 
             <OrbitControls makeDefault target={[0, 0, 0]} enableDamping enablePan={false} enableZoom autoRotate={autoRotate} autoRotateSpeed={2}/>

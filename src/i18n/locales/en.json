@@ -77,7 +77,8 @@
     "cone": "Cone",
     "autoMorph": "Automorphing",
     "rotate": "Rotate the scene",
-    "chaos": "Entropy"
+    "chaos": "Entropy",
+    "twist": "Twisting"
   },
   "project5": {
     "name": "Instancing",

@@ -1,4 +1,4 @@
-import { vec2, vec3, float, Fn, clamp, max, min, abs, length, mix, sin } from 'three/tsl';
+import { vec2, vec3, float, Fn, clamp, max, min, abs, length, mix, sin, cos } from 'three/tsl';
 
 // 1. SDF Сферы: длина вектора позиции минус радиус
 export const sdfSphere = Fn(([p, r]) => {
@@ -81,4 +81,20 @@ export const fractalDisplacement = Fn(([p, chaos]) => {
   // Множитель 0.4 нужен как ограничитель — он не дает функции разорвать
   // геометрию объекта в клочья при максимальном значении ползунка.
   return noise.mul(chaos).mul(float(0.4));
+});
+
+// 8. ЭФФЕКТ СКРУЧИВАНИЯ (Twist)
+export const opTwist = Fn(([p, amount]) => {
+  // Угол поворота зависит от высоты (p.y) и силы скручивания (amount)
+  const theta = p.y.mul(amount);
+
+  const c = cos(theta);
+  const s = sin(theta);
+
+  // Применяем матрицу поворота к осям X и Z
+  const newX = p.x.mul(c).sub(p.z.mul(s));
+  const newZ = p.x.mul(s).add(p.z.mul(c));
+
+  // Возвращаем искаженные координаты (Y остается без изменений)
+  return vec3(newX, p.y, newZ);
 });

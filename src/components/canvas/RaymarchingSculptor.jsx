@@ -10,15 +10,18 @@ import { MeshBasicNodeMaterial } from 'three/webgpu';
 import { vec2, vec3, vec4, float, Fn, uniform, Loop, If, Break, dot, max, clamp, mix, cameraPosition, positionWorld, Discard } from 'three/tsl';
 
 // Импортируем SDF-функции из утилитного файла
-import { sdfSphere, sdfTorus, sdfCylinder, sdfCone, fractalDisplacement } from "@/components/util/raymarchingMath.js";
+import { sdfSphere, sdfTorus, sdfCylinder, sdfCone, fractalDisplacement, opTwist } from "@/components/util/raymarchingMath.js";
 
 // Карта сцены: возвращает минимальное расстояние до геометрии
-const map = Fn(([p, morph, chaos]) => {
-// 1. Создаем базовые фигуры с выверенными пропорциями
-  const sphere = sdfSphere(p, float(2.0));
-  const torus = sdfTorus(p.xzy, vec2(1.7, 0.6));
-  const cylinder = sdfCylinder(p, vec2(1.8, 1.4));  // Радиус 1.8, Половина высоты 1.4
-  const cone = sdfCone(p, float(2.2), float(1.5));  // Радиус низа 2.2, Половина высоты 1.5
+const map = Fn(([p, morph, chaos, twist]) => {
+  // ИСКАЖАЕМ ПРОСТРАНСТВО ПЕРЕД РАСЧЕТАМИ
+  const twistedP = opTwist(p, twist);
+
+  // 1. Создаем базовые фигуры с выверенными пропорциями
+  const sphere = sdfSphere(twistedP, float(2.0));
+  const torus = sdfTorus(twistedP.xzy, vec2(1.7, 0.6));    // .xzy применяется уже к скрученной точке
+  const cylinder = sdfCylinder(twistedP, vec2(1.8, 1.4));  // Радиус 1.8, Половина высоты 1.4
+  const cone = sdfCone(twistedP, float(2.2), float(1.5));  // Радиус низа 2.2, Половина высоты 1.5
 
   // --- ИСТИННЫЙ МОРФИНГ (ЧЕРЕЗ MIX) ---
   // Этап 1 (0.0 - 1.0): Сфера -> Тор
@@ -34,23 +37,23 @@ const map = Fn(([p, morph, chaos]) => {
   const baseShape = mix(stage2, cone, factor3);
 
   // ВЫЧИСЛЯЕМ ФРАКТАЛЬНОЕ ИСКАЖЕНИЕ И ПРИБАВЛЯЕМ К БАЗОВОЙ ФОРМЕ
-  const displacement = fractalDisplacement(p, chaos);
+  const displacement = fractalDisplacement(twistedP, chaos);
 
   return baseShape.sub(displacement);
 });
 
 // --- ВЫЧИСЛЕНИЕ НОРМАЛЕЙ (Градиент SDF) ---
-const calcNormal = Fn(([p, morph, chaos]) => {
+const calcNormal = Fn(([p, morph, chaos, twist]) => {
   const e = vec2(0.001, 0.0);
   return vec3(
     // Теперь передаем morph во все вызовы map
-    map(p.add(e.xyy), morph, chaos).sub(map(p.sub(e.xyy), morph, chaos)),
-    map(p.add(e.yxy), morph, chaos).sub(map(p.sub(e.yxy), morph, chaos)),
-    map(p.add(e.yyx), morph, chaos).sub(map(p.sub(e.yyx), morph, chaos))
+    map(p.add(e.xyy), morph, chaos, twist).sub(map(p.sub(e.xyy), morph, chaos, twist)),
+    map(p.add(e.yxy), morph, chaos, twist).sub(map(p.sub(e.yxy), morph, chaos, twist)),
+    map(p.add(e.yyx), morph, chaos, twist).sub(map(p.sub(e.yyx), morph, chaos, twist))
   ).normalize();
 });
 
-export default function RaymarchingSculptor({ morphFactor, colorSphere, colorTorus, colorCylinder, colorCone, fractalChaos }) {
+export default function RaymarchingSculptor({ morphFactor, colorSphere, colorTorus, colorCylinder, colorCone, fractalChaos, twistFactor }) {
   const meshRef = useRef(null);
 
   // Привязываем реактивный цвет из React к TSL uniform-переменной
@@ -60,6 +63,7 @@ export default function RaymarchingSculptor({ morphFactor, colorSphere, colorTor
   const uColorCone = uniform(new Color(colorCone));
   const uMorph = uniform(morphFactor);
   const uChaos = uniform(fractalChaos);
+  const uTwist = uniform(twistFactor);
 
   useFrame(() => {
     // Синхронизация параметров на каждом кадре
@@ -69,6 +73,7 @@ export default function RaymarchingSculptor({ morphFactor, colorSphere, colorTor
     uColorCone.value.set(colorCone);
     uMorph.value = morphFactor;
     uChaos.value = fractalChaos; // <-- Обновляем каждый кадр
+    uTwist.value = twistFactor;
   });
 
   // --- ГЛАВНЫЙ ЦИКЛ РЕЙМАРШИНГА В TSL ---
@@ -96,7 +101,7 @@ export default function RaymarchingSculptor({ morphFactor, colorSphere, colorTor
       const p = ro.add(rd.mul(t));
 
       // Запрашиваем расстояние до ближайшей точки сферы
-      const d = map(p, uMorph, uChaos);
+      const d = map(p, uMorph, uChaos, uTwist);
 
       // Шагаем вперед на это расстояние. Умножаем шаг на 0.5!
       // Поскольку фрактал искажает дистанцию, луч может "перешагнуть" стенку.
@@ -124,7 +129,7 @@ export default function RaymarchingSculptor({ morphFactor, colorSphere, colorTor
       // 1. Точная координата точки поверхности, в которую ударил луч
       const p = ro.add(rd.mul(t));
       // 2. Вычисляем нормаль в этой точке. Передаем uChaos в calcNormal для правильных теней на шипах!
-      const n = calcNormal(p, uMorph, uChaos);
+      const n = calcNormal(p, uMorph, uChaos, uTwist);
       // 3. Создаем источник света (направлен сверху-справа)
       const lightDir = vec3(1.0, 1.0, 1.0).normalize();
       // 4. Освещение по Ламберту (Diffuse) - Скалярное произведение вектора света и нормали отсекает всё, что меньше 0.0
