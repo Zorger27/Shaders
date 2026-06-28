@@ -26,10 +26,10 @@ export const Project4 = () => {
   const [isControlsOpen, setIsControlsOpen] = useState(false);
 
   // Состояния для Реймаршинга
-  const [colorSphere, setColorSphere] = useState('#691bef');   // Фиолетовый (Сфера)
-  const [colorTorus, setColorTorus] = useState('#00f2ff');     // Циан (Тор)
+  const [colorSphere, setColorSphere] = useState('#691bef');     // Фиолетовый (Сфера)
+  const [colorTorus, setColorTorus] = useState('#00f2ff');       // Циан (Тор)
   const [colorCylinder, setColorCylinder] = useState('#ff007f'); // Розовый (Цилиндр)
-  const [colorCone, setColorCone] = useState('#ffd700');       // Золотой (Конус)
+  const [colorCone, setColorCone] = useState('#ffd700');         // Золотой (Конус)
   const [morphFactor, setMorphFactor] = useState(1.0);
   const [autoMorph, setAutoMorph] = useState(false);
   const [fractalChaos, setFractalChaos] = useState(0.0);
