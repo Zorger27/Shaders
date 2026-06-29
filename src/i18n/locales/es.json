@@ -85,7 +85,13 @@
     "disc": "TSL Instancing — renderizado de miles de copias con posiciones y colores calculados por nodos",
     "reset": "\uD83D\uDD04 Restablecer",
     "rotateObject": "Rotación de un cubo",
-    "rotateScene": "Gira la escena"
+    "rotateScene": "Gira la escena",
+    "autoSize": "Tamaño automático",
+    "dimension": "Dimensión",
+    "colors": "Colores de los ejes (X, Y, Z)",
+    "x-title": "Eje X",
+    "y-title": "Eje Y",
+    "z-title": "Eje Z"
   },
   "about": {
     "title": "Shaders",

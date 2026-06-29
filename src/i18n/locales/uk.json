@@ -85,7 +85,13 @@
     "disc": "TSL Instancing — рендеринг тисяч копій, де позиції та кольори обчислюються математичними вузлами",
     "reset": "\uD83D\uDD04 Скидання",
     "rotateObject": "Крутити куб",
-    "rotateScene": "Крутити сцену"
+    "rotateScene": "Крутити сцену",
+    "autoSize": "Авторозмір",
+    "dimension": "Розмірність",
+    "colors": "Кольори осей (X, Y, Z)",
+    "x-title": "Вісь X",
+    "y-title": "Вісь Y",
+    "z-title": "Вісь Z"
   },
   "about": {
     "title": "Shaders",

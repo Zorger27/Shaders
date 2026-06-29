@@ -163,21 +163,23 @@ export const Project5 = () => {
               <div className="shader-controls">
                 <button className="close-controls-btn" onClick={() => setIsControlsOpen(false)}>&times;</button>
 
+                {/* Авторазмер и Ползунок размерности */}
                 <div className="control-group">
                 {/* Авторазмер */}
                 <button
                   className={`auto-morph-btn ${autoSize ? 'active' : ''}`}
                   onClick={() => setAutoSize(!autoSize)}
                 >
-                  <i className="fa-solid fa-arrows-left-right"></i> {t('project5.autoSize') || 'Авторазмер'}
+                  <i className="fa-solid fa-up-right-and-down-left-from-center"></i> {t('project5.autoSize')}
                 </button>
 
                 {/* Ползунок размерности (5 - 25) */}
                   <label>{t('project5.dimension') || 'Размерность'}: {gridSize.toFixed(1)}</label>
 
-                  <div className="slider-wrapper" style={{ display: 'flex', alignItems: 'center', gap: '10px', marginTop: '5px' }}>
+                  <div className="slider-wrapper">
                     <button
                       className="slider-button minus"
+                      title={t("extra.decrease")}
                       onClick={() => {
                         setAutoSize(false);
                         setGridSize(prev => Math.max(5, Math.floor((prev - 0.1) / 5) * 5));
@@ -186,16 +188,18 @@ export const Project5 = () => {
                     >
                       <i className="fa-solid fa-minus-circle" />
                     </button>
+
                     <input
                       type="range" min="5" max="25" step="0.01" value={gridSize}
                       onChange={(e) => {
                         setAutoSize(false);
                         setGridSize(parseFloat(e.target.value));
                       }}
-                      style={{ flex: 1 }}
                     />
+
                     <button
                       className="slider-button plus"
+                      title={t("extra.increase")}
                       onClick={() => {
                         setAutoSize(false);
                         setGridSize(prev => Math.min(25, Math.ceil((prev + 0.1) / 5) * 5));
@@ -207,13 +211,15 @@ export const Project5 = () => {
                   </div>
                 </div>
 
+                <hr className="control-group-line" />
+
                 {/* Цвета осей */}
                 <div className="control-group">
                   <label>{t('project5.colors') || 'Цвета осей (X, Y, Z)'}</label>
-                  <div style={{ display: 'flex', gap: '10px', justifyContent: 'space-between', marginTop: '5px' }}>
-                    <input type="color" value={colorX} onChange={e => setColorX(e.target.value)} title="Ось X" style={{ width: '100%', cursor: 'pointer' }}/>
-                    <input type="color" value={colorY} onChange={e => setColorY(e.target.value)} title="Ось Y" style={{ width: '100%', cursor: 'pointer' }}/>
-                    <input type="color" value={colorZ} onChange={e => setColorZ(e.target.value)} title="Ось Z" style={{ width: '100%', cursor: 'pointer' }}/>
+                  <div className="colors">
+                    <input type="color" value={colorX} onChange={e => setColorX(e.target.value)} title={t("project5.x-title")} />
+                    <input type="color" value={colorY} onChange={e => setColorY(e.target.value)} title={t("project5.y-title")} />
+                    <input type="color" value={colorZ} onChange={e => setColorZ(e.target.value)} title={t("project5.z-title")} />
                   </div>
                 </div>
 
