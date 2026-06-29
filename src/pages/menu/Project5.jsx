@@ -28,13 +28,13 @@ export const Project5 = () => {
   const [resetKey, setResetKey] = useState(0);
 
   // --- СОСТОЯНИЯ УПРАВЛЕНИЯ ---
-  const [gridSize, setGridSize] = useState(5.0);
+  const [gridSize, setGridSize] = useState(7.0);
   const [autoSize, setAutoSize] = useState(false);
 
-  // Цвета осей (по дефолту: Красный, Зеленый, Синий)
-  const [colorX, setColorX] = useState('#ff0000');
-  const [colorY, setColorY] = useState('#00ff00');
-  const [colorZ, setColorZ] = useState('#0000ff');
+  // Цвета осей (по дефолту: Черный, Ярко-фиолетовый, Золотой)
+  const [colorX, setColorX] = useState('#000000');
+  const [colorY, setColorY] = useState('#aa00ff');
+  const [colorZ, setColorZ] = useState('#ffd700');
 
   // Чекбоксы вращения
   const [rotateObject, setRotateObject] = useState(false);
@@ -82,11 +82,11 @@ export const Project5 = () => {
   }, [autoSize]);
 
   const handleReset = () => {
-    setGridSize(5.0);
+    setGridSize(7.0);
     setAutoSize(false);
-    setColorX('#ff0000');
-    setColorY('#00ff00');
-    setColorZ('#0000ff');
+    setColorX('#000000');
+    setColorY('#aa00ff');
+    setColorZ('#ffd700');
     setRotateObject(false);
     setRotateScene(true);
     sizeDirRef.current = 1;
