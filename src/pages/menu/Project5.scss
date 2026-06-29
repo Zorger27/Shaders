@@ -233,25 +233,68 @@
               }
             }
 
-            &.checkbox {
-              flex-direction: row;
-              align-items: center;
+            &.checkboxes-group {
+              display: flex;
+              flex-direction: column;
+              gap: 10px;
+              margin-top: 5px;
 
-              label {
-                //text-shadow: 0 2px 2px darkred;
+              .custom-checkbox {
                 display: flex;
                 align-items: center;
-                gap: 10px;
+                position: relative;
+                padding-left: 28px;
                 cursor: pointer;
-                text-transform: none;
+                font-size: 0.85rem;
+                text-shadow: 0 1px 2px darkred;
                 color: #fff;
-              }
+                user-select: none;
 
-              input {
-                width: 18px;
-                height: 18px;
-                cursor: pointer;
-                accent-color: #00f2ff;
+                input {
+                  position: absolute;
+                  opacity: 0;
+                  cursor: pointer;
+                  height: 0;
+                  width: 0;
+
+                  &:checked ~ .checkmark {
+                    background-color: #00f2ff;
+                    border-color: #00f2ff;
+                  }
+
+                  &:checked ~ .checkmark:after {
+                    display: block;
+                  }
+                }
+
+                .checkmark {
+                  position: absolute;
+                  top: 0;
+                  left: 0;
+                  height: 18px;
+                  width: 18px;
+                  background-color: transparent;
+                  border: 1px solid rgba(0, 0, 0, 0.3);
+                  border-radius: 3px;
+                  transition: all 0.2s;
+
+                  &:after {
+                    content: "";
+                    position: absolute;
+                    display: none;
+                    left: 5px;
+                    top: 2px;
+                    width: 4px;
+                    height: 8px;
+                    border: solid #000;
+                    border-width: 0 2px 2px 0;
+                    transform: rotate(45deg);
+                  }
+                }
+
+                &:hover .checkmark {
+                  border-color: #00f2ff;
+                }
               }
             }
 
@@ -395,16 +438,30 @@
                 }
               }
 
-              &.checkbox {
-                label {gap: 10px;}
+              &.checkboxes-group {
+                gap: 8px;
+                margin-top: 4px;
 
-                input {
-                  width: 16px;
-                  height: 16px;
+                .custom-checkbox {
+                  padding-left: 25px;
+                  font-size: 0.8rem;
+
+                  .checkmark {
+                    height: 16px;
+                    width: 16px;
+                    border-radius: 3px;
+
+                    &:after {
+                      left: 4px;
+                      top: 1px;
+                      width: 4px;
+                      height: 8px;
+                    }
+                  }
                 }
               }
 
-              &.reset {
+              .reset {
                 font-size: 0.8rem;
                 padding: 7px 9px;
                 border-radius: 4px;
@@ -487,16 +544,31 @@
                 .slider-button {font-size: 1.3rem;}
               }
 
-              &.checkbox {
-                label {gap: 10px;}
+              &.checkboxes-group {
+                gap: 7px;
+                margin-top: 3px;
 
-                input {
-                  width: 14px;
-                  height: 14px;
+                .custom-checkbox {
+                  padding-left: 22px;
+                  font-size: 0.7rem;
+                  text-align: left;
+
+                  .checkmark {
+                    height: 14px;
+                    width: 14px;
+                    border-radius: 3px;
+
+                    &:after {
+                      left: 4px;
+                      top: 1px;
+                      width: 3px;
+                      height: 7px;
+                    }
+                  }
                 }
               }
 
-              &.reset {
+              .reset {
                 font-size: 0.8rem;
                 padding: 7px 9px;
                 border-radius: 3px;
