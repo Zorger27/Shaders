@@ -84,14 +84,14 @@
     "name": "Instancing",
     "disc": "TSL Instancing — rendering of thousands of copies with positions and colors computed by math nodes",
     "reset": "\uD83D\uDD04 Restablecer",
-    "rotateObject": "Rotation of a cube",
-    "rotateScene": "Rotate the scene",
-    "autoSize": "Auto size",
+    "rotateObject": "Rotate cube",
+    "rotateScene": "Rotate scene",
+    "autoSize": "Auto-size",
     "dimension": "Dimension",
-    "colors": "Axis colors (X, Y, Z)",
-    "x-title": "X-axis",
-    "y-title": "Y-axis",
-    "z-title": "Z-axis"
+    "colors": "Axis colors",
+    "x-title": "X Axis",
+    "y-title": "Y Axis",
+    "z-title": "Z Axis"
   },
   "about": {
     "title": "Shaders",
