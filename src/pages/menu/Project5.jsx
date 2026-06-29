@@ -38,7 +38,7 @@ export const Project5 = () => {
 
   // Чекбоксы вращения
   const [rotateObject, setRotateObject] = useState(false);
-  const [rotateScene, setRotateScene] = useState(false);
+  const [rotateScene, setRotateScene] = useState(true);
 
   // Закрытие меню по клику вне его области
   useEffect(() => {
@@ -88,7 +88,7 @@ export const Project5 = () => {
     setColorY('#00ff00');
     setColorZ('#0000ff');
     setRotateObject(false);
-    setRotateScene(false);
+    setRotateScene(true);
     sizeDirRef.current = 1;
     setResetKey(prev => prev + 1);
   };
@@ -265,7 +265,7 @@ export const Project5 = () => {
               rotateObject={rotateObject}
             />
 
-            <OrbitControls enableDamping enablePan={false} enableZoom autoRotate autoRotateSpeed={2}/>
+            <OrbitControls enableDamping enablePan={false} enableZoom autoRotate={rotateScene} autoRotateSpeed={2}/>
           </WebGPUCanvas>
 
         </div>
