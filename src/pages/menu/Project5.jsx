@@ -60,7 +60,7 @@ export const Project5 = () => {
       if (autoSize) {
         const delta = time - lastTime;
         lastTime = time;
-        const speed = 0.005; // Скорость маятника
+        const speed = 0.001; // Скорость маятника
 
         setGridSize((prev) => {
           let next = prev + (delta * speed * sizeDirRef.current);
@@ -161,7 +161,9 @@ export const Project5 = () => {
               <button className="open-controls-btn" onClick={() => setIsControlsOpen(true)}><i className="fa fa-sliders"></i></button>
             ) : (
               <div className="shader-controls">
+                <button className="close-controls-btn" onClick={() => setIsControlsOpen(false)}>&times;</button>
 
+                <div className="control-group">
                 {/* Авторазмер */}
                 <button
                   className={`auto-morph-btn ${autoSize ? 'active' : ''}`}
@@ -171,8 +173,8 @@ export const Project5 = () => {
                 </button>
 
                 {/* Ползунок размерности (5 - 25) */}
-                <div className="control-group">
                   <label>{t('project5.dimension') || 'Размерность'}: {gridSize.toFixed(1)}</label>
+
                   <div className="slider-wrapper" style={{ display: 'flex', alignItems: 'center', gap: '10px', marginTop: '5px' }}>
                     <button
                       className="slider-button minus"
@@ -220,16 +222,16 @@ export const Project5 = () => {
                   <label className="custom-checkbox">
                     <input type="checkbox" checked={rotateObject} onChange={e => setRotateObject(e.target.checked)} />
                     <span className="checkmark"></span>
-                    {t('project5.rotateObject') || 'Вращение куба'}
+                    {t('project5.rotateObject')}
                   </label>
                   <label className="custom-checkbox">
                     <input type="checkbox" checked={rotateScene} onChange={e => setRotateScene(e.target.checked)} />
                     <span className="checkmark"></span>
-                    {t('project5.rotateScene') || 'Вращение сцены'}
+                    {t('project5.rotateScene')}
                   </label>
                 </div>
 
-                <div className="control-group"><button className="reset" onClick={handleReset}>{t ('project4.reset')}</button></div>
+                <div className="control-group"><button className="reset" onClick={handleReset}>{t ('project5.reset')}</button></div>
 
               </div>
             )}

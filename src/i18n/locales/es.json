@@ -82,7 +82,10 @@
   },
   "project5": {
     "name": "Instancing",
-    "disc": "TSL Instancing — renderizado de miles de copias con posiciones y colores calculados por nodos"
+    "disc": "TSL Instancing — renderizado de miles de copias con posiciones y colores calculados por nodos",
+    "reset": "\uD83D\uDD04 Restablecer",
+    "rotateObject": "Rotación de un cubo",
+    "rotateScene": "Gira la escena"
   },
   "about": {
     "title": "Shaders",
