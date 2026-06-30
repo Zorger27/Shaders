@@ -10,7 +10,7 @@ import { useResponsiveStyle } from "@/hooks/useResponsiveStyle";
 import WebGPUCanvas from '@/components/canvas/WebGPUCanvas.jsx';
 import SceneBackground from '@/components/canvas/SceneBackground.jsx';
 import RaymarchingSculptor from "@/components/canvas/RaymarchingSculptor.jsx"
-import { OrbitControls } from '@react-three/drei';
+import {OrbitControls, Stats} from '@react-three/drei';
 import background04 from "@/assets/CanvasFullScreen/cube3-21.webp";
 
 export const Project4 = () => {
@@ -317,6 +317,8 @@ export const Project4 = () => {
           </div>
 
           <WebGPUCanvas key={resetKey} style={canvasStyle}>
+            {import.meta.env.DEV && <Stats className="fps-counter-bottom" />}
+
             <perspectiveCamera makeDefault position={[0, 0, 8]} />
             <ambientLight intensity={0.6} />
 

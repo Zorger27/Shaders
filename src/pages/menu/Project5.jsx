@@ -10,7 +10,7 @@ import { useResponsiveStyle } from "@/hooks/useResponsiveStyle";
 import WebGPUCanvas from '@/components/canvas/WebGPUCanvas.jsx';
 import SceneBackground from '@/components/canvas/SceneBackground.jsx';
 import { TslGridCube } from '@/components/canvas/TslGridCube.jsx';
-import { OrbitControls } from '@react-three/drei';
+import { OrbitControls, Stats } from '@react-three/drei';
 import background05 from "@/assets/CanvasFullScreen/cube3-15.webp";
 
 export const Project5 = () => {
@@ -332,6 +332,8 @@ export const Project5 = () => {
           </div>
 
           <WebGPUCanvas style={canvasStyle} key={resetKey}>
+            {import.meta.env.DEV && <Stats className="fps-counter-bottom" />}
+
             <perspectiveCamera makeDefault position={[0, 0, 4.5]} />
 
             <ambientLight intensity={0.7} /> {/* Небольшой общий свет, чтобы тени не были абсолютно черными */}
