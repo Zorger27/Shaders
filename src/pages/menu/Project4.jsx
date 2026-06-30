@@ -317,7 +317,7 @@ export const Project4 = () => {
           </div>
 
           <WebGPUCanvas key={resetKey} style={canvasStyle}>
-            {import.meta.env.DEV && <Stats className="fps-counter-bottom" />}
+            {import.meta.env.DEV && <Stats className="fps-counter-bottom" />} {/* <--- Счетчик появится в левом нижнем углу экрана */}
 
             <perspectiveCamera makeDefault position={[0, 0, 8]} />
             <ambientLight intensity={0.6} />

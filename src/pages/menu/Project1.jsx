@@ -9,7 +9,7 @@ import CanvasFullScreen from "@/components/util/CanvasFullScreen.jsx";
 import { useResponsiveStyle } from "@/hooks/useResponsiveStyle";
 import WebGPUCanvas from '@/components/canvas/WebGPUCanvas.jsx';
 import SceneBackground from '@/components/canvas/SceneBackground.jsx';
-import { OrbitControls } from '@react-three/drei';
+import {OrbitControls, Stats} from '@react-three/drei';
 import { VertexWave } from "@/components/canvas/VertexWave.jsx"
 import background01 from "@/assets/CanvasFullScreen/cube3-20.webp";
 
@@ -157,6 +157,8 @@ export const Project1 = () => {
           </div>
 
           <WebGPUCanvas style={canvasStyle}>
+            {import.meta.env.DEV && <Stats className="fps-counter-bottom" />} {/* <--- Счетчик появится в левом нижнем углу экрана */}
+
             <perspectiveCamera makeDefault position={[8, 8, 8]} />
             <ambientLight intensity={0.5} />
             <spotLight position={[3, 3, 1.5]} angle={0.7} penumbra={1} intensity={100} castShadow />

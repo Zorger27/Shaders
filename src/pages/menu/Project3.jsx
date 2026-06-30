@@ -11,7 +11,7 @@ import WebGPUCanvas from '@/components/canvas/WebGPUCanvas.jsx';
 import SceneBackground from '@/components/canvas/SceneBackground.jsx';
 import FitCamera from "@/components/util/FitCamera.jsx";
 import GPGPUParticles from "@/components/canvas/GPGPUParticles.jsx";
-import { OrbitControls } from '@react-three/drei';
+import {OrbitControls, Stats} from '@react-three/drei';
 import background03 from "@/assets/CanvasFullScreen/cube3-14.webp";
 
 export const Project3 = () => {
@@ -181,6 +181,8 @@ export const Project3 = () => {
           </div>
 
           <WebGPUCanvas style={canvasStyle}>
+            {import.meta.env.DEV && <Stats className="fps-counter-bottom" />} {/* <--- Счетчик появится в левом нижнем углу экрана */}
+
             <perspectiveCamera makeDefault fov={50} />
             <FitCamera radius={2.7} />
 

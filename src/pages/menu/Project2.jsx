@@ -12,6 +12,7 @@ import SceneBackground from '@/components/canvas/SceneBackground.jsx';
 import { FragmentCore } from "@/components/canvas/FragmentCore.jsx"
 import background02 from "@/assets/CanvasFullScreen/cube3-25.webp";
 import * as THREE from "three";
+import {Stats} from "@react-three/drei";
 
 // МАТЕМАТИЧЕСКИЕ ПАЛИТРЫ (Иньиго Килес)
 const PALETTES = {
@@ -184,6 +185,8 @@ export const Project2 = () => {
           </div>
 
           <WebGPUCanvas style={canvasStyle}>
+            {import.meta.env.DEV && <Stats className="fps-counter-bottom" />} {/* <--- Счетчик появится в левом нижнем углу экрана */}
+
             {/* Статичная перспектива. Мы смотрим прямо на плоскость */}
             <perspectiveCamera makeDefault position={[0, 0, 8]} />
 
