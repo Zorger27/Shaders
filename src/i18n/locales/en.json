@@ -91,7 +91,10 @@
     "colors": "Axis colors",
     "x-title": "X Axis",
     "y-title": "Y Axis",
-    "z-title": "Z Axis"
+    "z-title": "Z Axis",
+    "density": "Density",
+    "roughness": "Roughness",
+    "metalness": "Metalness"
   },
   "about": {
     "title": "Shaders",

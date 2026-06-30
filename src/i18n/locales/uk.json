@@ -91,7 +91,10 @@
     "colors": "Кольори осей",
     "x-title": "Вісь X",
     "y-title": "Вісь Y",
-    "z-title": "Вісь Z"
+    "z-title": "Вісь Z",
+    "density": "Щільність",
+    "roughness": "Шорсткість",
+    "metalness": "Металічність"
   },
   "about": {
     "title": "Shaders",

@@ -30,6 +30,9 @@ export const Project5 = () => {
   // --- СОСТОЯНИЯ УПРАВЛЕНИЯ ---
   const [gridSize, setGridSize] = useState(7.0);
   const [autoSize, setAutoSize] = useState(false);
+  const [density, setDensity] = useState(1.0);     // Плотность от 1.0 до 5.0
+  const [roughness, setRoughness] = useState(0.1); // Шероховатость от 0.0 до 1.0
+  const [metalness, setMetalness] = useState(0.9); // Металличность от 0.0 до 1.0
 
   // Цвета осей (по дефолту: Черный, Ярко-фиолетовый, Золотой)
   const [colorX, setColorX] = useState('#000000');
@@ -84,11 +87,15 @@ export const Project5 = () => {
   const handleReset = () => {
     setGridSize(7.0);
     setAutoSize(false);
+    setDensity(1.0);
+    setRoughness(0.1);
+    setMetalness(0.9);
     setColorX('#000000');
     setColorY('#aa00ff');
     setColorZ('#ffd700');
     setRotateObject(false);
     setRotateScene(true);
+
     sizeDirRef.current = 1;
     setResetKey(prev => prev + 1);
   };
@@ -211,6 +218,87 @@ export const Project5 = () => {
                   </div>
                 </div>
 
+                {/* Ползунок Плотности (Разлет) */}
+                <div className="control-group">
+                  <label>{t('project5.density')}: {density.toFixed(1)}</label>
+                  <div className="slider-wrapper">
+                    <button
+                      className="slider-button minus"
+                      title={t("extra.decrease")}
+                      onClick={() => setDensity(prev => Math.max(1, Math.round((prev - 0.1) * 10) / 10))}
+                      disabled={density <= 1}
+                    >
+                      <i className="fa-solid fa-minus-circle" />
+                    </button>
+                    <input
+                      type="range" min="1" max="5" step="0.1" value={density}
+                      onChange={(e) => setDensity(parseFloat(e.target.value))}
+                    />
+                    <button
+                      className="slider-button plus"
+                      title={t("extra.increase")}
+                      onClick={() => setDensity(prev => Math.min(5, Math.round((prev + 0.1) * 10) / 10))}
+                      disabled={density >= 5}
+                    >
+                      <i className="fa-solid fa-plus-circle" />
+                    </button>
+                  </div>
+                </div>
+
+                {/* Шероховатость */}
+                <div className="control-group">
+                  <label>{t('project5.roughness')}: {roughness.toFixed(2)}</label>
+                  <div className="slider-wrapper">
+                    <button
+                      className="slider-button minus"
+                      title={t("extra.decrease")}
+                      onClick={() => setRoughness(prev => Math.max(0, Math.round((prev - 0.01) * 100) / 100))}
+                      disabled={roughness <= 0}
+                    >
+                      <i className="fa-solid fa-minus-circle" />
+                    </button>
+                    <input
+                      type="range" min="0" max="1" step="0.01" value={roughness}
+                      onChange={(e) => setRoughness(parseFloat(e.target.value))}
+                    />
+                    <button
+                      className="slider-button plus"
+                      title={t("extra.increase")}
+                      onClick={() => setRoughness(prev => Math.min(1, Math.round((prev + 0.01) * 100) / 100))}
+                      disabled={roughness >= 1}
+                    >
+                      <i className="fa-solid fa-plus-circle" />
+                    </button>
+                  </div>
+                </div>
+
+                {/* Металличность */}
+                <div className="control-group">
+                  <label>{t('project5.metalness')}: {metalness.toFixed(2)}</label>
+                  <div className="slider-wrapper">
+                    <button
+                      className="slider-button minus"
+                      title={t("extra.decrease")}
+                      onClick={() => setMetalness(prev => Math.max(0, Math.round((prev - 0.01) * 100) / 100))}
+                      disabled={metalness <= 0}
+                    >
+                      <i className="fa-solid fa-minus-circle" />
+                    </button>
+                    <input
+                      type="range" min="0" max="1" step="0.01" value={metalness}
+                      onChange={(e) => setMetalness(parseFloat(e.target.value))}
+                    />
+                    <button
+                      className="slider-button plus"
+                      title={t("extra.increase")}
+                      onClick={() => setMetalness(prev => Math.min(1, Math.round((prev + 0.01) * 100) / 100))}
+                      disabled={metalness >= 1}
+                    >
+                      <i className="fa-solid fa-plus-circle" />
+                    </button>
+                  </div>
+                </div>
+
                 <hr className="control-group-line" />
 
                 {/* Цвета осей */}
@@ -263,6 +351,9 @@ export const Project5 = () => {
               gridSize={gridSize}
               colorX={colorX} colorY={colorY} colorZ={colorZ}
               rotateObject={rotateObject}
+              density={density}
+              roughness={roughness}
+              metalness={metalness}
             />
 
             <OrbitControls enableDamping enablePan={false} enableZoom autoRotate={rotateScene} autoRotateSpeed={2}/>

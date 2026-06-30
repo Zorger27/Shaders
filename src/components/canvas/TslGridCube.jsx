@@ -8,7 +8,7 @@ import { instanceIndex, positionLocal, float, vec3, mod, floor, uniform, max, cl
 const MAX_GRID = 25;
 const TOTAL_INSTANCES = MAX_GRID * MAX_GRID * MAX_GRID;
 
-export const TslGridCube = ({ gridSize, colorX, colorY, colorZ, rotateObject }) => {
+export const TslGridCube = ({ gridSize, colorX, colorY, colorZ, rotateObject, density, roughness, metalness }) => {
   const meshRef = useRef(null);
 
   // Создаем uniforms, которые будут плавно обновляться каждый кадр
@@ -16,6 +16,10 @@ export const TslGridCube = ({ gridSize, colorX, colorY, colorZ, rotateObject }) 
   const uColorX = useMemo(() => uniform(new Color(colorX)), []);
   const uColorY = useMemo(() => uniform(new Color(colorY)), []);
   const uColorZ = useMemo(() => uniform(new Color(colorZ)), []);
+  // Униформы для плотности и материалов
+  const uDensity = useMemo(() => uniform(float(density)), []);
+  const uRoughness = useMemo(() => uniform(float(roughness)), []);
+  const uMetalness = useMemo(() => uniform(float(metalness)), []);
 
   useFrame((state, delta) => {
     // Обновляем униформы
@@ -23,6 +27,9 @@ export const TslGridCube = ({ gridSize, colorX, colorY, colorZ, rotateObject }) 
     uColorX.value.set(colorX);
     uColorY.value.set(colorY);
     uColorZ.value.set(colorZ);
+    uDensity.value = density;
+    uRoughness.value = roughness;
+    uMetalness.value = metalness;
 
     // Вращение объекта
     if (meshRef.current && rotateObject) {
@@ -54,7 +61,9 @@ export const TslGridCube = ({ gridSize, colorX, colorY, colorZ, rotateObject }) 
     const scaleRatio = float(10.0).div(safeGridSize);
 
     const currentBoxSize = float(0.16).mul(scaleRatio);
-    const currentSpacing = float(0.30).mul(scaleRatio);
+
+    // Умножаем базовый отступ на ползунок uDensity
+    const currentSpacing = float(0.30).mul(scaleRatio).mul(uDensity);
 
     // Умножаем базовый размер на visibility, чтобы лишние кубы стали нулевого размера (исчезли)
     const finalVertexScale = currentBoxSize.mul(cubeVisibilityScale);
@@ -83,8 +92,9 @@ export const TslGridCube = ({ gridSize, colorX, colorY, colorZ, rotateObject }) 
     const cZ = uColorZ.mul(b);
     mat.colorNode = cX.add(cY).add(cZ);
 
-    mat.roughness = 0.1;
-    mat.metalness = 0.9;
+    // Привязываем свойства материала к ползункам через Node
+    mat.roughnessNode = uRoughness;
+    mat.metalnessNode = uMetalness;
 
     return mat;
   }, []);

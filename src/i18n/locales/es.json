@@ -91,7 +91,10 @@
     "colors": "Colores de los ejes",
     "x-title": "Eje X",
     "y-title": "Eje Y",
-    "z-title": "Eje Z"
+    "z-title": "Eje Z",
+    "density": "Densidad",
+    "roughness": "Rugosidad",
+    "metalness": "Metalicidad"
   },
   "about": {
     "title": "Shaders",
