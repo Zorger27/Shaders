@@ -121,6 +121,37 @@
                 accent-color: #00f2ff;
               }
             }
+
+            .reset {
+              width: 100%;
+              font-size: 0.85rem;
+              padding: 8px 10px;
+              cursor: pointer;
+              background: white;
+              color: darkred;
+              border: 1px solid darkred;
+              border-radius: 4px;
+              transition: all 0.2s ease;
+
+              &:hover {
+                color: red;
+                border-color: red;
+                animation: recording-blink 1.2s ease-in-out infinite;
+              }
+
+              @keyframes recording-blink {
+                0%, 100% {
+                  color: red;
+                  border-color: red;
+                  box-shadow: 0 0 6px rgba(255, 0, 0, 0.8);
+                }
+                50% {
+                  color: darkred;
+                  border-color: darkred;
+                  box-shadow: 0 0 2px rgba(255, 0, 0, 0.3);
+                }
+              }
+            }
           }
         }
       }
@@ -189,6 +220,12 @@
                   width: 16px;
                   height: 16px;
                 }
+              }
+
+              .reset {
+                font-size: 0.8rem;
+                padding: 7px 9px;
+                border-radius: 4px;
               }
             }
           }
@@ -260,6 +297,12 @@
                   width: 14px;
                   height: 14px;
                 }
+              }
+
+              .reset {
+                font-size: 0.8rem;
+                padding: 7px 9px;
+                border-radius: 3px;
               }
             }
           }
