@@ -84,6 +84,7 @@ export const Project5 = () => {
     return () => cancelAnimationFrame(animationFrameId);
   }, [autoSize]);
 
+  // --- ФУНКЦИЯ СБРОСА НАСТРОЕК ---
   const handleReset = () => {
     setGridSize(7.0);
     setAutoSize(false);

@@ -86,6 +86,7 @@ export const Project4 = () => {
     return () => cancelAnimationFrame(animationFrameId);
   }, [autoMorph]);
 
+  // --- ФУНКЦИЯ СБРОСА НАСТРОЕК ---
   const handleReset = () => {
     setColorSphere('#691bef');
     setColorTorus('#00f2ff');
