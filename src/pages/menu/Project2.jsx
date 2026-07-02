@@ -76,6 +76,7 @@ export const Project2 = () => {
     return () => {document.removeEventListener("mousedown", handleClickOutside);};
   }, [isControlsOpen]);
 
+  // --- ФУНКЦИЯ СБРОСА НАСТРОЕК ---
   const handleReset = () => {
     setViscosity(1.0);
     setTurbulence(1.5);
@@ -189,6 +190,8 @@ export const Project2 = () => {
                   <label>{t ('project2.speed')}: {speed.toFixed(2)}</label>
                   <input type="range" min="0" max="3" step="0.1" value={speed} onChange={(e) => setSpeed(parseFloat(e.target.value))} />
                 </div>
+
+                <hr className="control-group-line" />
 
                 <div className="control-group">
                   <button className="reset" onClick={handleReset}><i className="fa-solid fa-rotate-left"></i> {t ('extra.reset')}</button>

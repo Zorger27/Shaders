@@ -34,6 +34,19 @@ export const Project3 = () => {
   const [particleColor, setParticleColor] = useState('#7300ff');
   const [resetKey, setResetKey] = useState(0);
 
+  // Логика закрытия меню при клике вне его области
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      // Если клик был НЕ по нашему меню и меню открыто - закрываем его
+      if (controlsRef.current && !controlsRef.current.contains(event.target)) {setIsControlsOpen(false);}
+    };
+
+    if (isControlsOpen) {document.addEventListener("mousedown", handleClickOutside);}
+
+    // Очистка слушателя при размонтировании или закрытии меню
+    return () => {document.removeEventListener("mousedown", handleClickOutside);};
+  }, [isControlsOpen]);
+
   // --- ФУНКЦИЯ СБРОСА НАСТРОЕК ---
   const handleReset = () => {
     setIsExploding(false);
@@ -43,7 +56,7 @@ export const Project3 = () => {
     setExplosionPower(1.5);
     setParticleColor('#7300ff');
 
-    // Меняем ключ, заставляя React пересоздать компонент GPGPUParticles с нуля
+    // Меняем ключ, заставляя React пересоздать компонент WebGPUCanvas с нуля
     setResetKey(prev => prev + 1);
   };
 
@@ -68,19 +81,6 @@ export const Project3 = () => {
       marginLeft: '0rem',
     }
   });
-
-  // Логика закрытия меню при клике вне его области
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      // Если клик был НЕ по нашему меню и меню открыто - закрываем его
-      if (controlsRef.current && !controlsRef.current.contains(event.target)) {setIsControlsOpen(false);}
-    };
-
-    if (isControlsOpen) {document.addEventListener("mousedown", handleClickOutside);}
-
-    // Очистка слушателя при размонтировании или закрытии меню
-    return () => {document.removeEventListener("mousedown", handleClickOutside);};
-  }, [isControlsOpen]);
 
   return (
     <div className="project3">
@@ -174,13 +174,15 @@ export const Project3 = () => {
                   </label>
                 </div>
 
-                <button className="control-group reset" onClick={handleReset}>{t ('project3.reset')}</button>
+                <div className="control-group">
+                  <button className="reset" onClick={handleReset}><i className="fa-solid fa-rotate-left"></i> {t ('extra.reset')}</button>
+                </div>
 
               </div>
             )}
           </div>
 
-          <WebGPUCanvas style={canvasStyle}>
+          <WebGPUCanvas style={canvasStyle} key={resetKey}>
             {import.meta.env.DEV && <Stats className="fps-counter-bottom" />} {/* <--- Счетчик появится в левом нижнем углу экрана */}
 
             <perspectiveCamera makeDefault fov={50} />
@@ -201,7 +203,6 @@ export const Project3 = () => {
 
             {/* ПЕРЕДАЕМ СОСТОЯНИЯ КАК PROPS */}
             <GPGPUParticles
-              key={resetKey}
               isExploding={isExploding}
               isInteractive={isInteractive}
               gravityForce={gravityForce}

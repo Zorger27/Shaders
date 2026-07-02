@@ -48,6 +48,7 @@ export const Project1 = () => {
     return () => {document.removeEventListener("mousedown", handleClickOutside);};
   }, [isControlsOpen]);
 
+  // --- ФУНКЦИЯ СБРОСА НАСТРОЕК ---
   const handleReset = () => {
     setAmplitude(0.9);
     setFrequency(1.5);
@@ -147,6 +148,8 @@ export const Project1 = () => {
                   <label>{t ('project1.speed')}: {speed.toFixed(2)}</label>
                   <input type="range" min="0" max="4" step="0.1" value={speed} onChange={(e) => setSpeed(parseFloat(e.target.value))} />
                 </div>
+
+                <hr className="control-group-line" />
 
                 <div className="control-group checkbox">
                   <label>

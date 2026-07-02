@@ -63,6 +63,11 @@
           animation: fadeIn 0.3s ease-out;
           position: relative;
 
+          .control-group-line {
+            margin: 5px 0;
+            border-color: rgba(68, 68, 68, 1.0);
+          }
+
           .close-controls-btn {
             position: absolute;
             top: 5px;
@@ -202,6 +207,8 @@
             gap: 13px;
             width: 200px;
 
+            .control-group-line {margin: 4px 0;}
+
             .close-controls-btn {
               top: 5px;
               right: 8px;
@@ -278,6 +285,8 @@
             border-radius: 9px;
             gap: 13px;
             width: 165px;
+
+            .control-group-line {margin: 3px 0;}
 
             .close-controls-btn {
               top: 1px;

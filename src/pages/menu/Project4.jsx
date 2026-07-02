@@ -311,7 +311,9 @@ export const Project4 = () => {
                   </label>
                 </div>
 
-                <div className="control-group"><button className="reset" onClick={handleReset}>{t ('project4.reset')}</button></div>
+                <div className="control-group">
+                  <button className="reset" onClick={handleReset}><i className="fa-solid fa-rotate-left"></i> {t ('extra.reset')}</button>
+                </div>
               </div>
             )}
           </div>

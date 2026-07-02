@@ -129,7 +129,7 @@
               }
             }
 
-            &.reset {
+            .reset {
               width: 100%;
               font-size: 0.85rem;
               padding: 8px 10px;
@@ -144,7 +144,10 @@
                 color: red;
                 border-color: red;
                 animation: recording-blink 1.2s ease-in-out infinite;
+                i { color: blue; }
               }
+
+              i { color: darkblue; }
 
               @keyframes recording-blink {
                 0%, 100% {
