@@ -49,6 +49,7 @@ export const Project2 = () => {
 
   const canvasContainerRef = useRef(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [resetKey, setResetKey] = useState(0);
 
   // Реф для контейнера меню (нужен для отслеживания кликов снаружи)
   const controlsRef = useRef(null);
@@ -61,6 +62,27 @@ export const Project2 = () => {
   const [turbulence, setTurbulence] = useState(1.5);   // Сила завихрений
   const [speed, setSpeed] = useState(0.8);             // Скорость анимации
   const [currentPalette, setCurrentPalette] = useState(PALETTES.corona); // Состояние текущей палитры (по умолчанию 'corona')
+
+  // Логика закрытия меню при клике вне его области
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      // Если клик был НЕ по нашему меню и меню открыто - закрываем его
+      if (controlsRef.current && !controlsRef.current.contains(event.target)) {setIsControlsOpen(false);}
+    };
+
+    if (isControlsOpen) {document.addEventListener("mousedown", handleClickOutside);}
+
+    // Очистка слушателя при размонтировании или закрытии меню
+    return () => {document.removeEventListener("mousedown", handleClickOutside);};
+  }, [isControlsOpen]);
+
+  const handleReset = () => {
+    setViscosity(1.0);
+    setTurbulence(1.5);
+    setSpeed(0.8);
+    setCurrentPalette(PALETTES.corona);
+    setResetKey(prev => prev + 1);
+  };
 
   // responsive inline-стили
   const canvasStyle = useResponsiveStyle({
@@ -83,19 +105,6 @@ export const Project2 = () => {
       marginLeft: '0rem',
     }
   });
-
-  // Логика закрытия меню при клике вне его области
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      // Если клик был НЕ по нашему меню и меню открыто - закрываем его
-      if (controlsRef.current && !controlsRef.current.contains(event.target)) {setIsControlsOpen(false);}
-    };
-
-    if (isControlsOpen) {document.addEventListener("mousedown", handleClickOutside);}
-
-    // Очистка слушателя при размонтировании или закрытии меню
-    return () => {document.removeEventListener("mousedown", handleClickOutside);};
-  }, [isControlsOpen]);
 
   return (
     <div className="project2">
@@ -180,11 +189,15 @@ export const Project2 = () => {
                   <label>{t ('project2.speed')}: {speed.toFixed(2)}</label>
                   <input type="range" min="0" max="3" step="0.1" value={speed} onChange={(e) => setSpeed(parseFloat(e.target.value))} />
                 </div>
+
+                <div className="control-group">
+                  <button className="reset" onClick={handleReset}><i className="fa-solid fa-rotate-left"></i> {t ('extra.reset')}</button>
+                </div>
               </div>
             )}
           </div>
 
-          <WebGPUCanvas style={canvasStyle}>
+          <WebGPUCanvas style={canvasStyle} key={resetKey}>
             {import.meta.env.DEV && <Stats className="fps-counter-bottom" />} {/* <--- Счетчик появится в левом нижнем углу экрана */}
 
             {/* Статичная перспектива. Мы смотрим прямо на плоскость */}

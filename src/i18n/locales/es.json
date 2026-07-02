@@ -61,13 +61,11 @@
     "friction": "Viscosidad",
     "impulse": "Impulso",
     "color": "Color",
-    "reaction": "\uD83D\uDDB1 Reacción",
-    "reset": "\uD83D\uDD04 Restablecer"
+    "reaction": "\uD83D\uDDB1 Reacción"
   },
   "project4": {
     "name": "Matemática 3D",
     "disc": "Raymarching SDF — generación de mundos tridimensionales complejos mediante funciones de distancia",
-    "reset": "\uD83D\uDD04 Restablecer",
     "morph": "Transformación",
     "color": "Color",
     "shapeColors": "Colores de las figuras",
@@ -83,7 +81,6 @@
   "project5": {
     "name": "Instancing",
     "disc": "TSL Instancing — renderizado de miles de copias con posiciones y colores calculados por nodos",
-    "reset": "\uD83D\uDD04 Restablecer",
     "rotateObject": "Rotar cubo",
     "rotateScene": "Rotar escena",
     "autoSize": "Tamaño automático",
@@ -121,6 +118,7 @@
     "back": "Volver a la página principal",
     "tableView": "Vista de tabla",
     "listView": "Vista de lista",
+    "reset": "Restablecer",
     "decrease": "Disminuir",
     "increase": "Incrementar",
     "openSearch": "Mostrar ventana de BÚSQUEDA",
