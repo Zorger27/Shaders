@@ -6,7 +6,7 @@
 
 #### ⚡ Shaders is a research platform for exploring the capabilities of modern GPU graphics, shaders, and parallel computing with WebGPU. 🎨 ####
 
-🧠 Each module explores a distinct area—from Vertex and Fragment Shaders to GPGPU, Raymarching, and TSL Instancing—gradually revealing the architecture of the modern graphics pipeline. 🔧
+🧠 Each module explores a distinct area — from Vertex and Fragment Shaders to GPGPU, Raymarching, and TSL Instancing — gradually revealing the architecture of the modern graphics pipeline. 🔧
 
 🛠️ <ins>Technologies:</ins><br>
 🔹 React ⚛️ — modern UI development.<br>

@@ -97,7 +97,7 @@
     "title": "Shaders",
     "more01": "More information...",
     "more02": "⚡ Shaders is a research platform for exploring the capabilities of modern GPU graphics, shaders, and parallel computing with WebGPU. \uD83C\uDFA8",
-    "more03": "\uD83E\uDDE0 Each module explores a distinct area—from Vertex and Fragment Shaders to GPGPU, Raymarching, and TSL Instancing—gradually revealing the architecture of the modern graphics pipeline. \uD83D\uDD27",
+    "more03": "\uD83E\uDDE0 Each module explores a distinct area — from Vertex and Fragment Shaders to GPGPU, Raymarching, and TSL Instancing — gradually revealing the architecture of the modern graphics pipeline. \uD83D\uDD27",
     "more04": "\uD83D\uDE80 The project showcases technologies that form the foundation of high-performance interactive web applications and can be used to build next-generation commercial graphics systems. \uD83C\uDF10",
     "more05": "Welcome! \uD83E\uDD29\uD83D\uDE0E",
     "technologies": "The used technologies",
