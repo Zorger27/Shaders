@@ -96,9 +96,9 @@
   "about": {
     "title": "Shaders",
     "more01": "Más información...",
-    "more02": "⚡ Shaders es un entorno interactivo para explorar Vertex y Fragment Shaders en tiempo real, donde el código se transforma inmediatamente en resultados visuales. \uD83C\uDFA8",
-    "more03": "\uD83E\uDDE0 El proyecto combina módulos para trabajar con geometría, píxeles, ruido y parámetros de escena, permitiendo un control flexible de la lógica visual y el comportamiento gráfico. \uD83D\uDD27",
-    "more04": "\uD83D\uDE80 Construido sobre WebGPU y TSL, se convierte en una herramienta para prototipado, experimentación y creación de soluciones visuales que pueden aplicarse en productos web modernos e interfaces comerciales. \uD83C\uDF10",
+    "more02": "⚡ Shaders es una plataforma de investigación para explorar las capacidades de los gráficos modernos acelerados por GPU, los shaders y la computación paralela con WebGPU. \uD83C\uDFA8",
+    "more03": "\uD83E\uDDE0 Cada módulo explora un área específica, desde Vertex y Fragment Shaders hasta GPGPU, Raymarching y TSL Instancing, revelando progresivamente la arquitectura del moderno pipeline gráfico. \uD83D\uDD27",
+    "more04": "\uD83D\uDE80 El proyecto presenta tecnologías que constituyen la base de las aplicaciones web interactivas de alto rendimiento y que pueden utilizarse para desarrollar sistemas gráficos comerciales de nueva generación. \uD83C\uDF10",
     "more05": "¡Bienvenido! \uD83E\uDD29\uD83D\uDE0E",
     "technologies": "Las tecnologías utilizadas",
     "name-prg": "Nombre",
