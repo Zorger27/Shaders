@@ -4,9 +4,9 @@
 
 <img width="1714" alt="home" src="https://github.com/user-attachments/assets/178270f0-7cc6-451b-ba77-d9d23cf23ed8" />
 
-#### ⚡ Shaders is an interactive environment for exploring Vertex and Fragment Shaders in real time, where code is instantly transformed into visual output. 🎨 ####
+#### ⚡ Shaders is a research platform for exploring the capabilities of modern GPU graphics, shaders, and parallel computing with WebGPU. 🎨 ####
 
-🧠 The project combines modules for working with geometry, pixels, noise, and scene parameters, allowing flexible control over visual logic and graphical behavior 🔧
+🧠 Each module explores a distinct area—from Vertex and Fragment Shaders to GPGPU, Raymarching, and TSL Instancing—gradually revealing the architecture of the modern graphics pipeline. 🔧
 
 🛠️ <ins>Technologies:</ins><br>
 🔹 React ⚛️ — modern UI development.<br>
@@ -26,7 +26,7 @@
 🔸 Open Graph, Favicon, Sitemap, Robots.txt 🔍 — full SEO toolkit.<br>
 🔸 Markdown 📝 — clean documentation and formatting.
 
-#### 🚀 Built on WebGPU and TSL, it serves as a tool for prototyping, experimentation, and creating visual solutions that can be applied in modern web products and commercial interfaces. 🌐 ####
+#### 🚀 The project showcases technologies that form the foundation of high-performance interactive web applications and can be used to build next-generation commercial graphics systems. 🌐 ####
 
 ### Project setup (install dependencies)
 ```
