@@ -2,7 +2,7 @@
 ### You can view my CV here: [Curriculum VITAE](https://zorger27.github.io)❗️ ###
 ### You can view my Portfolio here: [My Portfolio](https://Zorin.Expert)❗️ ###
 
-<img width="1714" alt="home" src="https://github.com/user-attachments/assets/178270f0-7cc6-451b-ba77-d9d23cf23ed8" />
+<img width="576" alt="Project5 07-07-2026" src="https://github.com/user-attachments/assets/ba90a650-1d19-44e0-befb-e3fae99b91fd" />
 
 #### ⚡ Shaders is a research platform for exploring the capabilities of modern GPU graphics, shaders, and parallel computing with WebGPU. 🎨 ####
 
