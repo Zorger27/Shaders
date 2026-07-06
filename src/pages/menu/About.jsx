@@ -15,7 +15,7 @@ export const About = () => {
   const [tableView, setTableView] = useState(false);
   const infoList = useSelector((state) => state.info);
 
-  // Загружаем состояния при монтировании
+  // Загружаем состояния при монтировании.
   useEffect(() => {
     const savedShowMore = localStorage.getItem("about_showMore");
     if (savedShowMore !== null) {
@@ -28,12 +28,12 @@ export const About = () => {
     }
   }, []);
 
-  // Сохраняем showMore при изменении
+  // Сохраняем showMore при изменении.
   useEffect(() => {
     localStorage.setItem("about_showMore", String(showMore));
   }, [showMore]);
 
-  // Сохраняем tableView при изменении
+  // Сохраняем tableView при изменении.
   useEffect(() => {
     localStorage.setItem("about_tableView", String(tableView));
   }, [tableView]);
